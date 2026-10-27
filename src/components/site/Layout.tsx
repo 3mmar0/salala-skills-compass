@@ -106,16 +106,45 @@ export function Footer() {
   );
 }
 
-export function PageHero({ eyebrow, title, subtitle, children }: { eyebrow: string; title: string; subtitle?: string; children?: ReactNode }) {
+export function Wave({ className = "" }: { className?: string }) {
+  const d = "M0,64 C120,96 240,32 360,48 C480,64 600,112 720,96 C840,80 960,24 1080,32 C1200,40 1320,88 1440,64 L1440,120 L0,120 Z";
   return (
-    <section className="bg-forest-gradient relative overflow-hidden text-forest-foreground">
-      <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-gold/20 blur-3xl" />
-      <div className="container-site relative py-20 md:py-28">
-        <span className="inline-block rounded-full bg-gold/15 px-4 py-1 text-sm font-medium text-gold">{eyebrow}</span>
-        <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">{title}</h1>
-        {subtitle && <p className="mt-5 max-w-2xl text-lg leading-8 opacity-85">{subtitle}</p>}
-        {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+    <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-24 overflow-hidden md:h-32 ${className}`}>
+      <svg className="wave-track-slow absolute bottom-0 h-full fill-background opacity-40" viewBox="0 0 2880 120" preserveAspectRatio="none">
+        <path d={d} /><path d={d} transform="translate(1440 0)" />
+      </svg>
+      <svg className="wave-track absolute bottom-0 h-[80%] fill-background" viewBox="0 0 2880 120" preserveAspectRatio="none">
+        <path d={d} /><path d={d} transform="translate(1440 0)" />
+      </svg>
+    </div>
+  );
+}
+
+export function Particles({ n = 14 }: { n?: number }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {Array.from({ length: n }).map((_, i) => (
+        <span key={i} className="particle" style={{ left: `${(i * 37) % 100}%`, animationDelay: `${(i * 0.7) % 9}s`, animationDuration: `${7 + (i % 5) * 1.5}s`, width: 4 + (i % 4) * 2, height: 4 + (i % 4) * 2 }} />
+      ))}
+    </div>
+  );
+}
+
+export function PageHero({ eyebrow, title, subtitle, image, children }: { eyebrow: string; title: string; subtitle?: string; image: string; children?: ReactNode }) {
+  return (
+    <section className="relative overflow-hidden text-forest-foreground">
+      <img src={image} alt={title} width={1600} height={912} className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
+      <div className="bg-hero-overlay absolute inset-0" />
+      <div className="animate-blob absolute -left-24 top-10 h-80 w-80 bg-gold/25 blur-3xl" />
+      <div className="animate-blob absolute -right-20 bottom-0 h-96 w-96 bg-primary/40 blur-3xl [animation-delay:-6s]" />
+      <Particles />
+      <div className="container-site relative pb-36 pt-24 md:pb-44 md:pt-32">
+        <span className="animate-fade-up inline-block rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{eyebrow}</span>
+        <h1 className="animate-fade-up delay-1 mt-5 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">{title}</h1>
+        {subtitle && <p className="animate-fade-up delay-2 mt-5 max-w-2xl text-lg leading-8 opacity-90">{subtitle}</p>}
+        {children && <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">{children}</div>}
       </div>
+      <Wave />
     </section>
   );
 }
@@ -133,7 +162,7 @@ export function SectionHead({ eyebrow, title, desc }: { eyebrow?: string; title:
 export function ExpertCard({ name, role, bio, note }: { name: string; role: string; bio: string; note?: string }) {
   const initials = name.replace(/^(د\.|م\.)\s*/, "").split(" ").map((w) => w[0]).slice(0, 2).join(" ");
   return (
-    <div className="group rounded-2xl border bg-card p-6 shadow-soft transition hover:-translate-y-1">
+    <div className="group card-fx reveal rounded-2xl border bg-card p-6 shadow-soft">
       <div className="grid h-16 w-16 place-items-center rounded-2xl bg-secondary font-display text-xl font-bold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
         {initials}
       </div>
@@ -148,7 +177,7 @@ export function ExpertCard({ name, role, bio, note }: { name: string; role: stri
 export function CtaBand({ title, desc, to = "/contact", label }: { title: string; desc: string; to?: "/contact" | "/consulting"; label: string }) {
   return (
     <section className="container-site py-20">
-      <div className="bg-forest-gradient rounded-3xl p-10 text-center text-forest-foreground md:p-16">
+      <div className="bg-forest-gradient relative overflow-hidden reveal rounded-3xl p-10 text-center text-forest-foreground md:p-16">
         <h3 className="text-2xl font-bold md:text-4xl">{title}</h3>
         <p className="mx-auto mt-4 max-w-2xl leading-8 opacity-85">{desc}</p>
         <Link to={to} className="btn-gold mt-8">{label}</Link>

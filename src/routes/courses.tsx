@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Beef, Wheat, Bug, Milk, Tractor, Droplets, Dna, Briefcase, Search, ArrowLeft } from "lucide-react";
 import { PageHero, SectionHead, CtaBand } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-courses.jpg";
 
 export const Route = createFileRoute("/courses")({
   head: () => meta("الدورات والتدريبات", "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها."),
@@ -25,7 +26,7 @@ function Courses() {
   const list = fields.filter((f) => (f.t + (f.s ?? "") + f.d).includes(q.trim()));
   return (
     <>
-      <PageHero eyebrow="الدورات والتدريبات" title="Solala وجهتك الرئيسية دائماً" subtitle="اختر مجالك التخصصي وابدأ رحلتك">
+      <PageHero image={heroImg} eyebrow="الدورات والتدريبات" title="Solala وجهتك الرئيسية دائماً" subtitle="اختر مجالك التخصصي وابدأ رحلتك">
         <label className="flex w-full max-w-lg items-center gap-2 rounded-full bg-card px-5 py-3 text-foreground">
           <Search className="h-5 w-5 text-muted-foreground" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ابحث عن مجال تدريبي..." className="w-full bg-transparent outline-none" />

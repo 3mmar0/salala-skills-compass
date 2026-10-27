@@ -3,6 +3,7 @@ import { Eye, Target, Lightbulb, Leaf, ShieldCheck } from "lucide-react";
 import fields from "@/assets/fields.jpg";
 import { PageHero, SectionHead, ExpertCard, CtaBand } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-about.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => meta("عن سلالة", "رؤية ورسالة وقيم منصة سلالة وفريق خبرائها من المهندسين الزراعيين."),
@@ -23,7 +24,7 @@ const team = [
 function About() {
   return (
     <>
-      <PageHero eyebrow="من نحن" title="Solala is..." subtitle="طموحنا ورسالتنا: منظومة زراعية متكاملة لتمكين الكوادر وقيادة المشاريع." />
+      <PageHero image={heroImg} eyebrow="من نحن" title="Solala is..." subtitle="طموحنا ورسالتنا: منظومة زراعية متكاملة لتمكين الكوادر وقيادة المشاريع." />
       <section className="container-site py-24">
         <SectionHead eyebrow="طموحنا ورسالتنا" title="رؤيتنا ورسالتنا في Solala" />
         <div className="grid items-center gap-10 lg:grid-cols-2">

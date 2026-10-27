@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Mail, Phone, CheckCircle2 } from "lucide-react";
 import { PageHero } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-contact.jpg";
 
 export const Route = createFileRoute("/contact")({
   head: () => meta("تواصل معنا", "تواصل مع فريق سلالة لطلب دورة تدريبية أو استشارة أو دعم مشروعك."),
@@ -15,7 +16,7 @@ function Contact() {
   const [sent, setSent] = useState(false);
   return (
     <>
-      <PageHero eyebrow="تواصل معنا" title="نسعد بتواصلك" subtitle="اترك رسالتك وسيتواصل معك فريقنا في أقرب وقت." />
+      <PageHero image={heroImg} eyebrow="تواصل معنا" title="نسعد بتواصلك" subtitle="اترك رسالتك وسيتواصل معك فريقنا في أقرب وقت." />
       <section className="container-site grid gap-8 py-24 lg:grid-cols-3">
         <div className="space-y-4">
           <div className="rounded-2xl border bg-card p-6"><Mail className="text-primary" /><p className="mt-3 font-semibold">البريد الإلكتروني</p><p className="text-muted-foreground">info@yourcompany.example.com</p></div>

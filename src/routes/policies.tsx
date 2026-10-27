@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-policies.jpg";
 
 export const Route = createFileRoute("/policies")({
   head: () => meta("السياسات والشروط", "سياسة الخصوصية وشروط الاستخدام وسياسة التسجيل والاسترداد في منصة سلالة."),
@@ -17,7 +18,7 @@ const sections = [
 function Policies() {
   return (
     <>
-      <PageHero eyebrow="السياسات والشروط" title="الشفافية أساس الثقة" subtitle="يرجى قراءة السياسات التالية بعناية قبل استخدام خدمات المنصة." />
+      <PageHero image={heroImg} eyebrow="السياسات والشروط" title="الشفافية أساس الثقة" subtitle="يرجى قراءة السياسات التالية بعناية قبل استخدام خدمات المنصة." />
       <section className="container-site grid gap-10 py-24 lg:grid-cols-[220px_1fr]">
         <nav className="hidden h-fit space-y-2 lg:sticky lg:top-28 lg:block">
           {sections.map((s, i) => <a key={s.t} href={`#p${i}`} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary">{s.t}</a>)}

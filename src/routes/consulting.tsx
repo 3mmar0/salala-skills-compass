@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, User } from "lucide-react";
 import { PageHero, SectionHead, ExpertCard, CtaBand } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-consulting.jpg";
 
 export const Route = createFileRoute("/consulting")({
   head: () => meta("الاستشارات", "استشارات زراعية متخصصة للشركات والأفراد يقدمها كبار الخبراء في سلالة."),
@@ -29,7 +30,7 @@ const clients = [
 function Consulting() {
   return (
     <>
-      <PageHero eyebrow="خدمات الاستشارات التخصصية" title="استشارات مقدمة من كبار الخبراء" subtitle="نشخص، نطبق، نتابع ونقيس الأثر">
+      <PageHero image={heroImg} eyebrow="خدمات الاستشارات التخصصية" title="استشارات مقدمة من كبار الخبراء" subtitle="نشخص، نطبق، نتابع ونقيس الأثر">
         <a href="#experts" className="btn-gold">تعرف على الاستشاريين</a>
       </PageHero>
       <section className="container-site py-24">
