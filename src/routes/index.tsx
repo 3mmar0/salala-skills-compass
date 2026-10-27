@@ -97,7 +97,7 @@ function Index() {
           <SectionHead eyebrow="دعم استشاري متخصص" title="خدمة الاستشارات" desc="حلول استشارية متكاملة مصممة لتلبية متطلبات المستثمرين، أصحاب المزارع والشركات" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {services.map(({ icon: I, t }, i) => (
-              <div key={t} className="rounded-2xl bg-card p-7 text-center shadow-soft card-fx reveal transition hover:-translate-y-1">
+              <div key={t} className="rounded-2xl bg-card p-7 text-center shadow-soft card-fx reveal">
                 <span className="text-xs font-semibold text-muted-foreground">الخدمة 0{i + 1}</span>
                 <I className="mx-auto mt-4 h-10 w-10 text-primary" />
                 <h4 className="mt-4 text-lg font-bold text-forest">{t}</h4>

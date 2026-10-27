@@ -36,7 +36,7 @@ function Courses() {
         <SectionHead title="مجالات التدريب" desc="اختر تخصصك وابدأ رحلتك.." />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {list.map(({ icon: I, t, s, d }) => (
-            <div key={t} className="group flex flex-col rounded-2xl border bg-card p-6 shadow-soft card-fx reveal transition hover:-translate-y-1 hover:border-primary">
+            <div key={t} className="group flex flex-col rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-secondary text-primary transition group-hover:bg-primary group-hover:text-primary-foreground"><I /></span>
               <h4 className="mt-5 text-lg font-bold text-forest">{t}</h4>
               {s && <p className="text-xs font-medium text-primary">({s})</p>}
