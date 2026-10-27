@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Lightbulb, Hammer, Rocket, Handshake, Store } from "lucide-react";
-import { PageHero, SectionHead, CtaBand } from "@/components/site/Layout";
+import { PageHero, SectionHead, CtaBand , WavyBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-entre.jpg";
 
@@ -21,7 +21,9 @@ function Page() {
   return (
     <>
       <PageHero image={heroImg} eyebrow="منظومة تحويل الأفكار إلى واقع" title="الابتكار وريادة الأعمال" subtitle="نرافقك من شرارة الفكرة الأولى وحتى إطلاق المشروع وتوسعه في الأسواق." />
-      <section className="container-site py-24">
+      <section className="relative isolate overflow-hidden py-24">
+        <WavyBg />
+        <div className="container-site relative">
         <SectionHead title="مراحل رحلتك الريادية" desc="خمس مراحل متكاملة تأخذ فكرتك الزراعية إلى مشروع ناجح ومستدام" />
         <div className="space-y-5">
           {stages.map(({ icon: I, t, d, items }, i) => (
@@ -39,6 +41,7 @@ function Page() {
               </div>
             </div>
           ))}
+        </div>
         </div>
       </section>
       <CtaBand title="لديك فكرة مشروع زراعي؟" desc="قدّم فكرتك الآن وسيتواصل معك فريق ريادة الأعمال لتقييمها وتحديد المرحلة المناسبة." label="قدّم فكرتك" />

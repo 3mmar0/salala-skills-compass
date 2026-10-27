@@ -180,3 +180,11 @@ export function CtaBand({ title, desc, to = "/contact", label }: { title: string
     </section>
   );
 }
+
+export function WavyBg({ className = "" }: { className?: string }) {
+  return <img src="/shapes/wavy.svg" alt="" aria-hidden className={`pointer-events-none absolute inset-0 -z-0 h-full w-full object-cover opacity-90 ${className}`} />;
+}
+
+export function FloatsBg({ className = "" }: { className?: string }) {
+  return <img src="/shapes/floats.svg" alt="" aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60 ${className}`} />;
+}

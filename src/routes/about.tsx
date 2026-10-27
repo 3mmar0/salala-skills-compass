@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Eye, Target, Lightbulb, Leaf, ShieldCheck } from "lucide-react";
 import fields from "@/assets/fields.jpg";
-import { PageHero, SectionHead, ExpertCard, CtaBand } from "@/components/site/Layout";
+import { PageHero, SectionHead, ExpertCard, CtaBand , WavyBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-about.jpg";
 
@@ -43,8 +43,9 @@ function About() {
           <img src={fields} alt="حقول زراعية" loading="lazy" width={1408} height={1008} className="rounded-3xl shadow-soft reveal" />
         </div>
       </section>
-      <section className="bg-sand py-24">
-        <div className="container-site">
+      <section className="relative isolate overflow-hidden bg-sand py-24">
+        <WavyBg />
+        <div className="container-site relative">
           <SectionHead title="قيـمنا العـليا" desc="القيم العليا المبني عليها الأعمال في سلالة" />
           <div className="grid gap-5 md:grid-cols-3">
             {values.map(({ icon: I, t, d }) => (

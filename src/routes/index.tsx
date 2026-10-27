@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, GraduationCap, Users, Lightbulb, Zap, MapPin, CalendarClock, TrendingUp } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import fields from "@/assets/fields.jpg";
-import { SectionHead, ExpertCard, CtaBand, Wave, Particles } from "@/components/site/Layout";
+import { SectionHead, ExpertCard, CtaBand, Wave, Particles , WavyBg, FloatsBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/")({
@@ -92,8 +92,9 @@ function Index() {
         </div>
       </section>
 
-      <section className="dot-grid relative overflow-hidden bg-sand py-24">
-        <div className="container-site">
+      <section className="relative isolate overflow-hidden bg-sand py-24">
+        <WavyBg />
+        <div className="container-site relative">
           <SectionHead eyebrow="دعم استشاري متخصص" title="خدمة الاستشارات" desc="حلول استشارية متكاملة مصممة لتلبية متطلبات المستثمرين، أصحاب المزارع والشركات" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {services.map(({ icon: I, t }, i) => (
@@ -121,8 +122,9 @@ function Index() {
         <div className="mt-10 text-center"><Link to="/entrepreneurship" className="btn-primary">اكتشف تفاصيل برامج ريادة الأعمال</Link></div>
       </section>
 
-      <section className="bg-muted py-24">
-        <div className="container-site">
+      <section className="relative isolate overflow-hidden bg-muted py-24">
+        <FloatsBg />
+        <div className="container-site relative">
           <SectionHead eyebrow="خبرات حقلية وأكاديمية" title="خبراء Solala" desc="يقوم بالتدريب والاستشارات خبراء متمرسون في مختلف المجالات." />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {experts.map((e) => <ExpertCard key={e.name} {...e} />)}
