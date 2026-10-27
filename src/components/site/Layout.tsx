@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Sprout, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
+import { Menu, X, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "الرئيسية" },
@@ -15,13 +15,8 @@ export const NAV = [
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link to="/" className="flex items-center gap-2">
-      <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground">
-        <Sprout className="h-5 w-5" />
-      </span>
-      <span className={`font-display text-xl font-bold ${light ? "text-forest-foreground" : "text-forest"}`}>
-        Solala <span className="text-gold">سلالة</span>
-      </span>
+    <Link to="/" dir="ltr" aria-label="Solala" className="inline-block">
+      <span className={`${light ? "logo-text-light" : "logo-text"} text-3xl`}>Solala</span>
     </Link>
   );
 }
@@ -109,11 +104,11 @@ export function Footer() {
 export function Wave({ className = "" }: { className?: string }) {
   const d = "M0,64 C120,96 240,32 360,48 C480,64 600,112 720,96 C840,80 960,24 1080,32 C1200,40 1320,88 1440,64 L1440,120 L0,120 Z";
   return (
-    <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-24 overflow-hidden md:h-32 ${className}`}>
-      <svg className="wave-track-slow absolute bottom-0 h-full fill-background opacity-40" viewBox="0 0 2880 120" preserveAspectRatio="none">
+    <div dir="ltr" className={`pointer-events-none absolute inset-x-0 bottom-0 h-24 overflow-hidden md:h-32 ${className}`}>
+      <svg className="wave-track-slow absolute bottom-0 left-0 h-full fill-background opacity-40" viewBox="0 0 2880 120" preserveAspectRatio="none">
         <path d={d} /><path d={d} transform="translate(1440 0)" />
       </svg>
-      <svg className="wave-track absolute bottom-0 h-[80%] fill-background" viewBox="0 0 2880 120" preserveAspectRatio="none">
+      <svg className="wave-track absolute bottom-0 left-0 h-[80%] fill-background" viewBox="0 0 2880 120" preserveAspectRatio="none">
         <path d={d} /><path d={d} transform="translate(1440 0)" />
       </svg>
     </div>
