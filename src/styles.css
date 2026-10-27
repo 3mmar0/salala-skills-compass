@@ -183,3 +183,12 @@
   font-family: "Readex Pro", sans-serif; font-weight: 700;
   background: var(--gradient-logo-light); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+
+@keyframes orbit-pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 35%, transparent); } 50% { transform: scale(1.06); box-shadow: 0 0 0 12px transparent; } }
+@utility animate-orbit { animation: orbit-pulse 4s ease-in-out infinite; }
+@utility img-ring { border: 3px solid var(--gold); border-radius: 999px; box-shadow: 0 10px 30px -10px oklch(0.258 0.043 167 / .5); }
+@utility logo-hero {
+  font-family: "Readex Pro", sans-serif; font-weight: 700;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-dark)); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 6px 20px oklch(0 0 0 / .35));
+}
