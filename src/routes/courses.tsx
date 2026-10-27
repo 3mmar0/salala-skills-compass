@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, ArrowLeft, Sprout, Droplet, Sun, BarChart3 } from "lucide-react";
+import { Search, ArrowLeft } from "lucide-react";
 import { Particles, WavyBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 import hero from "@/assets/courses/hero.webp.asset.json";
@@ -30,7 +30,6 @@ const others = [
   { img: bio.url, t: "التكنولوجيا الحيوية (وراثة - ميكروبيولوجي)" },
   { img: econ.url, t: "اقتصاديات وإدارة المشاريع" },
 ];
-const orbit = [Sprout, Droplet, Sun, BarChart3];
 
 function Courses() {
   const [q, setQ] = useState("");
@@ -43,13 +42,6 @@ function Courses() {
         <img src={hero.url} alt="مزارع يستخدم جهازاً لوحياً في الحقل" className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-forest/70" />
         <Particles />
-        <div className="pointer-events-none absolute left-6 top-6 hidden flex-col gap-6 md:flex">
-          {orbit.map((I, i) => (
-            <span key={i} style={{ marginLeft: [40, 100, 120, 80][i], animationDelay: `${i * 0.8}s` }} className="animate-orbit grid h-20 w-20 place-items-center rounded-full border border-gold/40 bg-forest/40 text-gold backdrop-blur">
-              <I className="h-9 w-9" />
-            </span>
-          ))}
-        </div>
         <div className="container-site relative flex flex-col items-center py-28 text-center md:py-36">
           <span dir="ltr" className="logo-hero animate-fade-up text-6xl md:text-8xl">Solala</span>
           <h1 className="animate-fade-up delay-1 mt-2 text-4xl font-bold md:text-6xl">وجهتك الرئيسية دائما</h1>
