@@ -61,7 +61,7 @@ function Index() {
 
       <section className="container-site -mt-20 relative z-10 grid gap-4 md:grid-cols-3">
         {pillars.map(({ icon: I, t, d }) => (
-          <div key={t} className="rounded-2xl border bg-card p-7 shadow-soft card-fx reveal">
+          <div key={t} className="rounded-2xl border bg-card p-7 shadow-soft card-fx animate-fade-up delay-3">
             <I className="h-8 w-8 text-primary" />
             <h3 className="mt-4 text-xl font-bold text-forest">{t}</h3>
             <p className="mt-2 text-muted-foreground">{d}</p>
