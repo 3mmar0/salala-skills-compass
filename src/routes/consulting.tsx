@@ -39,7 +39,7 @@ function Consulting() {
             { icon: Building2, e: "قطاع الشركات والمؤسسات", t: "استشارات الشركات", d: "حلول مؤسسية استراتيجية مخصصة للشركات الكبرى، المزارع الاستثمارية، عمليات التصنيع، وسلاسل الإمداد والتصدير لرفع كفاءة الإنتاج.", c: "طلب استشارة الشركات" },
             { icon: User, e: "قطاع الأفراد والمشاريع الناشئة", t: "استشارات الأفراد", d: "جلسات استشارية مرنة وموجهة لأصحاب المشاريع الناشئة، المهندسين الممارسين، والمستثمرين الجدد لتمكينهم من اتخاذ القرارات الصحيحة.", c: "طلب استشارة فردية" },
           ].map(({ icon: I, e, t, d, c }) => (
-            <div key={t} className="rounded-3xl border bg-card p-9 shadow-soft">
+            <div key={t} className="rounded-3xl border bg-card p-9 shadow-soft card-fx reveal">
               <I className="h-10 w-10 text-primary" />
               <span className="mt-4 block text-sm text-muted-foreground">{e}</span>
               <h3 className="mt-1 text-2xl font-bold text-forest">{t}</h3>
@@ -72,7 +72,7 @@ function Consulting() {
           <SectionHead eyebrow="شركاء النجاح والثقة" title="عـمــلاؤنا" desc="نعتز بتقديم الدعم الاستشاري لنخبة من كبرى الشركات والمزارع والمؤسسات الرائدة" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {clients.map((c) => (
-              <div key={c.t} className="rounded-2xl bg-card p-6 text-center shadow-soft">
+              <div key={c.t} className="rounded-2xl bg-card p-6 text-center shadow-soft card-fx reveal">
                 <h5 className="font-bold text-forest">{c.t}</h5>
                 <p className="mt-1 text-sm text-muted-foreground">{c.d}</p>
               </div>

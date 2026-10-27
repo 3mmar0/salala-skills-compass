@@ -57,7 +57,7 @@ function Index() {
 
       <section className="container-site -mt-12 relative grid gap-4 md:grid-cols-3">
         {pillars.map(({ icon: I, t, d }) => (
-          <div key={t} className="rounded-2xl border bg-card p-7 shadow-soft">
+          <div key={t} className="rounded-2xl border bg-card p-7 shadow-soft card-fx reveal">
             <I className="h-8 w-8 text-primary" />
             <h3 className="mt-4 text-xl font-bold text-forest">{t}</h3>
             <p className="mt-2 text-muted-foreground">{d}</p>
@@ -67,7 +67,7 @@ function Index() {
 
       <section className="container-site py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <img src={fields} alt="حقول زراعية بالري المحوري" loading="lazy" width={1408} height={1008} className="rounded-3xl shadow-soft" />
+          <img src={fields} alt="حقول زراعية بالري المحوري" loading="lazy" width={1408} height={1008} className="rounded-3xl shadow-soft reveal" />
           <div>
             <span className="text-sm font-semibold text-primary">منظومة التعلم العملي</span>
             <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">منهجية التدريب</h2>
@@ -93,7 +93,7 @@ function Index() {
           <SectionHead eyebrow="دعم استشاري متخصص" title="خدمة الاستشارات" desc="حلول استشارية متكاملة مصممة لتلبية متطلبات المستثمرين، أصحاب المزارع والشركات" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {services.map(({ icon: I, t }, i) => (
-              <div key={t} className="rounded-2xl bg-card p-7 text-center shadow-soft transition hover:-translate-y-1">
+              <div key={t} className="rounded-2xl bg-card p-7 text-center shadow-soft card-fx reveal transition hover:-translate-y-1">
                 <span className="text-xs font-semibold text-muted-foreground">الخدمة 0{i + 1}</span>
                 <I className="mx-auto mt-4 h-10 w-10 text-primary" />
                 <h4 className="mt-4 text-lg font-bold text-forest">{t}</h4>

@@ -24,7 +24,7 @@ function Policies() {
         </nav>
         <div className="space-y-6">
           {sections.map((s, i) => (
-            <article key={s.t} id={`p${i}`} className="rounded-2xl border bg-card p-8 shadow-soft">
+            <article key={s.t} id={`p${i}`} className="rounded-2xl border bg-card p-8 shadow-soft card-fx reveal">
               <h2 className="text-2xl font-bold text-forest">{s.t}</h2>
               {s.p.map((x) => <p key={x} className="mt-3 leading-8 text-muted-foreground">{x}</p>)}
             </article>

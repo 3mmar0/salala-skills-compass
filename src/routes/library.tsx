@@ -39,7 +39,7 @@ function Library() {
           {list.map((x) => {
             const I = types[x.k].i;
             return (
-              <div key={x.t} className="rounded-2xl border bg-card p-6 shadow-soft">
+              <div key={x.t} className="rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
                 <div className="flex items-center justify-between">
                   <span className="grid h-12 w-12 place-items-center rounded-xl bg-secondary text-primary"><I /></span>
                   <span className="rounded-full bg-muted px-3 py-1 text-xs">{types[x.k].l}</span>

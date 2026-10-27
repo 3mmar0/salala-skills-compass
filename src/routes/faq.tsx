@@ -25,7 +25,7 @@ function Faq() {
       <section className="container-site max-w-3xl py-24">
         <div className="space-y-3">
           {qs.map(([q, a]) => (
-            <details key={q} className="group rounded-2xl border bg-card p-6 shadow-soft">
+            <details key={q} className="group rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-semibold text-forest">
                 {q}
                 <ChevronDown className="h-5 w-5 shrink-0 text-primary transition group-open:rotate-180" />
