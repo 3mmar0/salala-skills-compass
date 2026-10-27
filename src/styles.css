@@ -192,3 +192,30 @@
   background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-dark)); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 6px 20px oklch(0 0 0 / .35));
 }
+
+/* ---------- Lively touches ---------- */
+@keyframes wiggle { 0%,100% { transform: rotate(0) scale(1); } 25% { transform: rotate(-12deg) scale(1.15); } 60% { transform: rotate(8deg) scale(1.1); } }
+@keyframes draw-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes leaf-drift { 0% { transform: translate(0,0) rotate(0); } 50% { transform: translate(14px,-18px) rotate(25deg); } 100% { transform: translate(0,0) rotate(0); } }
+@keyframes glow-pulse { 0%,100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 55%, transparent); } 50% { box-shadow: 0 0 0 10px transparent; } }
+@keyframes shimmer-text { to { background-position: 200% center; } }
+@keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
+
+.card-fx svg { transition: transform .4s; }
+.card-fx:hover svg { animation: wiggle .7s ease; }
+.card-fx img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.card-fx:hover img { transform: scale(1.08) rotate(-2deg); }
+.btn-primary:hover svg, .btn-gold:hover svg, a:hover > .lucide-arrow-left { animation: nudge .8s ease infinite; }
+
+@utility btn-glow { animation: glow-pulse 2.6s ease-in-out infinite; }
+@utility title-line {
+  display: block; height: 4px; width: 80px; margin: 14px auto 0; border-radius: 99px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--primary-light));
+  transform-origin: center; animation: draw-line 1.2s cubic-bezier(.2,.7,.2,1) both;
+}
+@utility leaf-float { animation: leaf-drift 7s ease-in-out infinite; }
+@utility text-shimmer {
+  background: linear-gradient(90deg, var(--primary), var(--gold-dark), var(--primary-light), var(--gold), var(--primary));
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer-text 6s linear infinite;
+}
