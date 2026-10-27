@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, GraduationCap, Users, Lightbulb, Zap, MapPin, CalendarClock, TrendingUp } from "lucide-react";
+import { ArrowLeft, GraduationCap, Users, Lightbulb, Zap, MapPin, CalendarClock, TrendingUp, Briefcase, RefreshCw, Cpu, Hammer, Rocket, Handshake, Store } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import fields from "@/assets/fields.jpg";
 import { SectionHead, ExpertCard, CtaBand, Wave, Particles, Stats, WavyBg, FloatsBg } from "@/components/site/Layout";
@@ -16,9 +16,9 @@ const pillars = [
   { icon: Lightbulb, t: "المساهمة", d: "في دفع عجلة الابتكار وريادة الأعمال" },
 ];
 const phases = [
-  { t: "التأهيل لسوق العمل", d: "برامج تدريبية وتطبيقية متوافقة مع متطلبات سوق العمل الزراعي المعاصر." },
-  { t: "التدريب المستمر", d: "مواكبة دورية ومستمرة لتطوير مهارات المهندسين والفنيين والمستثمرين." },
-  { t: "التعرّف على أحدث التقنيات", d: "تطبيقات الزراعة الذكية، إدارة الري الحديث، وأساليب المكافحة الحيوية." },
+  { icon: Briefcase, t: "التأهيل لسوق العمل", d: "برامج تدريبية وتطبيقية متوافقة مع متطلبات سوق العمل الزراعي المعاصر." },
+  { icon: RefreshCw, t: "التدريب المستمر", d: "مواكبة دورية ومستمرة لتطوير مهارات المهندسين والفنيين والمستثمرين." },
+  { icon: Cpu, t: "التعرّف على أحدث التقنيات", d: "تطبيقات الزراعة الذكية، إدارة الري الحديث، وأساليب المكافحة الحيوية." },
 ];
 const services = [
   { icon: Zap, t: "استشارة سريعة" },
@@ -26,7 +26,7 @@ const services = [
   { icon: CalendarClock, t: "متابعة دورية" },
   { icon: TrendingUp, t: "استشارة استثمارية" },
 ];
-const steps = ["حاضنة الأفكار", "بناء المشروع", "تطوير المشروع", "الربط الاستثماري", "الانخراط السوقي"];
+const steps = [{ icon: Lightbulb, t: "حاضنة الأفكار" }, { icon: Hammer, t: "بناء المشروع" }, { icon: Rocket, t: "تطوير المشروع" }, { icon: Handshake, t: "الربط الاستثماري" }, { icon: Store, t: "الانخراط السوقي" }];
 const experts = [
   { name: "د. أحمد عبد الرحمن", role: "استشاري الإنتاج النباتي والبيوت المحمية", bio: "أكثر من 18 عاماً في إدارة مزارع الخضر والفاكهة والتغذية النباتية المتكاملة." },
   { name: "م. طارق فاروق", role: "رئيس قطاع التدريب الحيواني والداجني", bio: "خبير تغذية المجترات وإدارة عنابر التسمين والإنتاج الداجني والمزارع السمكية." },
@@ -79,9 +79,9 @@ function Index() {
             <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">منهجية التدريب</h2>
             <p className="mt-3 text-muted-foreground">برامج تطبيقية مدروسة تدمج بين الأساس العلمي والممارسة الحقلية المباشرة</p>
             <div className="mt-8 space-y-4">
-              {phases.map((p, i) => (
+              {phases.map((p) => (
                 <div key={p.t} className="flex gap-4 rounded-2xl border bg-card p-5">
-                  <span className="font-display text-3xl font-bold text-gold">0{i + 1}</span>
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-gold shadow-soft"><p.icon className="h-6 w-6 icon-wiggle" /></span>
                   <div>
                     <h4 className="font-bold text-forest">{p.t}</h4>
                     <p className="mt-1 text-sm leading-7 text-muted-foreground">{p.d}</p>
@@ -99,10 +99,9 @@ function Index() {
         <div className="container-site relative">
           <SectionHead eyebrow="دعم استشاري متخصص" title="خدمة الاستشارات" desc="حلول استشارية متكاملة مصممة لتلبية متطلبات المستثمرين، أصحاب المزارع والشركات" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map(({ icon: I, t }, i) => (
+            {services.map(({ icon: I, t }) => (
               <div key={t} className="rounded-2xl bg-card p-7 text-center shadow-soft card-fx reveal">
-                <span className="text-xs font-semibold text-muted-foreground">الخدمة 0{i + 1}</span>
-                <I className="mx-auto mt-4 h-10 w-10 text-primary" />
+                <span className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-secondary ring-4 ring-gold/30"><I className="h-10 w-10 text-primary" /></span>
                 <h4 className="mt-4 text-lg font-bold text-forest">{t}</h4>
               </div>
             ))}
@@ -114,9 +113,9 @@ function Index() {
       <section className="container-site py-24">
         <SectionHead eyebrow="منظومة تحويل الأفكار إلى واقع" title="الابتكار وريادة الأعمال" desc="نرافقك من شرارة الفكرة الأولى وحتى إطلاق المشروع وتوسعه في الأسواق" />
         <div className="grid gap-4 md:grid-cols-5">
-          {steps.map((s, i) => (
+          {steps.map(({ icon: I, t: s }) => (
             <div key={s} className="card-fx reveal relative rounded-2xl border bg-card p-6 text-center">
-              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-primary font-display font-bold text-primary-foreground">{i + 1}</span>
+              <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary text-gold ring-4 ring-gold/25 shadow-soft"><I className="h-7 w-7" /></span>
               <h5 className="mt-4 font-bold text-forest">{s}</h5>
             </div>
           ))}

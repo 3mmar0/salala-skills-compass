@@ -26,11 +26,10 @@ function Page() {
         <div className="container-site relative">
         <SectionHead title="مراحل رحلتك الريادية" desc="خمس مراحل متكاملة تأخذ فكرتك الزراعية إلى مشروع ناجح ومستدام" />
         <div className="space-y-5">
-          {stages.map(({ icon: I, t, d, items }, i) => (
+          {stages.map(({ icon: I, t, d, items }) => (
             <div key={t} className="grid items-center gap-6 rounded-3xl border bg-card p-7 shadow-soft card-fx reveal md:grid-cols-[auto_1fr_auto]">
               <div className="flex items-center gap-4">
-                <span className="font-display text-5xl font-bold text-gold">0{i + 1}</span>
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary text-primary-foreground"><I /></span>
+                <span className="grid h-20 w-20 place-items-center rounded-2xl bg-primary text-gold ring-4 ring-gold/25 shadow-soft"><I className="h-9 w-9" /></span>
               </div>
               <div>
                 <h3 className="text-xl font-bold text-forest">{t}</h3>
