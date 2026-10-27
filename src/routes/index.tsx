@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, GraduationCap, Users, Lightbulb, Zap, MapPin, CalendarClock, TrendingUp } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import fields from "@/assets/fields.jpg";
-import { SectionHead, ExpertCard, CtaBand, Wave, Particles , WavyBg, FloatsBg } from "@/components/site/Layout";
+import { SectionHead, ExpertCard, CtaBand, Wave, Particles, Stats, WavyBg, FloatsBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/")({
@@ -68,6 +68,8 @@ function Index() {
           </div>
         ))}
       </section>
+
+      <Stats />
 
       <section className="container-site py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">

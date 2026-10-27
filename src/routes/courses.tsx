@@ -60,7 +60,8 @@ function Courses() {
         <WavyBg />
         <div className="container-site relative">
           <div className="mb-14 text-center">
-            <h2 className="text-4xl font-bold text-primary md:text-5xl">مجالات التدريب</h2>
+            <h2 className="text-shimmer text-4xl font-bold md:text-5xl">مجالات التدريب</h2>
+            <span className="title-line" />
             <p className="mt-3 text-muted-foreground">اختر تخصصك وابدأ رحلتك..</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">

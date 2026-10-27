@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
-import { Menu, X, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "الرئيسية" },
@@ -146,12 +146,64 @@ export function PageHero({ eyebrow, title, subtitle, image, children }: { eyebro
 
 export function SectionHead({ eyebrow, title, desc }: { eyebrow?: string; title: string; desc?: string }) {
   return (
-    <div className="mx-auto mb-12 max-w-2xl text-center">
-      {eyebrow && <span className="text-sm font-semibold text-primary">{eyebrow}</span>}
-      <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">{title}</h2>
+    <div className="reveal relative mx-auto mb-12 max-w-2xl text-center">
+      <Leaf className="leaf-float pointer-events-none absolute -top-2 right-0 h-8 w-8 text-gold/60 md:-right-10" />
+      <Leaf className="leaf-float pointer-events-none absolute bottom-0 left-0 h-6 w-6 -scale-x-100 text-primary-light/50 [animation-delay:-3s] md:-left-10" />
+      {eyebrow && (
+        <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1 text-sm font-semibold text-primary">
+          <Sparkles className="h-4 w-4 text-gold-dark" /> {eyebrow}
+        </span>
+      )}
+      <h2 className="text-shimmer mt-3 text-3xl font-bold md:text-4xl">{title}</h2>
+      <span className="title-line" />
       {desc && <p className="mt-4 leading-8 text-muted-foreground">{desc}</p>}
     </div>
   );
+}
+
+export function Stats() {
+  const items = [
+    { n: 5000, s: "+", l: "متدرب ومتدربة" },
+    { n: 120, s: "+", l: "برنامج تدريبي" },
+    { n: 350, s: "+", l: "استشارة منجزة" },
+    { n: 40, s: "+", l: "خبير ومستشار" },
+  ];
+  return (
+    <section className="bg-forest-gradient relative overflow-hidden py-16 text-forest-foreground">
+      <Particles n={10} />
+      <div className="container-site relative grid grid-cols-2 gap-8 text-center md:grid-cols-4">
+        {items.map((i) => (
+          <div key={i.l} className="reveal">
+            <Counter to={i.n} suffix={i.s} />
+            <p className="mt-2 opacity-80">{i.l}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Counter({ to, suffix }: { to: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e?.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now();
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / 1600);
+        setV(Math.round(to * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [to]);
+  return <span ref={ref} className="font-display text-4xl font-bold text-gold md:text-5xl">{v.toLocaleString("ar-EG")}{suffix}</span>;
 }
 
 export function ExpertCard({ name, role, bio, note }: { name: string; role: string; bio: string; note?: string }) {
@@ -173,9 +225,11 @@ export function CtaBand({ title, desc, to = "/contact", label }: { title: string
   return (
     <section className="container-site py-20">
       <div className="bg-forest-gradient relative overflow-hidden reveal rounded-3xl p-10 text-center text-forest-foreground md:p-16">
+        <Particles n={8} />
+        <div className="animate-blob absolute -right-16 -top-16 h-56 w-56 bg-gold/20 blur-3xl" />
         <h3 className="text-2xl font-bold md:text-4xl">{title}</h3>
         <p className="mx-auto mt-4 max-w-2xl leading-8 opacity-85">{desc}</p>
-        <Link to={to} className="btn-gold mt-8">{label}</Link>
+        <Link to={to} className="btn-gold btn-glow mt-8">{label}</Link>
       </div>
     </section>
   );
