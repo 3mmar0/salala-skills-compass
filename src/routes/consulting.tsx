@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, User } from "lucide-react";
-import { PageHero, SectionHead, ExpertCard, CtaBand } from "@/components/site/Layout";
+import { PageHero, SectionHead, ExpertCard, CtaBand , WavyBg, FloatsBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-consulting.jpg";
 
@@ -50,8 +50,9 @@ function Consulting() {
           ))}
         </div>
       </section>
-      <section id="experts" className="bg-muted py-24">
-        <div className="container-site">
+      <section id="experts" className="relative isolate overflow-hidden bg-muted py-24">
+        <FloatsBg />
+        <div className="container-site relative">
           <SectionHead eyebrow="نخبة الخبراء" title="فريق كبار الاستشاريين" desc="نضع بين يديك عقوداً من الخبرة العملية والأكاديمية لمساعدتك في اتخاذ القرار الصائب" />
           <div className="grid gap-5 md:grid-cols-3">{experts.map((e) => <ExpertCard key={e.name} {...e} />)}</div>
         </div>
@@ -68,8 +69,9 @@ function Consulting() {
           ))}
         </div>
       </section>
-      <section className="bg-sand py-24">
-        <div className="container-site">
+      <section className="relative isolate overflow-hidden bg-sand py-24">
+        <WavyBg />
+        <div className="container-site relative">
           <SectionHead eyebrow="شركاء النجاح والثقة" title="عـمــلاؤنا" desc="نعتز بتقديم الدعم الاستشاري لنخبة من كبرى الشركات والمزارع والمؤسسات الرائدة" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {clients.map((c) => (

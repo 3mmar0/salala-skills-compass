@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { BookOpen, FileText, PlayCircle, Download } from "lucide-react";
-import { PageHero, SectionHead } from "@/components/site/Layout";
+import { PageHero, SectionHead , FloatsBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-library.jpg";
 
@@ -27,7 +27,9 @@ function Library() {
   return (
     <>
       <PageHero image={heroImg} eyebrow="المكتبة" title="مكتبة المعرفة الزراعية" subtitle="كتب، أدلة عملية، وفيديوهات تعليمية يعدّها خبراء Solala." />
-      <section className="container-site py-24">
+      <section className="relative isolate overflow-hidden py-24">
+        <FloatsBg />
+        <div className="container-site relative">
         <SectionHead title="تصفح المحتوى" />
         <div className="mb-10 flex flex-wrap justify-center gap-2">
           {(["all", "book", "guide", "video"] as const).map((k) => (
@@ -52,6 +54,7 @@ function Library() {
               </div>
             );
           })}
+        </div>
         </div>
       </section>
     </>
