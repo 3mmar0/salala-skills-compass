@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ConsultingRouteImport } from './routes/consulting'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CoursesRouteImport } from './routes/courses'
+import { Route as EntrepreneurshipRouteImport } from './routes/entrepreneurship'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as LibraryRouteImport } from './routes/library'
+import { Route as PoliciesRouteImport } from './routes/policies'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultingRoute = ConsultingRouteImport.update({
+  id: '/consulting',
+  path: '/consulting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesRoute = CoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrepreneurshipRoute = EntrepreneurshipRouteImport.update({
+  id: '/entrepreneurship',
+  path: '/entrepreneurship',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesRoute = PoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/consulting': typeof ConsultingRoute
+  '/contact': typeof ContactRoute
+  '/courses': typeof CoursesRoute
+  '/entrepreneurship': typeof EntrepreneurshipRoute
+  '/faq': typeof FaqRoute
+  '/library': typeof LibraryRoute
+  '/policies': typeof PoliciesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/consulting': typeof ConsultingRoute
+  '/contact': typeof ContactRoute
+  '/courses': typeof CoursesRoute
+  '/entrepreneurship': typeof EntrepreneurshipRoute
+  '/faq': typeof FaqRoute
+  '/library': typeof LibraryRoute
+  '/policies': typeof PoliciesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/consulting': typeof ConsultingRoute
+  '/contact': typeof ContactRoute
+  '/courses': typeof CoursesRoute
+  '/entrepreneurship': typeof EntrepreneurshipRoute
+  '/faq': typeof FaqRoute
+  '/library': typeof LibraryRoute
+  '/policies': typeof PoliciesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/consulting'
+    | '/contact'
+    | '/courses'
+    | '/entrepreneurship'
+    | '/faq'
+    | '/library'
+    | '/policies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/consulting'
+    | '/contact'
+    | '/courses'
+    | '/entrepreneurship'
+    | '/faq'
+    | '/library'
+    | '/policies'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/consulting'
+    | '/contact'
+    | '/courses'
+    | '/entrepreneurship'
+    | '/faq'
+    | '/library'
+    | '/policies'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ConsultingRoute: typeof ConsultingRoute
+  ContactRoute: typeof ContactRoute
+  CoursesRoute: typeof CoursesRoute
+  EntrepreneurshipRoute: typeof EntrepreneurshipRoute
+  FaqRoute: typeof FaqRoute
+  LibraryRoute: typeof LibraryRoute
+  PoliciesRoute: typeof PoliciesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consulting': {
+      id: '/consulting'
+      path: '/consulting'
+      fullPath: '/consulting'
+      preLoaderRoute: typeof ConsultingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses': {
+      id: '/courses'
+      path: '/courses'
+      fullPath: '/courses'
+      preLoaderRoute: typeof CoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrepreneurship': {
+      id: '/entrepreneurship'
+      path: '/entrepreneurship'
+      fullPath: '/entrepreneurship'
+      preLoaderRoute: typeof EntrepreneurshipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies': {
+      id: '/policies'
+      path: '/policies'
+      fullPath: '/policies'
+      preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ConsultingRoute: ConsultingRoute,
+  ContactRoute: ContactRoute,
+  CoursesRoute: CoursesRoute,
+  EntrepreneurshipRoute: EntrepreneurshipRoute,
+  FaqRoute: FaqRoute,
+  LibraryRoute: LibraryRoute,
+  PoliciesRoute: PoliciesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
