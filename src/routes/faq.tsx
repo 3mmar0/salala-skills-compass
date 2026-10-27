@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import { PageHero, CtaBand } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-faq.jpg";
 
 export const Route = createFileRoute("/faq")({
   head: () => meta("الأسئلة الشائعة", "إجابات عن أكثر الأسئلة شيوعاً حول دورات واستشارات وبرامج سلالة."),
@@ -21,11 +22,11 @@ const qs = [
 function Faq() {
   return (
     <>
-      <PageHero eyebrow="الأسئلة الشائعة" title="لديك سؤال؟ لدينا الإجابة" subtitle="جمعنا لك أكثر الأسئلة تكراراً من المتدربين والعملاء." />
+      <PageHero image={heroImg} eyebrow="الأسئلة الشائعة" title="لديك سؤال؟ لدينا الإجابة" subtitle="جمعنا لك أكثر الأسئلة تكراراً من المتدربين والعملاء." />
       <section className="container-site max-w-3xl py-24">
         <div className="space-y-3">
           {qs.map(([q, a]) => (
-            <details key={q} className="group rounded-2xl border bg-card p-6 shadow-soft">
+            <details key={q} className="group rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-semibold text-forest">
                 {q}
                 <ChevronDown className="h-5 w-5 shrink-0 text-primary transition group-open:rotate-180" />

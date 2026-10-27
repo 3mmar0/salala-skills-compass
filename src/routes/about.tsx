@@ -3,6 +3,7 @@ import { Eye, Target, Lightbulb, Leaf, ShieldCheck } from "lucide-react";
 import fields from "@/assets/fields.jpg";
 import { PageHero, SectionHead, ExpertCard, CtaBand } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-about.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => meta("عن سلالة", "رؤية ورسالة وقيم منصة سلالة وفريق خبرائها من المهندسين الزراعيين."),
@@ -23,23 +24,23 @@ const team = [
 function About() {
   return (
     <>
-      <PageHero eyebrow="من نحن" title="Solala is..." subtitle="طموحنا ورسالتنا: منظومة زراعية متكاملة لتمكين الكوادر وقيادة المشاريع." />
+      <PageHero image={heroImg} eyebrow="من نحن" title="Solala is..." subtitle="طموحنا ورسالتنا: منظومة زراعية متكاملة لتمكين الكوادر وقيادة المشاريع." />
       <section className="container-site py-24">
         <SectionHead eyebrow="طموحنا ورسالتنا" title="رؤيتنا ورسالتنا في Solala" />
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="space-y-5">
-            <div className="rounded-2xl border bg-card p-7 shadow-soft">
+            <div className="rounded-2xl border bg-card p-7 shadow-soft card-fx reveal">
               <Eye className="h-8 w-8 text-primary" />
               <h3 className="mt-3 text-xl font-bold text-forest">رؤيتنا</h3>
               <p className="mt-2 leading-8 text-muted-foreground">أن نكون المنظومة الزراعية المتكاملة والمرجع الأول في العالم العربي لتمكين الكوادر، وتوفير الاستشارات التخصصية، وقيادة وإدارة المشاريع الزراعية وفق أعلى معايير الجودة والاستدامة.</p>
             </div>
-            <div className="rounded-2xl border bg-card p-7 shadow-soft">
+            <div className="rounded-2xl border bg-card p-7 shadow-soft card-fx reveal">
               <Target className="h-8 w-8 text-primary" />
               <h3 className="mt-3 text-xl font-bold text-forest">رسالتنا</h3>
               <p className="mt-2 leading-8 text-muted-foreground">نقدم حلولاً متكاملة ترتكز على التدريب التطبيقي، والاستشارات الفنية والإدارية للمشاريع الزراعية، ودعم المستثمرين والمهندسين، وتحويل التحديات إلى نجاحات على أرض الواقع.</p>
             </div>
           </div>
-          <img src={fields} alt="حقول زراعية" loading="lazy" width={1408} height={1008} className="rounded-3xl shadow-soft" />
+          <img src={fields} alt="حقول زراعية" loading="lazy" width={1408} height={1008} className="rounded-3xl shadow-soft reveal" />
         </div>
       </section>
       <section className="bg-sand py-24">
@@ -47,7 +48,7 @@ function About() {
           <SectionHead title="قيـمنا العـليا" desc="القيم العليا المبني عليها الأعمال في سلالة" />
           <div className="grid gap-5 md:grid-cols-3">
             {values.map(({ icon: I, t, d }) => (
-              <div key={t} className="rounded-2xl bg-card p-8 shadow-soft">
+              <div key={t} className="rounded-2xl bg-card p-8 shadow-soft card-fx reveal">
                 <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary text-primary-foreground"><I /></span>
                 <h4 className="mt-5 text-lg font-bold text-forest">{t}</h4>
                 <p className="mt-2 leading-7 text-muted-foreground">{d}</p>

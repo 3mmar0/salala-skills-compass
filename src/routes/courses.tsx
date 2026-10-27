@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Beef, Wheat, Bug, Milk, Tractor, Droplets, Dna, Briefcase, Search, ArrowLeft } from "lucide-react";
 import { PageHero, SectionHead, CtaBand } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-courses.jpg";
 
 export const Route = createFileRoute("/courses")({
   head: () => meta("الدورات والتدريبات", "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها."),
@@ -25,7 +26,7 @@ function Courses() {
   const list = fields.filter((f) => (f.t + (f.s ?? "") + f.d).includes(q.trim()));
   return (
     <>
-      <PageHero eyebrow="الدورات والتدريبات" title="Solala وجهتك الرئيسية دائماً" subtitle="اختر مجالك التخصصي وابدأ رحلتك">
+      <PageHero image={heroImg} eyebrow="الدورات والتدريبات" title="Solala وجهتك الرئيسية دائماً" subtitle="اختر مجالك التخصصي وابدأ رحلتك">
         <label className="flex w-full max-w-lg items-center gap-2 rounded-full bg-card px-5 py-3 text-foreground">
           <Search className="h-5 w-5 text-muted-foreground" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ابحث عن مجال تدريبي..." className="w-full bg-transparent outline-none" />
@@ -35,7 +36,7 @@ function Courses() {
         <SectionHead title="مجالات التدريب" desc="اختر تخصصك وابدأ رحلتك.." />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {list.map(({ icon: I, t, s, d }) => (
-            <div key={t} className="group flex flex-col rounded-2xl border bg-card p-6 shadow-soft transition hover:-translate-y-1 hover:border-primary">
+            <div key={t} className="group flex flex-col rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-secondary text-primary transition group-hover:bg-primary group-hover:text-primary-foreground"><I /></span>
               <h4 className="mt-5 text-lg font-bold text-forest">{t}</h4>
               {s && <p className="text-xs font-medium text-primary">({s})</p>}

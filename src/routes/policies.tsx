@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-policies.jpg";
 
 export const Route = createFileRoute("/policies")({
   head: () => meta("السياسات والشروط", "سياسة الخصوصية وشروط الاستخدام وسياسة التسجيل والاسترداد في منصة سلالة."),
@@ -17,14 +18,14 @@ const sections = [
 function Policies() {
   return (
     <>
-      <PageHero eyebrow="السياسات والشروط" title="الشفافية أساس الثقة" subtitle="يرجى قراءة السياسات التالية بعناية قبل استخدام خدمات المنصة." />
+      <PageHero image={heroImg} eyebrow="السياسات والشروط" title="الشفافية أساس الثقة" subtitle="يرجى قراءة السياسات التالية بعناية قبل استخدام خدمات المنصة." />
       <section className="container-site grid gap-10 py-24 lg:grid-cols-[220px_1fr]">
         <nav className="hidden h-fit space-y-2 lg:sticky lg:top-28 lg:block">
           {sections.map((s, i) => <a key={s.t} href={`#p${i}`} className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary">{s.t}</a>)}
         </nav>
         <div className="space-y-6">
           {sections.map((s, i) => (
-            <article key={s.t} id={`p${i}`} className="rounded-2xl border bg-card p-8 shadow-soft">
+            <article key={s.t} id={`p${i}`} className="rounded-2xl border bg-card p-8 shadow-soft card-fx reveal">
               <h2 className="text-2xl font-bold text-forest">{s.t}</h2>
               {s.p.map((x) => <p key={x} className="mt-3 leading-8 text-muted-foreground">{x}</p>)}
             </article>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BookOpen, FileText, PlayCircle, Download } from "lucide-react";
 import { PageHero, SectionHead } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/h-library.jpg";
 
 export const Route = createFileRoute("/library")({
   head: () => meta("المكتبة", "مكتبة سلالة: كتب وأدلة ومقالات وفيديوهات تعليمية في المجالات الزراعية."),
@@ -25,7 +26,7 @@ function Library() {
   const list = items.filter((x) => f === "all" || x.k === f);
   return (
     <>
-      <PageHero eyebrow="المكتبة" title="مكتبة المعرفة الزراعية" subtitle="كتب، أدلة عملية، وفيديوهات تعليمية يعدّها خبراء Solala." />
+      <PageHero image={heroImg} eyebrow="المكتبة" title="مكتبة المعرفة الزراعية" subtitle="كتب، أدلة عملية، وفيديوهات تعليمية يعدّها خبراء Solala." />
       <section className="container-site py-24">
         <SectionHead title="تصفح المحتوى" />
         <div className="mb-10 flex flex-wrap justify-center gap-2">
@@ -39,7 +40,7 @@ function Library() {
           {list.map((x) => {
             const I = types[x.k].i;
             return (
-              <div key={x.t} className="rounded-2xl border bg-card p-6 shadow-soft">
+              <div key={x.t} className="rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
                 <div className="flex items-center justify-between">
                   <span className="grid h-12 w-12 place-items-center rounded-xl bg-secondary text-primary"><I /></span>
                   <span className="rounded-full bg-muted px-3 py-1 text-xs">{types[x.k].l}</span>
