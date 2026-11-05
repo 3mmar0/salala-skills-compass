@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -12,6 +13,7 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Header, Footer } from "@/components/site/Layout";
+import { CmsProvider } from "@/lib/cms/CmsProvider";
 
 function NotFoundComponent() {
   return (
@@ -135,14 +137,18 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <CmsProvider>
+        {!isAdmin && <Header />}
+        <main>
+          <Outlet />
+        </main>
+        {!isAdmin && <Footer />}
+      </CmsProvider>
     </QueryClientProvider>
   );
 }

@@ -5,6 +5,7 @@ import { Particles, WavyBg } from "@/components/site/Layout";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CategoryCard } from "@/components/site/CourseCards";
 import { courseCategories } from "@/data/courses";
+import { useCms } from "@/lib/cms/CmsProvider";
 import { meta } from "@/lib/meta";
 import courseHero from "@/assets/h-courses.jpg";
 
@@ -19,6 +20,10 @@ export const Route = createFileRoute("/courses/")({
 });
 
 function Courses() {
+  const { store } = useCms();
+  const customTraining = store.sections.find((s) => s.key === "courses.customTraining");
+  const showCustomTraining = !customTraining || customTraining.visible;
+  const page = store.pages.find((p) => p.slug === "/courses");
   const [q, setQ] = useState("");
   const query = q.trim();
   const featured = useMemo(
@@ -46,8 +51,12 @@ function Courses() {
           <span dir="ltr" className="logo-hero animate-fade-up text-6xl md:text-8xl">
             Solala
           </span>
-          <h1 className="animate-fade-up delay-1 mt-2 text-4xl font-bold md:text-6xl">وجهتك الرئيسية دائما</h1>
-          <p className="animate-fade-up delay-2 mt-4 text-lg opacity-80">اختر مجالك التخصصي وابدأ رحلتك</p>
+          <h1 className="animate-fade-up delay-1 mt-2 text-4xl font-bold md:text-6xl">
+            {page?.heroTitle || "وجهتك الرئيسية دائما"}
+          </h1>
+          <p className="animate-fade-up delay-2 mt-4 text-lg opacity-80">
+            {page?.heroSubtitle || "اختر مجالك التخصصي وابدأ رحلتك"}
+          </p>
           <label className="animate-fade-up delay-3 mt-8 flex w-full max-w-xl items-center gap-2 rounded-xl bg-card px-4 py-3 text-foreground shadow-soft">
             <input
               value={q}
@@ -90,23 +99,26 @@ function Courses() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-muted">
-        <div className="absolute left-1/2 top-10 h-72 w-72 animate-blob rounded-full bg-gold/15 blur-3xl" />
-        <div className="container-site relative grid items-end gap-8 md:grid-cols-[1fr_40%]">
-          <div className="reveal py-20 text-center">
-            <h3 className="text-3xl font-bold text-primary md:text-5xl md:leading-tight">
-              هل تبحث عن تدريب مخصص لمزرعتك أو شركتك؟
-            </h3>
-            <p className="mt-5 leading-8 text-foreground/80">
-              نوفر حقائب تدريبية واستشارات ميدانية مصممة خصيصاً لتلبية متطلبات الشركات والمزارع الخاصة وفرق العمل الزراعي.
-            </p>
-            <Link to="/contact" className="btn-primary mt-8 rounded-xl px-10 py-4">
-              طلب استشارة أو تدريب مخصص <ArrowLeft className="h-4 w-4" />
-            </Link>
+      {showCustomTraining && (
+        <section className="relative overflow-hidden bg-muted">
+          <div className="absolute left-1/2 top-10 h-72 w-72 animate-blob rounded-full bg-gold/15 blur-3xl" />
+          <div className="container-site relative grid items-end gap-8 md:grid-cols-[1fr_40%]">
+            <div className="reveal py-20 text-center">
+              <h3 className="text-3xl font-bold text-primary md:text-5xl md:leading-tight">
+                {customTraining?.title || "هل تبحث عن تدريب مخصص لمزرعتك أو شركتك؟"}
+              </h3>
+              <p className="mt-5 leading-8 text-foreground/80">
+                {customTraining?.body ||
+                  "نوفر حقائب تدريبية واستشارات ميدانية مصممة خصيصاً لتلبية متطلبات الشركات والمزارع الخاصة وفرق العمل الزراعي."}
+              </p>
+              <Link to="/contact" className="btn-primary mt-8 rounded-xl px-10 py-4">
+                طلب استشارة أو تدريب مخصص <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </div>
+            <img src="/shapes/nature.svg" alt="" aria-hidden className="hidden h-72 w-full object-contain object-bottom md:block" />
           </div>
-          <img src="/shapes/nature.svg" alt="" aria-hidden className="hidden h-72 w-full object-contain object-bottom md:block" />
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

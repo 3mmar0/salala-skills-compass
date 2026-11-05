@@ -5,13 +5,15 @@ import fields from "@/assets/fields.jpg";
 import { SectionHead, ExpertCard, CtaBand, Wave, Particles, Stats, WavyBg, FloatsBg } from "@/components/site/Layout";
 import { SolalaPlusFloat } from "@/components/site/SolalaPlusFloat";
 import { meta } from "@/lib/meta";
+import { useCms } from "@/lib/cms/CmsProvider";
 
 export const Route = createFileRoute("/")({
   head: () => meta("الرئيسية", "منصة متكاملة للتعلم والتطوير الزراعي: تدريب، استشارات، وريادة أعمال.", "/"),
   component: Index,
 });
 
-const pillars = [
+const pillarIcons = [GraduationCap, Users, Lightbulb];
+const defaultPillars = [
   { icon: GraduationCap, t: "سد الفجوة", d: "بين التعليم الأكاديمي وسوق العمل" },
   { icon: Users, t: "تطوير ودعم", d: "المهارات الشخصية والفنية للأفراد والشركات" },
   { icon: Lightbulb, t: "المساهمة", d: "في دفع عجلة الابتكار وريادة الأعمال" },
@@ -36,6 +38,23 @@ const experts = [
 ];
 
 function Index() {
+  const { store } = useCms();
+  const homePage = store.pages.find((p) => p.slug === "/");
+  const pillarsSection = store.sections.find((s) => s.key === "home.pillars" && s.visible);
+  const ctaSection = store.sections.find((s) => s.key === "home.cta" && s.visible);
+  const heroTitle = homePage?.heroTitle || "تدريب، استشارات، ريادة أعمال";
+  const heroSubtitle =
+    homePage?.heroSubtitle ||
+    "منصة متكاملة للتعلم والتطوير، تهدف إلى تنمية المهارات، ودعم الابتكار، وفتح آفاق جديدة للفرص المهنية وريادة الأعمال.";
+  const pillars =
+    pillarsSection?.items.length
+      ? pillarsSection.items.map((item, i) => ({
+          icon: pillarIcons[i % pillarIcons.length],
+          t: item.title,
+          d: item.description,
+        }))
+      : defaultPillars;
+
   return (
     <>
       <section className="relative min-h-[88vh] overflow-hidden text-forest-foreground">
@@ -47,12 +66,14 @@ function Index() {
         <Wave />
         <SolalaPlusFloat />
         <div className="container-site relative flex min-h-[88vh] flex-col justify-end pb-40">
-          <span className="animate-fade-up w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">منصـــة Solala</span>
+          <span className="animate-fade-up w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">
+            منصـــة {store.settings.siteName.split(" ")[0] || "Solala"}
+          </span>
           <h1 className="animate-fade-up delay-1 mt-5 max-w-4xl text-5xl font-bold leading-tight md:text-7xl">
-            تدريب، استشارات، <span className="text-gold">ريادة أعمال</span>
+            {heroTitle}
           </h1>
           <p className="animate-fade-up delay-2 mt-6 max-w-2xl text-lg leading-8 opacity-90">
-            منصة متكاملة للتعلم والتطوير، تهدف إلى تنمية المهارات، ودعم الابتكار، وفتح آفاق جديدة للفرص المهنية وريادة الأعمال.
+            {heroSubtitle}
           </p>
           <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">
             <Link to="/about" className="btn-gold">من نحن <ArrowLeft className="h-4 w-4" /></Link>
@@ -144,7 +165,11 @@ function Index() {
         </div>
       </section>
 
-      <CtaBand title="ابدأ رحلتك مع Solala اليوم" desc="سواء كنت طالباً أو مهندساً أو مستثمراً، لدينا البرنامج المناسب لك." label="تواصل معنا" />
+      {ctaSection ? (
+        <CtaBand title={ctaSection.title} desc={ctaSection.body} label="تواصل معنا" />
+      ) : (
+        <CtaBand title="ابدأ رحلتك مع Solala اليوم" desc="سواء كنت طالباً أو مهندساً أو مستثمراً، لدينا البرنامج المناسب لك." label="تواصل معنا" />
+      )}
     </>
   );
 }

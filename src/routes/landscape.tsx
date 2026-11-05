@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { PageHero, SectionHead, CtaBand, WavyBg, FloatsBg, ExpertCard } from "@/components/site/Layout";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { useCms } from "@/lib/cms/CmsProvider";
 import { meta } from "@/lib/meta";
 import heroImg from "@/assets/landscape/hero.jpg";
 import phase1 from "@/assets/landscape/phase-1.jpg";
@@ -34,6 +35,22 @@ export const Route = createFileRoute("/landscape")({
 });
 
 const input = "w-full rounded-xl border bg-background px-4 py-3 outline-none focus:border-primary";
+
+function LandscapeCta() {
+  const { store } = useCms();
+  const section = store.sections.find((s) => s.key === "landscape.cta" && s.visible);
+  return (
+    <CtaBand
+      title={section?.title || "هل لديك مساحة خارجية وترغب في تحويلها إلى تحفة خضراء؟"}
+      desc={
+        section?.body ||
+        "تواصل معنا مباشرة مع كبار مهندسي اللاندسكيب لحجز موعد الرفع المساحي والمعاينة الميدانية."
+      }
+      label="حجز موعد استشارة ومعاينة"
+      to="/contact"
+    />
+  );
+}
 
 const stats = [
   { v: "+150", l: "مشروع لاندسكيب منفذ بنجاح" },
@@ -498,12 +515,7 @@ function LandscapePage() {
         </div>
       </section>
 
-      <CtaBand
-        title="هل لديك مساحة خارجية وترغب في تحويلها إلى تحفة خضراء؟"
-        desc="تواصل معنا مباشرة مع كبار مهندسي اللاندسكيب لحجز موعد الرفع المساحي والمعاينة الميدانية."
-        label="حجز موعد استشارة ومعاينة"
-        to="/contact"
-      />
+      <LandscapeCta />
     </>
   );
 }

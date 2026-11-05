@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
+import { useCmsOptional } from "@/lib/cms/CmsProvider";
 
 export const NAV = [
   { to: "/", label: "الرئيسية" },
@@ -65,17 +66,36 @@ export function Header() {
 }
 
 export function Footer() {
+  const cms = useCmsOptional();
+  const settings = cms?.store.settings;
+  const tagline =
+    settings?.tagline ||
+    "منصة متكاملة متخصصة في التدريب، الاستشارات، وإدارة وتشغيل المشاريع الاستثمارية لتعزيز الإنتاجية والاستدامة.";
+  const email = settings?.email || "info@yourcompany.example.com";
+  const phone = settings?.phone || "+1 555-555-5556";
+  const siteName = settings?.siteName || "Solala";
+  const socials = [
+    { I: Facebook, href: settings?.facebook || "#", label: "Facebook" },
+    { I: Twitter, href: settings?.twitter || "#", label: "X" },
+    { I: Linkedin, href: settings?.linkedin || "#", label: "LinkedIn" },
+  ];
+
   return (
     <footer className="bg-forest text-forest-foreground">
       <div className="container-site grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <Logo light />
-          <p className="mt-4 max-w-md leading-8 opacity-80">
-            منصة متكاملة متخصصة في التدريب، الاستشارات، وإدارة وتشغيل المشاريع الاستثمارية لتعزيز الإنتاجية والاستدامة.
-          </p>
+          <p className="mt-4 max-w-md leading-8 opacity-80">{tagline}</p>
           <div className="mt-6 flex gap-3">
-            {[Facebook, Twitter, Linkedin].map((I, i) => (
-              <a key={i} href="#" aria-label="social" className="grid h-10 w-10 place-items-center rounded-full border border-forest-foreground/20 hover:bg-forest-foreground/10">
+            {socials.map(({ I, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noreferrer" : undefined}
+                className="grid h-10 w-10 place-items-center rounded-full border border-forest-foreground/20 hover:bg-forest-foreground/10"
+              >
                 <I className="h-4 w-4" />
               </a>
             ))}
@@ -85,21 +105,40 @@ export function Footer() {
           <h5 className="mb-4 font-bold text-gold">روابط مفيدة</h5>
           <ul className="space-y-2 text-sm opacity-85">
             {NAV.map((n) => (
-              <li key={n.to}><Link to={n.to} className="hover:text-gold">{n.label}</Link></li>
+              <li key={n.to}>
+                <Link to={n.to} className="hover:text-gold">
+                  {n.label}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
         <div>
           <h5 className="mb-4 font-bold text-gold">تواصل معنا</h5>
           <ul className="space-y-3 text-sm opacity-85">
-            <li><Link to="/contact" className="hover:text-gold">نموذج التواصل</Link></li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@yourcompany.example.com</li>
-            <li className="flex items-center gap-2" dir="ltr"><Phone className="h-4 w-4" /> +1 555-555-5556</li>
+            <li>
+              <Link to="/contact" className="hover:text-gold">
+                نموذج التواصل
+              </Link>
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              <a href={`mailto:${email}`} className="hover:text-gold" dir="ltr">
+                {email}
+              </a>
+            </li>
+            <li className="flex items-center gap-2" dir="ltr">
+              <Phone className="h-4 w-4" />
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-gold">
+                {phone}
+              </a>
+            </li>
+            {settings?.address ? <li className="opacity-85">{settings.address}</li> : null}
           </ul>
         </div>
       </div>
       <div className="border-t border-forest-foreground/10 py-5 text-center text-sm opacity-70">
-        © {new Date().getFullYear()} Solala — جميع الحقوق محفوظة
+        © {new Date().getFullYear()} {siteName} — جميع الحقوق محفوظة
       </div>
     </footer>
   );
