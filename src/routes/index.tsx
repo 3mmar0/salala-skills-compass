@@ -3,6 +3,7 @@ import { ArrowLeft, GraduationCap, Users, Lightbulb, Zap, MapPin, CalendarClock,
 import hero from "@/assets/hero.jpg";
 import fields from "@/assets/fields.jpg";
 import { SectionHead, ExpertCard, CtaBand, Wave, Particles, Stats, WavyBg, FloatsBg } from "@/components/site/Layout";
+import { SolalaPlusFloat } from "@/components/site/SolalaPlusFloat";
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/")({
@@ -44,6 +45,7 @@ function Index() {
         <div className="animate-blob absolute right-0 bottom-20 h-[28rem] w-[28rem] bg-primary/40 blur-3xl [animation-delay:-5s]" />
         <Particles n={20} />
         <Wave />
+        <SolalaPlusFloat />
         <div className="container-site relative flex min-h-[88vh] flex-col justify-end pb-40">
           <span className="animate-fade-up w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">منصـــة Solala</span>
           <h1 className="animate-fade-up delay-1 mt-5 max-w-4xl text-5xl font-bold leading-tight md:text-7xl">
