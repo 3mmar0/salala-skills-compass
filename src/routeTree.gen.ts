@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as EntrepreneurshipRouteImport } from './routes/entrepreneurship'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as LandscapeRouteImport } from './routes/landscape'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
@@ -65,6 +66,11 @@ const EntrepreneurshipRoute = EntrepreneurshipRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LandscapeRoute = LandscapeRouteImport.update({
+  id: '/landscape',
+  path: '/landscape',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/courses': typeof CoursesRouteWithChildren
   '/entrepreneurship': typeof EntrepreneurshipRoute
   '/faq': typeof FaqRoute
+  '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/entrepreneurship': typeof EntrepreneurshipRoute
   '/faq': typeof FaqRoute
+  '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/courses': typeof CoursesRouteWithChildren
   '/entrepreneurship': typeof EntrepreneurshipRoute
   '/faq': typeof FaqRoute
+  '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/entrepreneurship'
     | '/faq'
+    | '/landscape'
     | '/library'
     | '/policies'
     | '/courses/$slug'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/entrepreneurship'
     | '/faq'
+    | '/landscape'
     | '/library'
     | '/policies'
     | '/courses/$slug'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/entrepreneurship'
     | '/faq'
+    | '/landscape'
     | '/library'
     | '/policies'
     | '/courses/$slug'
@@ -240,6 +252,7 @@ export interface RootRouteChildren {
   CoursesRoute: typeof CoursesRouteWithChildren
   EntrepreneurshipRoute: typeof EntrepreneurshipRoute
   FaqRoute: typeof FaqRoute
+  LandscapeRoute: typeof LandscapeRoute
   LibraryRoute: typeof LibraryRoute
   PoliciesRoute: typeof PoliciesRoute
 }
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/landscape': {
+      id: '/landscape'
+      path: '/landscape'
+      fullPath: '/landscape'
+      preLoaderRoute: typeof LandscapeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -412,6 +432,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesRoute: CoursesRouteWithChildren,
   EntrepreneurshipRoute: EntrepreneurshipRoute,
   FaqRoute: FaqRoute,
+  LandscapeRoute: LandscapeRoute,
   LibraryRoute: LibraryRoute,
   PoliciesRoute: PoliciesRoute,
 }
