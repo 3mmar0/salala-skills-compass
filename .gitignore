@@ -16,6 +16,9 @@ dist-ssr
 .nitro
 *.local
 
+# Local course registration submissions
+.data/
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

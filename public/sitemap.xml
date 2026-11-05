@@ -3,6 +3,18 @@
   <url><loc>https://solalaa.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://solalaa.com/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://solalaa.com/courses</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://solalaa.com/courses/animal-livestock</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://solalaa.com/courses/animal-livestock/animal</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://solalaa.com/courses/animal-livestock/poultry</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://solalaa.com/courses/animal-livestock/fish</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://solalaa.com/courses/plant-production</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://solalaa.com/courses/plant-protection</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+  <url><loc>https://solalaa.com/courses/food-processing</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+  <url><loc>https://solalaa.com/courses/agricultural-engineering</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+  <url><loc>https://solalaa.com/courses/land-water</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+  <url><loc>https://solalaa.com/courses/biotechnology</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+  <url><loc>https://solalaa.com/courses/economics-management</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+  <url><loc>https://solalaa.com/breed-innovation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://solalaa.com/consulting</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://solalaa.com/entrepreneurship</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://solalaa.com/library</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>

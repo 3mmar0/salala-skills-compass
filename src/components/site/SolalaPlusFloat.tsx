@@ -1,5 +1,4 @@
-const BREED_INNOVATION_HREF =
-  "https://businessburg30odoocom.odoo.com/%D9%85%D8%B1%D9%83%D8%B2-%D8%A7%D8%A8%D8%AA%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%84%D8%A7%D8%AA";
+import { Link } from "@tanstack/react-router";
 
 export function SolalaPlusFloat() {
   return (
@@ -7,10 +6,8 @@ export function SolalaPlusFloat() {
       className="pointer-events-auto absolute z-10 hidden md:block"
       style={{ top: 24, left: 25 }}
     >
-      <a
-        href={BREED_INNOVATION_HREF}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        to="/breed-innovation"
         className="flex flex-col items-center no-underline transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
         title="انتقل إلى مركز ابتكار السلالات"
       >
@@ -89,7 +86,7 @@ export function SolalaPlusFloat() {
         >
           +Solala plus🧬
         </span>
-      </a>
+      </Link>
     </div>
   );
 }

@@ -1,54 +1,82 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Search, ArrowLeft } from "lucide-react";
 import { Particles, WavyBg } from "@/components/site/Layout";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { CategoryCard } from "@/components/site/CourseCards";
+import { courseCategories } from "@/data/courses";
 import { meta } from "@/lib/meta";
 import courseHero from "@/assets/h-courses.jpg";
 
 export const Route = createFileRoute("/courses")({
-  head: () => meta("الدورات والتدريبات", "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها.", "/courses"),
+  head: () =>
+    meta(
+      "الدورات والتدريبات",
+      "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها.",
+      "/courses",
+    ),
   component: Courses,
 });
 
-const featured = [
-  { img: courseHero, t: "الإنتاج الحيواني والداجني والسمكي", d: "برامج تدريبية متقدمة في رعاية وتغذية وإدارة قطعان الإنتاج الحيواني والداجني والاستزراع السمكي." },
-  { img: courseHero, t: "الإنتاج النباتي (محاصيل - خضر - فاكهة - زينة)", d: "تقنيات الزراعة الحديثة، البيوت المحمية، وإدارة المحاصيل الاستراتيجية والبستانية بكفاءة عالية." },
-];
-const others = [
-  { img: courseHero, t: "وقاية نبات (أمراض النبات - الحشرات - المبيدات)" },
-  { img: courseHero, t: "التصنيع الغذائي (ألبان - صناعات غذائية)" },
-  { img: courseHero, t: "الهندسة الزراعية" },
-  { img: courseHero, t: "الأراضي والمياه" },
-  { img: courseHero, t: "التكنولوجيا الحيوية (وراثة - ميكروبيولوجي)" },
-  { img: courseHero, t: "اقتصاديات وإدارة المشاريع" },
-];
-
 function Courses() {
   const [q, setQ] = useState("");
-  const match = (t: string) => t.includes(q.trim());
-  const f = featured.filter((x) => match(x.t + x.d));
-  const o = others.filter((x) => match(x.t));
+  const query = q.trim();
+  const featured = useMemo(
+    () =>
+      courseCategories.filter((c) => c.featured && `${c.title} ${c.description}`.includes(query)),
+    [query],
+  );
+  const others = useMemo(
+    () =>
+      courseCategories.filter((c) => !c.featured && `${c.title} ${c.description}`.includes(query)),
+    [query],
+  );
+
   return (
     <>
       <section className="relative overflow-hidden text-forest-foreground">
-        <img src={courseHero} alt="مزارع يستخدم جهازاً لوحياً في الحقل" className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={courseHero}
+          alt="مزارع يستخدم جهازاً لوحياً في الحقل"
+          width={1600}
+          height={1008}
+          className="animate-ken-burns absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-forest/70" />
         <Particles />
         <div className="container-site relative flex flex-col items-center py-28 text-center md:py-36">
-          <span dir="ltr" className="logo-hero animate-fade-up text-6xl md:text-8xl">Solala</span>
-          <h1 className="animate-fade-up delay-1 mt-2 text-4xl font-bold md:text-6xl">وجهتك الرئيسية دائما</h1>
-          <p className="animate-fade-up delay-2 mt-4 text-lg opacity-80">اختر مجالك التخصصي وابدأ رحلتك</p>
+          <span dir="ltr" className="logo-hero animate-fade-up text-6xl md:text-8xl">
+            Solala
+          </span>
+          <h1 className="animate-fade-up delay-1 mt-2 text-4xl font-bold md:text-6xl">
+            وجهتك الرئيسية دائما
+          </h1>
+          <p className="animate-fade-up delay-2 mt-4 text-lg opacity-80">
+            اختر مجالك التخصصي وابدأ رحلتك
+          </p>
           <label className="animate-fade-up delay-3 mt-8 flex w-full max-w-xl items-center gap-2 rounded-xl bg-card px-4 py-3 text-foreground shadow-soft">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ابحث عن مجال..." className="w-full bg-transparent outline-none" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="ابحث عن مجال..."
+              className="w-full bg-transparent outline-none"
+              aria-label="ابحث عن مجال تدريبي"
+            />
             <Search className="h-5 w-5 text-muted-foreground" />
           </label>
         </div>
-        <svg className="absolute bottom-0 left-0 h-16 w-full fill-background md:h-24" viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <svg
+          className="absolute bottom-0 left-0 h-16 w-full fill-background md:h-24"
+          viewBox="0 0 1440 100"
+          preserveAspectRatio="none"
+        >
           <path d="M0,100 C360,0 1080,0 1440,100 Z" />
         </svg>
       </section>
 
-      <section className="relative isolate overflow-hidden py-24">
+      <Breadcrumbs items={[{ label: "الرئيسية", to: "/" }, { label: "الدورات والتدريبات" }]} />
+
+      <section className="relative isolate overflow-hidden py-16 md:py-24">
         <WavyBg />
         <div className="container-site relative">
           <div className="mb-14 text-center">
@@ -57,37 +85,42 @@ function Courses() {
             <p className="mt-3 text-muted-foreground">اختر تخصصك وابدأ رحلتك..</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
-            {f.map((x) => (
-              <div key={x.t} className="card-fx reveal flex flex-col items-center rounded-3xl border-2 border-gold bg-card/95 p-7 text-center shadow-soft backdrop-blur">
-                <img src={x.img} alt={x.t} loading="lazy" className="img-ring h-36 w-36 object-cover transition duration-500 hover:scale-110" />
-                <h3 className="mt-5 text-xl font-bold text-primary md:text-2xl">{x.t}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{x.d}</p>
-                <Link to="/contact" className="btn-primary mt-6 w-full justify-center">عرض التفاصيل <ArrowLeft className="h-4 w-4" /></Link>
-              </div>
+            {featured.map((c) => (
+              <CategoryCard key={c.slug} category={c} featured />
             ))}
           </div>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {o.map((x) => (
-              <div key={x.t} className="card-fx reveal flex flex-col items-center rounded-3xl border bg-card/95 p-5 text-center shadow-soft backdrop-blur">
-                <img src={x.img} alt={x.t} loading="lazy" className="img-ring h-24 w-24 object-cover transition duration-500 hover:scale-110" />
-                <h4 className="mt-4 flex-1 text-lg font-bold text-primary">{x.t}</h4>
-                <Link to="/contact" className="mt-4 flex w-full items-center justify-center gap-1 rounded-full bg-muted py-2 text-xs font-semibold text-foreground transition hover:bg-primary hover:text-primary-foreground">عرض التفاصيل <ArrowLeft className="h-3 w-3" /></Link>
-              </div>
+            {others.map((c) => (
+              <CategoryCard key={c.slug} category={c} />
             ))}
           </div>
-          {f.length + o.length === 0 && <p className="text-center text-muted-foreground">لا توجد نتائج مطابقة.</p>}
+          {featured.length + others.length === 0 && (
+            <p className="text-center text-muted-foreground">لا توجد نتائج مطابقة.</p>
+          )}
         </div>
       </section>
 
       <section className="relative overflow-hidden bg-muted">
-        <div className="absolute left-1/2 top-10 h-72 w-72 rounded-full bg-gold/15 blur-3xl animate-blob" />
+        <div className="absolute left-1/2 top-10 h-72 w-72 animate-blob rounded-full bg-gold/15 blur-3xl" />
         <div className="container-site relative grid items-end gap-8 md:grid-cols-[1fr_40%]">
           <div className="reveal py-20 text-center">
-            <h3 className="text-3xl font-bold text-primary md:text-5xl md:leading-tight">هل تبحث عن تدريب مخصص لمزرعتك أو شركتك؟</h3>
-            <p className="mt-5 leading-8 text-foreground/80">نوفر حقائب تدريبية واستشارات ميدانية مصممة خصيصاً لتلبية متطلبات الشركات والمزارع الخاصة وفرق العمل الزراعي.</p>
-            <Link to="/contact" className="btn-primary mt-8 rounded-xl px-10 py-4">طلب استشارة أو تدريب مخصص</Link>
+            <h3 className="text-3xl font-bold text-primary md:text-5xl md:leading-tight">
+              هل تبحث عن تدريب مخصص لمزرعتك أو شركتك؟
+            </h3>
+            <p className="mt-5 leading-8 text-foreground/80">
+              نوفر حقائب تدريبية واستشارات ميدانية مصممة خصيصاً لتلبية متطلبات الشركات والمزارع
+              الخاصة وفرق العمل الزراعي.
+            </p>
+            <Link to="/contact" className="btn-primary mt-8 rounded-xl px-10 py-4">
+              طلب استشارة أو تدريب مخصص <ArrowLeft className="h-4 w-4" />
+            </Link>
           </div>
-          <img src="/shapes/nature.svg" alt="" aria-hidden className="hidden h-72 w-full object-contain object-bottom md:block" />
+          <img
+            src="/shapes/nature.svg"
+            alt=""
+            aria-hidden
+            className="hidden h-72 w-full object-contain object-bottom md:block"
+          />
         </div>
       </section>
     </>

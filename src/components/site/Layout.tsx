@@ -7,6 +7,7 @@ export const NAV = [
   { to: "/about", label: "عن سلالة" },
   { to: "/courses", label: "الدورات والتدريبات" },
   { to: "/consulting", label: "الاستشارات" },
+  { to: "/breed-innovation", label: "مركز ابتكار السلالات" },
   { to: "/entrepreneurship", label: "ريادة الأعمال والمشاريع" },
   { to: "/library", label: "المكتبة" },
   { to: "/faq", label: "الأسئلة الشائعة" },
