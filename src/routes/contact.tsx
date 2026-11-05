@@ -6,7 +6,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-contact.jpg";
 
 export const Route = createFileRoute("/contact")({
-  head: () => meta("تواصل معنا", "تواصل مع فريق سلالة لطلب دورة تدريبية أو استشارة أو دعم مشروعك."),
+  head: () => meta("تواصل معنا", "تواصل مع فريق سلالة لطلب دورة تدريبية أو استشارة أو دعم مشروعك.", "/contact"),
   component: Contact,
 });
 

@@ -15,8 +15,12 @@ export const NAV = [
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link to="/" dir="ltr" aria-label="Solala" className="inline-block">
-      <span className={`${light ? "logo-text-light" : "logo-text"} text-3xl`}>Solala</span>
+    <Link
+      to="/"
+      aria-label="سلالة - الصفحة الرئيسية"
+      className={`inline-flex overflow-hidden rounded-xl ${light ? "bg-white p-1.5" : ""}`}
+    >
+      <img src="/solala-logo.png" alt="Solala سلالة" width={142} height={147} className="h-12 w-auto" />
     </Link>
   );
 }

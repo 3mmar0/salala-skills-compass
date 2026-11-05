@@ -3,32 +3,24 @@ import { useState } from "react";
 import { Search, ArrowLeft } from "lucide-react";
 import { Particles, WavyBg } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
-import hero from "@/assets/courses/hero.webp.asset.json";
-import animal from "@/assets/courses/animal.jpg.asset.json";
-import plant from "@/assets/courses/plant.jpg.asset.json";
-import protect from "@/assets/courses/protect.jpg.asset.json";
-import food from "@/assets/courses/food.jpg.asset.json";
-import eng from "@/assets/courses/eng.jpg.asset.json";
-import water from "@/assets/courses/water.jpg.asset.json";
-import bio from "@/assets/courses/bio.jpg.asset.json";
-import econ from "@/assets/courses/econ.jpg.asset.json";
+import courseHero from "@/assets/h-courses.jpg";
 
 export const Route = createFileRoute("/courses")({
-  head: () => meta("الدورات والتدريبات", "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها."),
+  head: () => meta("الدورات والتدريبات", "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها.", "/courses"),
   component: Courses,
 });
 
 const featured = [
-  { img: animal.url, t: "الإنتاج الحيواني والداجني والسمكي", d: "برامج تدريبية متقدمة في رعاية وتغذية وإدارة قطعان الإنتاج الحيواني والداجني والاستزراع السمكي." },
-  { img: plant.url, t: "الإنتاج النباتي (محاصيل - خضر - فاكهة - زينة)", d: "تقنيات الزراعة الحديثة، البيوت المحمية، وإدارة المحاصيل الاستراتيجية والبستانية بكفاءة عالية." },
+  { img: courseHero, t: "الإنتاج الحيواني والداجني والسمكي", d: "برامج تدريبية متقدمة في رعاية وتغذية وإدارة قطعان الإنتاج الحيواني والداجني والاستزراع السمكي." },
+  { img: courseHero, t: "الإنتاج النباتي (محاصيل - خضر - فاكهة - زينة)", d: "تقنيات الزراعة الحديثة، البيوت المحمية، وإدارة المحاصيل الاستراتيجية والبستانية بكفاءة عالية." },
 ];
 const others = [
-  { img: protect.url, t: "وقاية نبات (أمراض النبات - الحشرات - المبيدات)" },
-  { img: food.url, t: "التصنيع الغذائي (ألبان - صناعات غذائية)" },
-  { img: eng.url, t: "الهندسة الزراعية" },
-  { img: water.url, t: "الأراضي والمياه" },
-  { img: bio.url, t: "التكنولوجيا الحيوية (وراثة - ميكروبيولوجي)" },
-  { img: econ.url, t: "اقتصاديات وإدارة المشاريع" },
+  { img: courseHero, t: "وقاية نبات (أمراض النبات - الحشرات - المبيدات)" },
+  { img: courseHero, t: "التصنيع الغذائي (ألبان - صناعات غذائية)" },
+  { img: courseHero, t: "الهندسة الزراعية" },
+  { img: courseHero, t: "الأراضي والمياه" },
+  { img: courseHero, t: "التكنولوجيا الحيوية (وراثة - ميكروبيولوجي)" },
+  { img: courseHero, t: "اقتصاديات وإدارة المشاريع" },
 ];
 
 function Courses() {
@@ -39,7 +31,7 @@ function Courses() {
   return (
     <>
       <section className="relative overflow-hidden text-forest-foreground">
-        <img src={hero.url} alt="مزارع يستخدم جهازاً لوحياً في الحقل" className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
+        <img src={courseHero} alt="مزارع يستخدم جهازاً لوحياً في الحقل" className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-forest/70" />
         <Particles />
         <div className="container-site relative flex flex-col items-center py-28 text-center md:py-36">

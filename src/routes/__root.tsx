@@ -8,10 +8,9 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header, Footer } from "@/components/site/Layout";
 
 function NotFoundComponent() {
@@ -39,9 +38,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -80,11 +76,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Solala سلالة — تدريب، استشارات، ريادة أعمال" },
-      { name: "description", content: "منصة سلالة للتدريب الزراعي والاستشارات وريادة الأعمال." },
+      { name: "description", content: "سلالة منصة عربية للتدريب الزراعي والاستشارات وريادة الأعمال والمشروعات الاستثمارية." },
+      { name: "keywords", content: "سلالة, تدريب زراعي, استشارات زراعية, ريادة أعمال, مشروعات زراعية" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Solala سلالة" },
+      { property: "og:locale", content: "ar_EG" },
+      { property: "og:url", content: "https://solalaa.com/" },
+      { property: "og:image", content: "https://solalaa.com/solala-logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://solalaa.com/solala-logo.png" },
     ],
     links: [
+      { rel: "canonical", href: "https://solalaa.com/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -92,7 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/solala-logo.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -106,6 +110,20 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="ar" dir="rtl">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Solala سلالة",
+              url: "https://solalaa.com/",
+              logo: "https://solalaa.com/solala-logo.png",
+              description: "منصة عربية للتدريب الزراعي والاستشارات وريادة الأعمال.",
+              inLanguage: "ar",
+            }),
+          }}
+        />
       </head>
       <body>
         {children}

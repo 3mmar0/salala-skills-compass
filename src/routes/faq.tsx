@@ -5,7 +5,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-faq.jpg";
 
 export const Route = createFileRoute("/faq")({
-  head: () => meta("الأسئلة الشائعة", "إجابات عن أكثر الأسئلة شيوعاً حول دورات واستشارات وبرامج سلالة."),
+  head: () => meta("الأسئلة الشائعة", "إجابات عن أكثر الأسئلة شيوعاً حول دورات واستشارات وبرامج سلالة.", "/faq"),
   component: Faq,
 });
 

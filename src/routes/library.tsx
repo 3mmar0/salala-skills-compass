@@ -6,7 +6,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-library.jpg";
 
 export const Route = createFileRoute("/library")({
-  head: () => meta("المكتبة", "مكتبة سلالة: كتب وأدلة ومقالات وفيديوهات تعليمية في المجالات الزراعية."),
+  head: () => meta("المكتبة", "مكتبة سلالة: كتب وأدلة ومقالات وفيديوهات تعليمية في المجالات الزراعية.", "/library"),
   component: Library,
 });
 

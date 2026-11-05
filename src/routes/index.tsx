@@ -6,7 +6,7 @@ import { SectionHead, ExpertCard, CtaBand, Wave, Particles, Stats, WavyBg, Float
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/")({
-  head: () => meta("الرئيسية", "منصة متكاملة للتعلم والتطوير الزراعي: تدريب، استشارات، وريادة أعمال."),
+  head: () => meta("الرئيسية", "منصة متكاملة للتعلم والتطوير الزراعي: تدريب، استشارات، وريادة أعمال.", "/"),
   component: Index,
 });
 

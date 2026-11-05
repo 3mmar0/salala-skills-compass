@@ -5,7 +5,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-consulting.jpg";
 
 export const Route = createFileRoute("/consulting")({
-  head: () => meta("الاستشارات", "استشارات زراعية متخصصة للشركات والأفراد يقدمها كبار الخبراء في سلالة."),
+  head: () => meta("الاستشارات", "استشارات زراعية متخصصة للشركات والأفراد يقدمها كبار الخبراء في سلالة.", "/consulting"),
   component: Consulting,
 });
 

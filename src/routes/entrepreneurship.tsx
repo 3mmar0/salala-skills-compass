@@ -5,7 +5,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-entre.jpg";
 
 export const Route = createFileRoute("/entrepreneurship")({
-  head: () => meta("ريادة الأعمال والمشاريع", "برامج سلالة لاحتضان الأفكار وبناء وتطوير المشاريع الزراعية وربطها بالمستثمرين."),
+  head: () => meta("ريادة الأعمال والمشاريع", "برامج سلالة لاحتضان الأفكار وبناء وتطوير المشاريع الزراعية وربطها بالمستثمرين.", "/entrepreneurship"),
   component: Page,
 });
 

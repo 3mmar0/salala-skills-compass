@@ -6,7 +6,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-about.jpg";
 
 export const Route = createFileRoute("/about")({
-  head: () => meta("عن سلالة", "رؤية ورسالة وقيم منصة سلالة وفريق خبرائها من المهندسين الزراعيين."),
+  head: () => meta("عن سلالة", "رؤية ورسالة وقيم منصة سلالة وفريق خبرائها من المهندسين الزراعيين.", "/about"),
   component: About,
 });
 

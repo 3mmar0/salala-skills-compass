@@ -4,7 +4,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/h-policies.jpg";
 
 export const Route = createFileRoute("/policies")({
-  head: () => meta("السياسات والشروط", "سياسة الخصوصية وشروط الاستخدام وسياسة التسجيل والاسترداد في منصة سلالة."),
+  head: () => meta("السياسات والشروط", "سياسة الخصوصية وشروط الاستخدام وسياسة التسجيل والاسترداد في منصة سلالة.", "/policies"),
   component: Policies,
 });
 
