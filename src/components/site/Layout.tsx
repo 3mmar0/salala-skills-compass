@@ -10,8 +10,6 @@ export const NAV = [
   { to: "/breed-innovation", label: "مركز ابتكار السلالات" },
   { to: "/entrepreneurship", label: "ريادة الأعمال والمشاريع" },
   { to: "/library", label: "المكتبة" },
-  { to: "/faq", label: "الأسئلة الشائعة" },
-  { to: "/policies", label: "السياسات والشروط" },
 ] as const;
 
 function Logo({ light = false }: { light?: boolean }) {
