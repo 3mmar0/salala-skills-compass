@@ -275,3 +275,24 @@
   stroke: #164B29;
   stroke-width: 1.5;
 }
+
+/* ---------- Admin live preview (site rendered inside the editor frame) ---------- */
+[data-cms-preview] [data-cms-section] { position: relative; cursor: pointer; }
+[data-cms-preview] [data-cms-section]::after {
+  content: ""; position: absolute; inset: 0; z-index: 40; pointer-events: none;
+  outline: 2px dashed transparent; outline-offset: -3px; transition: outline-color .15s, background-color .15s;
+}
+[data-cms-preview] [data-cms-section]::before {
+  content: attr(data-cms-label); position: absolute; top: 10px; inset-inline-start: 10px; z-index: 41;
+  pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity .15s, transform .15s;
+  border-radius: 999px; padding: 4px 12px; font: 600 12px/1.4 var(--font-sans);
+  background: var(--gold); color: var(--accent-foreground); box-shadow: var(--shadow-soft);
+}
+[data-cms-preview] [data-cms-section]:hover::after { outline-color: var(--gold); }
+[data-cms-preview] [data-cms-section]:hover::before,
+[data-cms-preview] [data-cms-section][data-cms-active]::before { opacity: 1; transform: none; }
+[data-cms-preview] [data-cms-section][data-cms-active]::after {
+  outline: 3px solid var(--gold); background-color: color-mix(in oklab, var(--gold) 7%, transparent);
+}
+[data-cms-preview] [data-cms-section][data-cms-hidden] > * { opacity: .35; filter: grayscale(.6); }
+[data-cms-preview] [data-cms-section][data-cms-hidden]::before { opacity: 1; transform: none; background: var(--muted); color: var(--muted-foreground); }

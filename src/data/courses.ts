@@ -1,4 +1,3 @@
-import type { StaticImageData } from "react";
 import courseHero from "@/assets/h-courses.jpg";
 import animalHubImg from "@/assets/courses/animal-hub.jpg";
 import animalCourse1 from "@/assets/courses/animal-course-1.jpg";
@@ -18,14 +17,14 @@ export type CourseProgram = {
   trainer: string;
   hours: string;
   modules: CourseModule[];
-  image: string | StaticImageData;
+  image: string;
 };
 
 export type CourseBranch = {
   slug: string;
   title: string;
   description: string;
-  image: string | StaticImageData;
+  image: string;
   /** When false, only the short description from the reference hub is available. */
   detailAvailable: boolean;
   programs?: CourseProgram[];
@@ -40,7 +39,7 @@ export type CourseCategory = {
   shortTitle?: string;
   description: string;
   featured?: boolean;
-  image: string | StaticImageData;
+  image: string;
   /** Full nested content exists in the reference site */
   detailAvailable: boolean;
   path: string;

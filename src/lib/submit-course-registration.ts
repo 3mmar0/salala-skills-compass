@@ -5,7 +5,7 @@ export const submitCourseRegistration = createServerFn({ method: "POST" })
   .validator(courseRegistrationSchema)
   .handler(async ({ data }) => {
     const record = { ...data, receivedAt: new Date().toISOString() };
-    const webhook = process.env.REGISTRATION_WEBHOOK_URL;
+    const webhook = process.env["REGISTRATION_WEBHOOK_URL"];
 
     if (webhook) {
       const res = await fetch(webhook, {

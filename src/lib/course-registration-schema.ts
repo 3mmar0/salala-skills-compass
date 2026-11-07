@@ -44,3 +44,4 @@ export const courseRegistrationSchema = z
   });
 
 export type CourseRegistrationInput = z.infer<typeof courseRegistrationSchema>;
+export type CourseRegistrationFormValues = z.input<typeof courseRegistrationSchema>;

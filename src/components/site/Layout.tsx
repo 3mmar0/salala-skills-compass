@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
 import { useCmsOptional } from "@/lib/cms/CmsProvider";
+import { CmsLink } from "@/components/cms/CmsLink";
 
 export const NAV = [
   { to: "/", label: "الرئيسية" },
@@ -204,21 +205,22 @@ export function SectionHead({ eyebrow, title, desc }: { eyebrow?: string; title:
   );
 }
 
-export function Stats() {
-  const items = [
-    { n: 5000, s: "+", l: "متدرب ومتدربة" },
-    { n: 120, s: "+", l: "برنامج تدريبي" },
-    { n: 350, s: "+", l: "استشارة منجزة" },
-    { n: 40, s: "+", l: "خبير ومستشار" },
-  ];
+const DEFAULT_STATS = [
+  { value: "5000", suffix: "+", label: "متدرب ومتدربة" },
+  { value: "120", suffix: "+", label: "برنامج تدريبي" },
+  { value: "350", suffix: "+", label: "استشارة منجزة" },
+  { value: "40", suffix: "+", label: "خبير ومستشار" },
+];
+
+export function Stats({ items = DEFAULT_STATS }: { items?: { value: string; suffix: string; label: string }[] }) {
   return (
     <section className="bg-forest-gradient relative overflow-hidden py-16 text-forest-foreground">
       <Particles n={10} />
       <div className="container-site relative grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-        {items.map((i) => (
-          <div key={i.l} className="reveal">
-            <Counter to={i.n} suffix={i.s} />
-            <p className="mt-2 opacity-80">{i.l}</p>
+        {items.map((i, index) => (
+          <div key={`${i.label}-${index}`} className="reveal">
+            <Counter to={Number(String(i.value).replace(/[^\d.]/g, "")) || 0} suffix={i.suffix} />
+            <p className="mt-2 opacity-80">{i.label}</p>
           </div>
         ))}
       </div>
@@ -249,13 +251,17 @@ function Counter({ to, suffix }: { to: number; suffix: string }) {
   return <span ref={ref} className="font-display text-4xl font-bold text-gold md:text-5xl">{v.toLocaleString("ar-EG")}{suffix}</span>;
 }
 
-export function ExpertCard({ name, role, bio, note }: { name: string; role: string; bio: string; note?: string }) {
+export function ExpertCard({ name, role, bio, note, image }: { name: string; role: string; bio: string; note?: string | undefined; image?: string | undefined }) {
   const initials = name.replace(/^(د\.|م\.)\s*/, "").split(" ").map((w) => w[0]).slice(0, 2).join(" ");
   return (
     <div className="group card-fx reveal rounded-2xl border bg-card p-6 shadow-soft">
-      <div className="grid h-16 w-16 place-items-center rounded-2xl bg-secondary font-display text-xl font-bold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
-        {initials}
-      </div>
+      {image ? (
+        <img src={image} alt={name} loading="lazy" className="h-16 w-16 rounded-2xl object-cover" />
+      ) : (
+        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-secondary font-display text-xl font-bold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
+          {initials}
+        </div>
+      )}
       <h4 className="mt-5 text-lg font-bold text-forest">{name}</h4>
       <p className="text-sm font-medium text-primary">{role}</p>
       <p className="mt-3 text-sm leading-7 text-muted-foreground">{bio}</p>
@@ -264,7 +270,7 @@ export function ExpertCard({ name, role, bio, note }: { name: string; role: stri
   );
 }
 
-export function CtaBand({ title, desc, to = "/contact", label }: { title: string; desc: string; to?: "/contact" | "/consulting"; label: string }) {
+export function CtaBand({ title, desc, to = "/contact", label }: { title: string; desc: string; to?: string; label: string }) {
   return (
     <section className="container-site py-20">
       <div className="bg-forest-gradient relative overflow-hidden reveal rounded-3xl p-10 text-center text-forest-foreground md:p-16">
@@ -272,7 +278,7 @@ export function CtaBand({ title, desc, to = "/contact", label }: { title: string
         <div className="animate-blob absolute -right-16 -top-16 h-56 w-56 bg-gold/20 blur-3xl" />
         <h3 className="text-2xl font-bold md:text-4xl">{title}</h3>
         <p className="mx-auto mt-4 max-w-2xl leading-8 opacity-85">{desc}</p>
-        <Link to={to} className="btn-gold btn-glow mt-8">{label}</Link>
+        {label ? <CmsLink href={to} className="btn-gold btn-glow mt-8">{label}</CmsLink> : null}
       </div>
     </section>
   );

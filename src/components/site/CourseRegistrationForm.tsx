@@ -13,6 +13,7 @@ import {
 import {
   courseRegistrationSchema,
   type CourseRegistrationInput,
+  type CourseRegistrationFormValues,
 } from "@/lib/course-registration-schema";
 import { submitCourseRegistration } from "@/lib/submit-course-registration";
 import { adminApi } from "@/lib/cms/client-store";
@@ -47,13 +48,12 @@ export function CourseRegistrationForm({
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<CourseRegistrationInput>({
+  } = useForm<CourseRegistrationFormValues, unknown, CourseRegistrationInput>({
     resolver: zodResolver(courseRegistrationSchema),
     defaultValues: {
       track,
       courseTitle: defaultCourseTitle,
       country: "",
-      status: undefined,
       schedule: "",
       governorate: "",
       university: "",

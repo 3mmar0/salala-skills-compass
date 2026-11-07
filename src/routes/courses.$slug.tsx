@@ -23,7 +23,7 @@ function CategoryPage() {
       <PageHero
         image={cat.image || courseHero}
         eyebrow="مجالات التدريب"
-        title={cat.shortTitle ?? cat.title}
+        title={cat.title}
         subtitle={cat.description}
       />
       <Breadcrumbs
