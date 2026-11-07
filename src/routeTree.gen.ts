@@ -22,17 +22,18 @@ import { Route as LandscapeRouteImport } from './routes/landscape'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
-import { Route as AdminSectionsRouteImport } from './routes/admin.sections'
+import { Route as AdminRegistrationsRouteImport } from './routes/admin.registrations'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as CoursesAnimalLivestockRouteImport } from './routes/courses.animal-livestock'
+import { Route as AdminPagesPageSlugRouteImport } from './routes/admin.pages.$pageSlug'
+import { Route as CoursesCategorySpecialtyRouteImport } from './routes/courses.$category.$specialty'
 import { Route as CoursesAnimalLivestockIndexRouteImport } from './routes/courses.animal-livestock.index'
-import { Route as CoursesAnimalLivestockAnimalRouteImport } from './routes/courses.animal-livestock.animal'
-import { Route as CoursesAnimalLivestockFishRouteImport } from './routes/courses.animal-livestock.fish'
-import { Route as CoursesAnimalLivestockPoultryRouteImport } from './routes/courses.animal-livestock.poultry'
+import { Route as CoursesCategorySpecialtyCourseRouteImport } from './routes/courses.$category.$specialty.$course'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -99,6 +100,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCoursesRoute = AdminCoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -109,9 +115,9 @@ const AdminPagesRoute = AdminPagesRouteImport.update({
   path: '/pages',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminSectionsRoute = AdminSectionsRouteImport.update({
-  id: '/sections',
-  path: '/sections',
+const AdminRegistrationsRoute = AdminRegistrationsRouteImport.update({
+  id: '/registrations',
+  path: '/registrations',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
@@ -134,29 +140,28 @@ const CoursesAnimalLivestockRoute = CoursesAnimalLivestockRouteImport.update({
   path: '/animal-livestock',
   getParentRoute: () => CoursesRoute,
 } as any)
+const AdminPagesPageSlugRoute = AdminPagesPageSlugRouteImport.update({
+  id: '/$pageSlug',
+  path: '/$pageSlug',
+  getParentRoute: () => AdminPagesRoute,
+} as any)
+const CoursesCategorySpecialtyRoute =
+  CoursesCategorySpecialtyRouteImport.update({
+    id: '/$category/$specialty',
+    path: '/$category/$specialty',
+    getParentRoute: () => CoursesRoute,
+  } as any)
 const CoursesAnimalLivestockIndexRoute =
   CoursesAnimalLivestockIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => CoursesAnimalLivestockRoute,
   } as any)
-const CoursesAnimalLivestockAnimalRoute =
-  CoursesAnimalLivestockAnimalRouteImport.update({
-    id: '/animal',
-    path: '/animal',
-    getParentRoute: () => CoursesAnimalLivestockRoute,
-  } as any)
-const CoursesAnimalLivestockFishRoute =
-  CoursesAnimalLivestockFishRouteImport.update({
-    id: '/fish',
-    path: '/fish',
-    getParentRoute: () => CoursesAnimalLivestockRoute,
-  } as any)
-const CoursesAnimalLivestockPoultryRoute =
-  CoursesAnimalLivestockPoultryRouteImport.update({
-    id: '/poultry',
-    path: '/poultry',
-    getParentRoute: () => CoursesAnimalLivestockRoute,
+const CoursesCategorySpecialtyCourseRoute =
+  CoursesCategorySpecialtyCourseRouteImport.update({
+    id: '/$course',
+    path: '/$course',
+    getParentRoute: () => CoursesCategorySpecialtyRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -172,18 +177,19 @@ export interface FileRoutesByFullPath {
   '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
-  '/admin/pages': typeof AdminPagesRoute
-  '/admin/sections': typeof AdminSectionsRoute
+  '/admin/pages': typeof AdminPagesRouteWithChildren
+  '/admin/registrations': typeof AdminRegistrationsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses/animal-livestock': typeof CoursesAnimalLivestockRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
-  '/courses/animal-livestock/animal': typeof CoursesAnimalLivestockAnimalRoute
-  '/courses/animal-livestock/fish': typeof CoursesAnimalLivestockFishRoute
-  '/courses/animal-livestock/poultry': typeof CoursesAnimalLivestockPoultryRoute
+  '/admin/pages/$pageSlug': typeof AdminPagesPageSlugRoute
+  '/courses/$category/$specialty': typeof CoursesCategorySpecialtyRouteWithChildren
   '/courses/animal-livestock/': typeof CoursesAnimalLivestockIndexRoute
+  '/courses/$category/$specialty/$course': typeof CoursesCategorySpecialtyCourseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -196,17 +202,18 @@ export interface FileRoutesByTo {
   '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
-  '/admin/pages': typeof AdminPagesRoute
-  '/admin/sections': typeof AdminSectionsRoute
+  '/admin/pages': typeof AdminPagesRouteWithChildren
+  '/admin/registrations': typeof AdminRegistrationsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/courses': typeof CoursesIndexRoute
-  '/courses/animal-livestock/animal': typeof CoursesAnimalLivestockAnimalRoute
-  '/courses/animal-livestock/fish': typeof CoursesAnimalLivestockFishRoute
-  '/courses/animal-livestock/poultry': typeof CoursesAnimalLivestockPoultryRoute
+  '/admin/pages/$pageSlug': typeof AdminPagesPageSlugRoute
+  '/courses/$category/$specialty': typeof CoursesCategorySpecialtyRouteWithChildren
   '/courses/animal-livestock': typeof CoursesAnimalLivestockIndexRoute
+  '/courses/$category/$specialty/$course': typeof CoursesCategorySpecialtyCourseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -222,18 +229,19 @@ export interface FileRoutesById {
   '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
-  '/admin/pages': typeof AdminPagesRoute
-  '/admin/sections': typeof AdminSectionsRoute
+  '/admin/pages': typeof AdminPagesRouteWithChildren
+  '/admin/registrations': typeof AdminRegistrationsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses/animal-livestock': typeof CoursesAnimalLivestockRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
-  '/courses/animal-livestock/animal': typeof CoursesAnimalLivestockAnimalRoute
-  '/courses/animal-livestock/fish': typeof CoursesAnimalLivestockFishRoute
-  '/courses/animal-livestock/poultry': typeof CoursesAnimalLivestockPoultryRoute
+  '/admin/pages/$pageSlug': typeof AdminPagesPageSlugRoute
+  '/courses/$category/$specialty': typeof CoursesCategorySpecialtyRouteWithChildren
   '/courses/animal-livestock/': typeof CoursesAnimalLivestockIndexRoute
+  '/courses/$category/$specialty/$course': typeof CoursesCategorySpecialtyCourseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -250,18 +258,19 @@ export interface FileRouteTypes {
     | '/landscape'
     | '/library'
     | '/policies'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/pages'
-    | '/admin/sections'
+    | '/admin/registrations'
     | '/admin/settings'
     | '/courses/$slug'
     | '/courses/animal-livestock'
     | '/admin/'
     | '/courses/'
-    | '/courses/animal-livestock/animal'
-    | '/courses/animal-livestock/fish'
-    | '/courses/animal-livestock/poultry'
+    | '/admin/pages/$pageSlug'
+    | '/courses/$category/$specialty'
     | '/courses/animal-livestock/'
+    | '/courses/$category/$specialty/$course'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -274,17 +283,18 @@ export interface FileRouteTypes {
     | '/landscape'
     | '/library'
     | '/policies'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/pages'
-    | '/admin/sections'
+    | '/admin/registrations'
     | '/admin/settings'
     | '/courses/$slug'
     | '/admin'
     | '/courses'
-    | '/courses/animal-livestock/animal'
-    | '/courses/animal-livestock/fish'
-    | '/courses/animal-livestock/poultry'
+    | '/admin/pages/$pageSlug'
+    | '/courses/$category/$specialty'
     | '/courses/animal-livestock'
+    | '/courses/$category/$specialty/$course'
   id:
     | '__root__'
     | '/'
@@ -299,18 +309,19 @@ export interface FileRouteTypes {
     | '/landscape'
     | '/library'
     | '/policies'
+    | '/admin/courses'
     | '/admin/login'
     | '/admin/pages'
-    | '/admin/sections'
+    | '/admin/registrations'
     | '/admin/settings'
     | '/courses/$slug'
     | '/courses/animal-livestock'
     | '/admin/'
     | '/courses/'
-    | '/courses/animal-livestock/animal'
-    | '/courses/animal-livestock/fish'
-    | '/courses/animal-livestock/poultry'
+    | '/admin/pages/$pageSlug'
+    | '/courses/$category/$specialty'
     | '/courses/animal-livestock/'
+    | '/courses/$category/$specialty/$course'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -421,6 +432,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/courses': {
+      id: '/admin/courses'
+      path: '/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminCoursesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -435,11 +453,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPagesRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/sections': {
-      id: '/admin/sections'
-      path: '/sections'
-      fullPath: '/admin/sections'
-      preLoaderRoute: typeof AdminSectionsRouteImport
+    '/admin/registrations': {
+      id: '/admin/registrations'
+      path: '/registrations'
+      fullPath: '/admin/registrations'
+      preLoaderRoute: typeof AdminRegistrationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/settings': {
@@ -470,6 +488,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesAnimalLivestockRouteImport
       parentRoute: typeof CoursesRoute
     }
+    '/admin/pages/$pageSlug': {
+      id: '/admin/pages/$pageSlug'
+      path: '/$pageSlug'
+      fullPath: '/admin/pages/$pageSlug'
+      preLoaderRoute: typeof AdminPagesPageSlugRouteImport
+      parentRoute: typeof AdminPagesRoute
+    }
+    '/courses/$category/$specialty': {
+      id: '/courses/$category/$specialty'
+      path: '/$category/$specialty'
+      fullPath: '/courses/$category/$specialty'
+      preLoaderRoute: typeof CoursesCategorySpecialtyRouteImport
+      parentRoute: typeof CoursesRoute
+    }
     '/courses/animal-livestock/': {
       id: '/courses/animal-livestock/'
       path: '/'
@@ -477,42 +509,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesAnimalLivestockIndexRouteImport
       parentRoute: typeof CoursesAnimalLivestockRoute
     }
-    '/courses/animal-livestock/animal': {
-      id: '/courses/animal-livestock/animal'
-      path: '/animal'
-      fullPath: '/courses/animal-livestock/animal'
-      preLoaderRoute: typeof CoursesAnimalLivestockAnimalRouteImport
-      parentRoute: typeof CoursesAnimalLivestockRoute
-    }
-    '/courses/animal-livestock/fish': {
-      id: '/courses/animal-livestock/fish'
-      path: '/fish'
-      fullPath: '/courses/animal-livestock/fish'
-      preLoaderRoute: typeof CoursesAnimalLivestockFishRouteImport
-      parentRoute: typeof CoursesAnimalLivestockRoute
-    }
-    '/courses/animal-livestock/poultry': {
-      id: '/courses/animal-livestock/poultry'
-      path: '/poultry'
-      fullPath: '/courses/animal-livestock/poultry'
-      preLoaderRoute: typeof CoursesAnimalLivestockPoultryRouteImport
-      parentRoute: typeof CoursesAnimalLivestockRoute
+    '/courses/$category/$specialty/$course': {
+      id: '/courses/$category/$specialty/$course'
+      path: '/$course'
+      fullPath: '/courses/$category/$specialty/$course'
+      preLoaderRoute: typeof CoursesCategorySpecialtyCourseRouteImport
+      parentRoute: typeof CoursesCategorySpecialtyRoute
     }
   }
 }
 
+interface AdminPagesRouteChildren {
+  AdminPagesPageSlugRoute: typeof AdminPagesPageSlugRoute
+}
+
+const AdminPagesRouteChildren: AdminPagesRouteChildren = {
+  AdminPagesPageSlugRoute: AdminPagesPageSlugRoute,
+}
+
+const AdminPagesRouteWithChildren = AdminPagesRoute._addFileChildren(
+  AdminPagesRouteChildren,
+)
+
 interface AdminRouteChildren {
+  AdminCoursesRoute: typeof AdminCoursesRoute
   AdminLoginRoute: typeof AdminLoginRoute
-  AdminPagesRoute: typeof AdminPagesRoute
-  AdminSectionsRoute: typeof AdminSectionsRoute
+  AdminPagesRoute: typeof AdminPagesRouteWithChildren
+  AdminRegistrationsRoute: typeof AdminRegistrationsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCoursesRoute: AdminCoursesRoute,
   AdminLoginRoute: AdminLoginRoute,
-  AdminPagesRoute: AdminPagesRoute,
-  AdminSectionsRoute: AdminSectionsRoute,
+  AdminPagesRoute: AdminPagesRouteWithChildren,
+  AdminRegistrationsRoute: AdminRegistrationsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -520,17 +552,11 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CoursesAnimalLivestockRouteChildren {
-  CoursesAnimalLivestockAnimalRoute: typeof CoursesAnimalLivestockAnimalRoute
-  CoursesAnimalLivestockFishRoute: typeof CoursesAnimalLivestockFishRoute
-  CoursesAnimalLivestockPoultryRoute: typeof CoursesAnimalLivestockPoultryRoute
   CoursesAnimalLivestockIndexRoute: typeof CoursesAnimalLivestockIndexRoute
 }
 
 const CoursesAnimalLivestockRouteChildren: CoursesAnimalLivestockRouteChildren =
   {
-    CoursesAnimalLivestockAnimalRoute: CoursesAnimalLivestockAnimalRoute,
-    CoursesAnimalLivestockFishRoute: CoursesAnimalLivestockFishRoute,
-    CoursesAnimalLivestockPoultryRoute: CoursesAnimalLivestockPoultryRoute,
     CoursesAnimalLivestockIndexRoute: CoursesAnimalLivestockIndexRoute,
   }
 
@@ -539,16 +565,32 @@ const CoursesAnimalLivestockRouteWithChildren =
     CoursesAnimalLivestockRouteChildren,
   )
 
+interface CoursesCategorySpecialtyRouteChildren {
+  CoursesCategorySpecialtyCourseRoute: typeof CoursesCategorySpecialtyCourseRoute
+}
+
+const CoursesCategorySpecialtyRouteChildren: CoursesCategorySpecialtyRouteChildren =
+  {
+    CoursesCategorySpecialtyCourseRoute: CoursesCategorySpecialtyCourseRoute,
+  }
+
+const CoursesCategorySpecialtyRouteWithChildren =
+  CoursesCategorySpecialtyRoute._addFileChildren(
+    CoursesCategorySpecialtyRouteChildren,
+  )
+
 interface CoursesRouteChildren {
   CoursesSlugRoute: typeof CoursesSlugRoute
   CoursesAnimalLivestockRoute: typeof CoursesAnimalLivestockRouteWithChildren
   CoursesIndexRoute: typeof CoursesIndexRoute
+  CoursesCategorySpecialtyRoute: typeof CoursesCategorySpecialtyRouteWithChildren
 }
 
 const CoursesRouteChildren: CoursesRouteChildren = {
   CoursesSlugRoute: CoursesSlugRoute,
   CoursesAnimalLivestockRoute: CoursesAnimalLivestockRouteWithChildren,
   CoursesIndexRoute: CoursesIndexRoute,
+  CoursesCategorySpecialtyRoute: CoursesCategorySpecialtyRouteWithChildren,
 }
 
 const CoursesRouteWithChildren =

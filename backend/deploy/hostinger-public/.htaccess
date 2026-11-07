@@ -1,0 +1,10 @@
+Options -Indexes
+RewriteEngine On
+
+# Keep framework source, vendor packages, secrets, and runtime data private.
+RewriteRule ^(?:app|bootstrap|config|database|resources|routes|storage|tests|vendor)(?:/|$) - [F,L,NC]
+RewriteRule ^(?:\.env|artisan|composer\.(?:json|lock)|phpunit\.xml)$ - [F,L,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]

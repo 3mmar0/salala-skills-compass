@@ -15,6 +15,7 @@ import {
   type CourseRegistrationInput,
 } from "@/lib/course-registration-schema";
 import { submitCourseRegistration } from "@/lib/submit-course-registration";
+import { adminApi } from "@/lib/cms/client-store";
 
 const field =
   "w-full rounded-xl border bg-background px-4 py-3 outline-none focus:border-primary disabled:opacity-60";
@@ -27,6 +28,7 @@ type Props = {
   courseOptions?: { value: string; label: string }[];
   title?: string;
   description?: string;
+  courseId?: number;
 };
 
 export function CourseRegistrationForm({
@@ -35,6 +37,7 @@ export function CourseRegistrationForm({
   courseOptions = animalProgramSelectOptions(),
   title = "استمارة التسجيل في دورات الإنتاج الحيواني",
   description = "اختر الكورس الذي ترغب في الالتحاق به واملأ البيانات التالية، وسيتواصل معك منسق البرنامج التدريبي لتأكيد التسجيل.",
+  courseId,
 }: Props) {
   const [done, setDone] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -78,7 +81,11 @@ export function CourseRegistrationForm({
         dial && !values.phone.trim().startsWith("+")
           ? `${dial}${values.phone.replace(/^0+/, "")}`
           : values.phone;
-      await submitCourseRegistration({ data: { ...values, phone, track } });
+      if (courseId) {
+        await adminApi("/course-registrations", { method: "POST", body: JSON.stringify({ ...values, phone, courseId }) });
+      } else {
+        await submitCourseRegistration({ data: { ...values, phone, track } });
+      }
       setDone(true);
     } catch (e) {
       console.error(e);

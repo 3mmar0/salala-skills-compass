@@ -3,19 +3,21 @@ import {
   FileText,
   LayoutDashboard,
   LogOut,
-  PanelsTopLeft,
+  GraduationCap,
+  ClipboardList,
   Settings2,
   Sprout,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { setAdminAuthed } from "@/lib/cms/client-store";
+import { logoutAdmin } from "@/lib/cms/client-store";
 import { useCms } from "@/lib/cms/CmsProvider";
 
 const NAV = [
   { to: "/admin", label: "نظرة عامة", icon: LayoutDashboard, exact: true },
   { to: "/admin/settings", label: "إعدادات الموقع", icon: Settings2 },
-  { to: "/admin/sections", label: "الأقسام", icon: PanelsTopLeft },
   { to: "/admin/pages", label: "الصفحات", icon: FileText },
+  { to: "/admin/courses", label: "كتالوج الدورات", icon: GraduationCap },
+  { to: "/admin/registrations", label: "التسجيلات", icon: ClipboardList },
 ] as const;
 
 export function AdminShell({ children, title, desc }: { children: ReactNode; title: string; desc?: string }) {
@@ -80,8 +82,8 @@ export function AdminShell({ children, title, desc }: { children: ReactNode; tit
               <button
                 type="button"
                 className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm opacity-80 hover:bg-white/5"
-                onClick={() => {
-                  setAdminAuthed(false);
+                onClick={async () => {
+                  await logoutAdmin();
                   window.location.href = "/admin/login";
                 }}
               >

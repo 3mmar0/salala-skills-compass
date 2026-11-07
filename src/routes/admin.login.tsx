@@ -1,8 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { FormEvent, useState } from "react";
 import { Sprout } from "lucide-react";
-import { setAdminAuthed } from "@/lib/cms/client-store";
-import { verifyAdminPassword } from "@/lib/cms/persist";
+import { loginAdmin } from "@/lib/cms/client-store";
 import { adminInput } from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/admin/login")({
@@ -11,6 +10,7 @@ export const Route = createFileRoute("/admin/login")({
 
 function AdminLogin() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("admin@solalaa.com");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,26 +20,10 @@ function AdminLogin() {
     setLoading(true);
     setError(null);
     try {
-      const res = await verifyAdminPassword({ data: { password } });
-      if (!res.ok) {
-        // Static hosting fallback: same default password client-side
-        const fallback = import.meta.env.VITE_ADMIN_PASSWORD || "SolalaAdmin!";
-        if (password !== fallback) {
-          setError("كلمة المرور غير صحيحة");
-          setLoading(false);
-          return;
-        }
-      }
-      setAdminAuthed(true);
+      await loginAdmin(email, password);
       navigate({ to: "/admin" });
-    } catch {
-      const fallback = import.meta.env.VITE_ADMIN_PASSWORD || "SolalaAdmin!";
-      if (password === fallback) {
-        setAdminAuthed(true);
-        navigate({ to: "/admin" });
-      } else {
-        setError("كلمة المرور غير صحيحة");
-      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "تعذر تسجيل الدخول");
     } finally {
       setLoading(false);
     }
@@ -62,6 +46,10 @@ function AdminLogin() {
             <p className="text-sm text-muted-foreground">إدارة إعدادات ومحتوى Solala</p>
           </div>
         </div>
+        <label className="mb-4 block">
+          <span className="mb-1.5 block text-sm font-medium text-forest">البريد الإلكتروني</span>
+          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={adminInput} dir="ltr" />
+        </label>
         <label className="block">
           <span className="mb-1.5 block text-sm font-medium text-forest">كلمة المرور</span>
           <input
@@ -78,9 +66,7 @@ function AdminLogin() {
         <button type="submit" className="btn-primary mt-6 w-full justify-center" disabled={loading}>
           {loading ? "جاري التحقق..." : "دخول"}
         </button>
-        <p className="mt-4 text-center text-xs text-muted-foreground">
-          الافتراضي: <span dir="ltr">SolalaAdmin!</span> — غيّرها عبر ADMIN_PASSWORD
-        </p>
+        <p className="mt-4 text-center text-xs text-muted-foreground">الدخول محمي عبر خادم Solala API.</p>
       </form>
     </div>
   );

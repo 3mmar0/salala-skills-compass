@@ -1,0 +1,11 @@
+Options -Indexes
+RewriteEngine On
+
+# Let Laravel's backend subdomain directory and all real build assets pass through unchanged.
+RewriteRule ^backend(?:/|$) - [L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Dynamic course URLs are rendered by the frontend router.
+RewriteRule ^ index.html [L]

@@ -17,17 +17,30 @@ export type CmsSectionItem = {
 };
 
 export type CmsSection = {
-  id: string;
+  id: string | number;
   key: string;
+  pageSlug?: string;
+  type?: string;
+  position?: number;
   title: string;
   subtitle: string;
   body: string;
   items: CmsSectionItem[];
   visible: boolean;
   updatedAt: string;
+  content?: {
+    title?: string;
+    subtitle?: string;
+    body?: string;
+    items?: CmsSectionItem[];
+    ctaLabel?: string;
+    ctaHref?: string;
+    image?: string;
+  };
 };
 
 export type CmsPage = {
+  id?: number;
   slug: string;
   title: string;
   description: string;
@@ -35,6 +48,7 @@ export type CmsPage = {
   heroSubtitle: string;
   published: boolean;
   updatedAt: string;
+  sections?: CmsSection[];
 };
 
 export type CmsStore = {

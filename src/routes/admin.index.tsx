@@ -1,5 +1,5 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
-import { FileText, PanelsTopLeft, Settings2, Download } from "lucide-react";
+import { FileText, Settings2, Download } from "lucide-react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { exportCmsJson, isAdminAuthed } from "@/lib/cms/client-store";
 import { useCms } from "@/lib/cms/CmsProvider";
@@ -25,10 +25,9 @@ function AdminHome() {
         <p className="text-muted-foreground">جاري تحميل البيانات...</p>
       ) : (
         <div className="space-y-8">
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2">
             {[
-              { label: "الأقسام", value: store.sections.length, to: "/admin/sections", icon: PanelsTopLeft },
-              { label: "الصفحات", value: store.pages.length, to: "/admin/pages", icon: FileText },
+              { label: "صفحات الموقع", value: store.pages.length, to: "/admin/pages", icon: FileText },
               { label: "البريد المعتمد", value: store.settings.email, to: "/admin/settings", icon: Settings2 },
             ].map((c) => (
               <Link
@@ -66,9 +65,12 @@ function AdminHome() {
             </button>
           </section>
 
-          <section className="rounded-3xl border border-dashed border-forest/20 bg-sand/40 p-6 text-sm leading-7 text-muted-foreground">
-            على استضافة Hostinger الثابتة يُحفظ المحتوى في المتصفح محلياً ويمكن تصديره. على بيئة Node يُحفظ أيضاً في{" "}
-            <code className="rounded bg-white px-1">.data/cms-store.json</code>.
+          <section className="rounded-3xl border border-gold/25 bg-gold/10 p-6 text-sm leading-7 text-forest">
+            <p className="font-display text-base font-bold">الحفظ المركزي مفعّل</p>
+            <p className="mt-2 text-forest/75">
+              تُحفظ تغييرات الصفحات والأقسام وإعدادات الموقع مباشرةً عبر Solala API في قاعدة البيانات، وتبقى النسخة
+              الاحتياطية JSON متاحة للتصدير عند الحاجة.
+            </p>
           </section>
         </div>
       )}

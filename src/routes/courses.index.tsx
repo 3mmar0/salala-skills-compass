@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search, ArrowLeft } from "lucide-react";
 import { Particles, WavyBg } from "@/components/site/Layout";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { CategoryCard } from "@/components/site/CourseCards";
-import { courseCategories } from "@/data/courses";
+import { getCatalog, type PublicCategory } from "@/lib/course-catalog";
 import { useCms } from "@/lib/cms/CmsProvider";
 import { meta } from "@/lib/meta";
 import courseHero from "@/assets/h-courses.jpg";
@@ -21,18 +20,23 @@ export const Route = createFileRoute("/courses/")({
 
 function Courses() {
   const { store } = useCms();
+  const [categories, setCategories] = useState<PublicCategory[]>([]);
+  const [catalogError, setCatalogError] = useState(false);
+  useEffect(() => {
+    void getCatalog().then((data) => setCategories(data.categories)).catch(() => setCatalogError(true));
+  }, []);
   const customTraining = store.sections.find((s) => s.key === "courses.customTraining");
   const showCustomTraining = !customTraining || customTraining.visible;
   const page = store.pages.find((p) => p.slug === "/courses");
   const [q, setQ] = useState("");
   const query = q.trim();
   const featured = useMemo(
-    () => courseCategories.filter((c) => c.featured && `${c.title} ${c.description}`.includes(query)),
-    [query],
+    () => categories.filter((c, index) => index < 2 && `${c.title} ${c.description}`.includes(query)),
+    [categories, query],
   );
   const others = useMemo(
-    () => courseCategories.filter((c) => !c.featured && `${c.title} ${c.description}`.includes(query)),
-    [query],
+    () => categories.filter((c, index) => index >= 2 && `${c.title} ${c.description}`.includes(query)),
+    [categories, query],
   );
 
   return (
@@ -84,17 +88,13 @@ function Courses() {
             <p className="mt-3 text-muted-foreground">اختر تخصصك وابدأ رحلتك..</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
-            {featured.map((c) => (
-              <CategoryCard key={c.slug} category={c} featured />
-            ))}
+            {featured.map((c) => <CatalogCard key={c.slug} category={c} featured />)}
           </div>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {others.map((c) => (
-              <CategoryCard key={c.slug} category={c} />
-            ))}
+            {others.map((c) => <CatalogCard key={c.slug} category={c} />)}
           </div>
           {featured.length + others.length === 0 && (
-            <p className="text-center text-muted-foreground">لا توجد نتائج مطابقة.</p>
+            <p className="text-center text-muted-foreground">{catalogError ? "تعذر تحميل الدورات حاليًا." : "لا توجد نتائج مطابقة."}</p>
           )}
         </div>
       </section>
@@ -121,4 +121,11 @@ function Courses() {
       )}
     </>
   );
+}
+
+function CatalogCard({ category, featured }: { category: PublicCategory; featured?: boolean }) {
+  return <Link to="/courses/$slug" params={{ slug: category.slug }} className={`card-fx flex flex-col rounded-3xl border bg-card p-6 shadow-soft ${featured ? "border-gold" : ""}`}>
+    {category.image && <img src={category.image} alt="" className="mb-5 h-28 w-28 rounded-2xl object-cover" />}
+    <h3 className="text-xl font-bold text-forest">{category.title}</h3><p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{category.description}</p><span className="mt-6 text-sm font-semibold text-primary">استكشف التخصصات ←</span>
+  </Link>;
 }
