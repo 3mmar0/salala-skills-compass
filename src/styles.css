@@ -226,7 +226,7 @@
   animation: shimmer-text 6s linear infinite;
 }
 
-/* ---------- Solala Plus DNA float (hero) ---------- */
+/* ---------- Solalaa Genome DNA float (hero) ---------- */
 @keyframes dnaRotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -243,6 +243,13 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
+@keyframes dnaRotateX {
+  0% { transform: perspective(640px) rotateX(0deg) scale(1); }
+  25% { transform: perspective(640px) rotateX(55deg) scale(0.96); }
+  50% { transform: perspective(640px) rotateX(180deg) scale(1); }
+  75% { transform: perspective(640px) rotateX(305deg) scale(0.96); }
+  100% { transform: perspective(640px) rotateX(360deg) scale(1); }
+}
 @keyframes dnaHalo {
   0%, 100% { transform: scale(0.92); opacity: 0.45; }
   50% { transform: scale(1.08); opacity: 0.85; }
@@ -258,25 +265,35 @@
 .solala-plus-float {
   top: clamp(7.5rem, 18vh, 11rem);
   left: clamp(1rem, 2.4vw, 1.75rem);
+  perspective: 720px;
   animation: dnaEnter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both 0.35s;
 }
 .solala-plus-float__link {
   animation: dnaFloat 5.5s ease-in-out infinite 1.25s;
   transition: filter 0.35s ease;
+  transform-style: preserve-3d;
 }
 .solala-plus-float__link:hover {
   filter: brightness(1.08);
   animation-play-state: paused;
 }
 .solala-plus-float__link:hover .solala-plus-float__orb {
-  transform: scale(1.04);
+  animation-play-state: paused;
+  transform: perspective(640px) rotateX(18deg) scale(1.05);
 }
 .solala-plus-float__orb {
   width: 5.75rem;
   height: 5.75rem;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  animation: dnaRotateX 7.5s linear infinite;
   filter: drop-shadow(0 10px 22px rgba(8, 28, 21, 0.45))
     drop-shadow(0 0 18px rgba(212, 175, 55, 0.35));
-  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.35s ease;
+}
+.solala-plus-float__dna {
+  transform-style: preserve-3d;
+  backface-visibility: visible;
 }
 .solala-plus-float__halo {
   position: absolute;

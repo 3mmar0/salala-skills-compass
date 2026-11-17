@@ -7,13 +7,14 @@ export function SolalaPlusFloat() {
         to="/breed-innovation"
         className="solala-plus-float__link group flex flex-col items-center no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
         title="انتقل إلى Solalaa Genome"
+        aria-label="Solalaa Genome"
       >
         <div className="solala-plus-float__orb relative grid place-items-center">
           <span className="solala-plus-float__halo" aria-hidden="true" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 100"
-            className="relative z-[1] h-[4.75rem] w-[4.75rem]"
+            className="solala-plus-float__dna relative z-[1] h-[4.75rem] w-[4.75rem]"
             aria-hidden="true"
           >
             <defs>
@@ -103,10 +104,7 @@ export function SolalaPlusFloat() {
             <circle cx="11" cy="8" r="1.15" fill="#A8E6CF" />
             <circle cx="5" cy="11" r="1.15" fill="#FFF4B8" />
           </svg>
-          <span className="solala-plus-float__label">Solala Plus</span>
-          <span className="solala-plus-float__plus" aria-hidden="true">
-            +
-          </span>
+          <span className="solala-plus-float__label">Solalaa Genome</span>
         </span>
       </Link>
     </div>
