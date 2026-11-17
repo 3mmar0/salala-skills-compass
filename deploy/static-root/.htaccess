@@ -1,4 +1,5 @@
 Options -Indexes
+DirectorySlash On
 RewriteEngine On
 
 # Keep the Laravel API mount untouched.
@@ -8,10 +9,18 @@ RewriteRule ^backend(?:/|$) - [L]
 # otherwise CDNs can cache index.html as text/css and break the site.
 RewriteRule ^(assets|shapes)/ - [L]
 
+# Force a trailing slash for existing directories (matches prerender output).
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+
 # Real files and directories pass through.
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Frontend router for app pages.
+# Frontend router for app pages (also normalize extensionless paths).
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ /$1/ [R=301,L]
+
 RewriteRule ^ index.html [L]

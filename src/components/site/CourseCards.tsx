@@ -1,9 +1,24 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Clock, Star, User } from "lucide-react";
 import type { CourseBranch, CourseCategory, CourseProgram } from "@/data/courses";
+import type { PublicCourse } from "@/lib/course-catalog";
 
-function imgSrc(image: CourseCategory["image"]) {
+function imgSrc(image: CourseCategory["image"] | string | undefined) {
+  if (!image) return "";
   return typeof image === "string" ? image : image.src;
+}
+
+const ORDER_LABELS = [
+  "الكورس الأول",
+  "الكورس الثاني",
+  "الكورس الثالث",
+  "الكورس الرابع",
+  "الكورس الخامس",
+  "الكورس السادس",
+];
+
+export function courseOrderLabel(index: number) {
+  return ORDER_LABELS[index] ?? `الكورس ${index + 1}`;
 }
 
 export function CategoryCard({
@@ -76,55 +91,151 @@ export function BranchCard({ branch }: { branch: CourseBranch; parentPath?: stri
   );
 }
 
-export function ProgramCard({ program }: { program: CourseProgram }) {
+type CourseCardContent = {
+  title: string;
+  badge?: string;
+  format?: string;
+  trainer?: string;
+  duration?: string;
+  modules: string[];
+  image?: string;
+};
+
+function CourseProgramLayout({
+  course,
+  orderLabel,
+  image,
+  onRegister,
+}: {
+  course: CourseCardContent;
+  orderLabel: string;
+  image: string;
+  onRegister?: () => void;
+}) {
+  const modules = course.modules ?? [];
   return (
-    <article
-      id={program.id}
-      className="card-fx reveal overflow-hidden rounded-3xl border bg-card shadow-soft"
-    >
-      <div className="grid md:grid-cols-[280px_1fr]">
+    <article className="card-fx reveal overflow-hidden rounded-[1.75rem] border border-gold/45 bg-card shadow-soft">
+      <div className="relative">
         <img
-          src={imgSrc(program.image)}
-          alt={program.title}
+          src={image}
+          alt={course.title}
           loading="lazy"
-          className="h-52 w-full object-cover md:h-full"
+          width={1200}
+          height={640}
+          className="h-64 w-full object-cover md:h-80"
         />
-        <div className="p-6 md:p-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-            <span className="rounded-full bg-secondary px-3 py-1 text-primary">
-              {program.orderLabel}
+        <span className="absolute left-4 top-4 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold text-foreground shadow-sm">
+          {orderLabel}
+        </span>
+      </div>
+
+      <div className="p-6 md:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          {course.badge ? (
+            <span className="rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {course.badge}
             </span>
-            <span className="rounded-full bg-gold/20 px-3 py-1 text-gold-dark">
-              {program.badge}
+          ) : (
+            <span />
+          )}
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-dark">
+            <Star className="h-4 w-4 fill-gold text-gold" />
+            {course.format || "تدريب معتمد + حقل"}
+          </span>
+        </div>
+
+        <h3 className="mt-4 text-2xl font-bold leading-relaxed text-forest md:text-[1.75rem]">
+          {course.title}
+        </h3>
+
+        <div className="mt-5 grid gap-4 rounded-2xl border border-gold/40 bg-[#faf6ee] p-4 sm:grid-cols-2 sm:gap-6">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <User className="h-4 w-4" />
             </span>
-            <span className="rounded-full border px-3 py-1 text-muted-foreground">
-              {program.format}
-            </span>
+            <div>
+              <p className="text-xs text-muted-foreground">اسم المدرب / الاستشاري:</p>
+              <p className="mt-1 font-bold text-forest">{course.trainer || "يُعلن لاحقًا"}</p>
+            </div>
           </div>
-          <h3 className="mt-4 text-2xl font-bold text-forest">{program.title}</h3>
-          <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Clock className="h-4 w-4" />
+            </span>
             <div>
-              <dt className="text-muted-foreground">اسم المدرب / الاستشاري</dt>
-              <dd className="font-semibold text-forest">{program.trainer}</dd>
+              <p className="text-xs text-muted-foreground">عدد الساعات المعتمدة:</p>
+              <p className="mt-1 font-bold text-forest">{course.duration || "يُعلن لاحقًا"}</p>
             </div>
-            <div>
-              <dt className="text-muted-foreground">عدد الساعات المعتمدة</dt>
-              <dd className="font-semibold text-forest">{program.hours}</dd>
-            </div>
-          </dl>
-          <h4 className="mt-6 text-sm font-bold text-primary">محاور الكورس الرئيسية (4 محاور):</h4>
-          <ol className="mt-3 space-y-2 text-sm leading-7 text-muted-foreground">
-            {program.modules.map((m, i) => (
-              <li key={m}>
-                <span className="font-semibold text-forest">المحور {i + 1}:</span> {m}
-              </li>
-            ))}
-          </ol>
-          <a href="#registration-form" className="btn-gold mt-6 inline-flex">
+          </div>
+        </div>
+
+        {modules.length > 0 && (
+          <>
+            <h4 className="mt-6 text-base font-bold text-primary">
+              محاور الكورس الرئيسية ({modules.length} محاور):
+            </h4>
+            <ul className="mt-3 space-y-3">
+              {modules.map((module, index) => (
+                <li key={`${index}-${module}`} className="flex items-start gap-2.5 text-sm leading-7 text-muted-foreground">
+                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <span>
+                    <strong className="font-semibold text-forest">المحور {index + 1}:</strong> {module}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        <div className="mt-7 border-t border-border/80 pt-6">
+          <a
+            href="#registration-form"
+            onClick={onRegister}
+            className="btn-primary w-full justify-center rounded-full py-3.5 text-base"
+          >
             سجّل الآن في هذا الكورس <ArrowLeft className="h-4 w-4" />
           </a>
         </div>
       </div>
     </article>
+  );
+}
+
+export function ProgramCard({ program }: { program: CourseProgram }) {
+  return (
+    <CourseProgramLayout
+      course={program}
+      orderLabel={program.orderLabel}
+      image={imgSrc(program.image)}
+    />
+  );
+}
+
+export function CatalogCourseCard({
+  course,
+  orderLabel,
+  fallbackImage,
+  onRegister,
+}: {
+  course: PublicCourse;
+  orderLabel: string;
+  fallbackImage: string;
+  onRegister?: () => void;
+}) {
+  return (
+    <CourseProgramLayout
+      course={{
+        title: course.title,
+        badge: course.badge,
+        format: course.format,
+        trainer: course.trainer,
+        duration: course.duration,
+        modules: course.modules,
+        image: course.image,
+      }}
+      orderLabel={orderLabel}
+      image={course.image || fallbackImage}
+      onRegister={onRegister}
+    />
   );
 }

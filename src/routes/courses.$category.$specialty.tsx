@@ -1,17 +1,43 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowDown, ArrowLeft, BookOpen, Clock, User } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { CatalogCourseCard, courseOrderLabel } from "@/components/site/CourseCards";
 import { CourseRegistrationForm } from "@/components/site/CourseRegistrationForm";
+import { PageHero } from "@/components/site/Layout";
+import { animalPrograms } from "@/data/courses";
 import { getCatalog, type PublicCategory, type PublicSpecialty } from "@/lib/course-catalog";
 import { meta } from "@/lib/meta";
 import courseHero from "@/assets/h-courses.jpg";
+import animalCourse1 from "@/assets/courses/animal-course-1.jpg";
+import animalCourse2 from "@/assets/courses/animal-course-2.jpg";
+import animalCourse3 from "@/assets/courses/animal-course-3.jpg";
+import animalHubImg from "@/assets/courses/animal-hub.jpg";
+import poultryImg from "@/assets/courses/poultry.jpg";
+import fishImg from "@/assets/courses/fish.jpg";
 
 export const Route = createFileRoute("/courses/$category/$specialty")({
   head: ({ params }) =>
     meta("تخصص تدريبي", "كورسات وتسجيل في تخصصات منصة سلالة.", `/courses/${params.category}/${params.specialty}`),
   component: SpecialtyPage,
 });
+
+const COURSE_IMAGE_FALLBACKS: Record<string, string> = {
+  "dairy-cattle": animalCourse1,
+  "beef-fattening": animalCourse2,
+  "sheep-goats": animalCourse3,
+  biosecurity: animalHubImg,
+};
+
+const SPECIALTY_IMAGE_FALLBACKS: Record<string, string> = {
+  animal: animalHubImg,
+  poultry: poultryImg,
+  fish: fishImg,
+};
+
+const STATIC_ORDER_BY_SLUG = Object.fromEntries(
+  animalPrograms.map((program) => [program.id, program.orderLabel]),
+);
 
 function SpecialtyPage() {
   const { category, specialty } = Route.useParams();
@@ -27,7 +53,12 @@ function SpecialtyPage() {
   }, [category, specialty]);
 
   const courseOptions = useMemo(
-    () => (data?.specialty.courses ?? []).map((c) => ({ value: c.title, label: c.title, id: c.id })),
+    () =>
+      (data?.specialty.courses ?? []).map((c) => ({
+        value: c.title,
+        label: c.duration && c.trainer ? `${c.title} (${c.duration.replace("تدريبية ", "")} - ${c.trainer})` : c.title,
+        id: c.id,
+      })),
     [data],
   );
 
@@ -38,40 +69,32 @@ function SpecialtyPage() {
   }
 
   const { specialty: spec, category: cat } = data;
-  const heroImage = spec.image || cat.image || courseHero;
+  const heroImage =
+    spec.image || SPECIALTY_IMAGE_FALLBACKS[specialty] || cat.image || courseHero;
+  const courseCount = spec.courses.length;
 
   return (
     <>
-      <section className="relative isolate overflow-hidden border-b border-forest/10 bg-[#f6f5f1]">
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-28 opacity-40"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            maskImage: "linear-gradient(to bottom, black, transparent)",
-          }}
-        />
-        <div className="container-site relative py-16 text-center md:py-20">
-          <p className="text-sm font-medium text-muted-foreground">برامج تدريبية احترافية</p>
-          <h1 className="mx-auto mt-4 max-w-4xl text-3xl font-bold leading-relaxed text-forest md:text-5xl">
-            {spec.heroTitle || `الكورسات التدريبية في ${spec.title}`}
-          </h1>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-8 text-muted-foreground md:text-lg">
-            {spec.heroSubtitle ||
-              spec.description ||
-              "كل دورة مصممة بعناية لتغطي محاور عملية دقيقة، معتمدة بعدد ساعات معتمد وإشراف نخبة من أكفأ الاستشاريين."}
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a href="#courses-list" className="btn-primary">
-              استعرض الكورسات <ArrowDown className="h-4 w-4" />
-            </a>
-            <a href="#registration-form" className="btn-gold">
-              سجّل الآن <ArrowLeft className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        tall
+        image={heroImage}
+        eyebrow="دليل البرامج التخصصية المعتمدة"
+        title={spec.heroTitle || `دورات قطاع ${spec.title}`}
+        subtitle={
+          spec.heroSubtitle ||
+          (courseCount
+            ? `اختر دورتك التدريبية التخصصية من بين ${courseCount} برامج مهنية متقدمة يقدمها نخبة من كبار الخبراء والاستشاريين، لربط المعرفة العلمية بالتطبيق الميداني المباشر.`
+            : spec.description ||
+              "كل دورة مصممة بعناية لتغطي محاور عملية دقيقة، معتمدة بعدد ساعات معتمد وإشراف نخبة من أكفأ الاستشاريين.")
+        }
+      >
+        <a href="#courses-list" className="btn-ghost-light">
+          {courseCount ? `استعراض الكورسات الـ ${courseCount}` : "استعرض الكورسات"}
+        </a>
+        <a href="#registration-form" className="btn-gold">
+          الذهاب لاستمارة التسجيل <ArrowLeft className="h-4 w-4" />
+        </a>
+      </PageHero>
 
       <Breadcrumbs
         items={[
@@ -85,8 +108,13 @@ function SpecialtyPage() {
       <section id="courses-list" className="container-site py-16 md:py-20">
         <div className="mb-10 text-center">
           <p className="text-sm font-semibold text-gold-dark">الكورسات المتاحة</p>
-          <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">اختر الكورس المناسب لك</h2>
+          <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">
+            الكورسات التدريبية في {spec.title}
+          </h2>
           <span className="title-line" />
+          <p className="mx-auto mt-4 max-w-3xl leading-8 text-muted-foreground">
+            كل دورة مصممة بعناية لتغطي محاور عملية دقيقة، معتمدة بعدد ساعات معتمد وإشراف نخبة من أكفأ الاستشاريين.
+          </p>
         </div>
 
         {spec.courses.length === 0 ? (
@@ -94,56 +122,19 @@ function SpecialtyPage() {
             لا توجد كورسات منشورة في هذا التخصص حالياً.
           </p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {spec.courses.map((course) => (
-              <article
+          <div className="mx-auto flex max-w-4xl flex-col gap-8">
+            {spec.courses.map((course, index) => (
+              <CatalogCourseCard
                 key={course.id}
-                className="flex h-full flex-col overflow-hidden rounded-3xl border border-forest/10 bg-card shadow-soft"
-              >
-                <span className="block h-1.5 w-full bg-gradient-to-l from-gold via-gold-light to-gold" />
-                <div className="flex flex-1 flex-col p-7">
-                  {course.badge && (
-                    <span className="inline-flex w-fit rounded-full bg-forest/5 px-3 py-1 text-xs font-semibold text-forest">
-                      {course.badge}
-                    </span>
-                  )}
-                  <h3 className="mt-3 text-2xl font-bold text-forest">{course.title}</h3>
-                  <p className="mt-3 flex-1 leading-7 text-muted-foreground">{course.summary}</p>
-                  <div className="mt-5 flex flex-wrap gap-4 text-sm text-muted-foreground">
-                    {course.duration && (
-                      <span className="inline-flex items-center gap-1.5">
-                        <Clock className="h-4 w-4 text-gold-dark" /> {course.duration}
-                      </span>
-                    )}
-                    {course.trainer && (
-                      <span className="inline-flex items-center gap-1.5">
-                        <User className="h-4 w-4 text-gold-dark" /> {course.trainer}
-                      </span>
-                    )}
-                    {course.format && (
-                      <span className="inline-flex items-center gap-1.5">
-                        <BookOpen className="h-4 w-4 text-gold-dark" /> {course.format}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-7 flex flex-wrap gap-3">
-                    <a
-                      href="#registration-form"
-                      onClick={() => setPreferredCourseTitle(course.title)}
-                      className="btn-primary"
-                    >
-                      سجّل في هذا الكورس <ArrowLeft className="h-4 w-4" />
-                    </a>
-                    <Link
-                      to="/courses/$category/$specialty/$course"
-                      params={{ category, specialty, course: course.slug }}
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
-                    >
-                      تفاصيل الكورس <ArrowLeft className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
+                course={course}
+                orderLabel={STATIC_ORDER_BY_SLUG[course.slug] ?? courseOrderLabel(index)}
+                fallbackImage={
+                  COURSE_IMAGE_FALLBACKS[course.slug] ||
+                  SPECIALTY_IMAGE_FALLBACKS[specialty] ||
+                  heroImage
+                }
+                onRegister={() => setPreferredCourseTitle(course.title)}
+              />
             ))}
           </div>
         )}
@@ -154,7 +145,7 @@ function SpecialtyPage() {
           <CourseRegistrationForm
             track={`${category}/${specialty}`}
             title={`استمارة التسجيل في دورات ${spec.title}`}
-            description="اختر أي كورس من تخصص هذا القسم واملأ بياناتك، وبعد التسجيل الناجح يمكنك التواصل مباشرة عبر واتساب."
+            description="اختر الكورس الذي ترغب في الالتحاق به واملأ البيانات التالية، وسيتواصل معك منسق البرنامج التدريبي لتأكيد التسجيل."
             courseOptions={courseOptions.length ? courseOptions : undefined}
             preferredCourseTitle={preferredCourseTitle}
             resolveCourseId={(title) => courseOptions.find((o) => o.value === title)?.id}

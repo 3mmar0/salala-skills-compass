@@ -235,7 +235,22 @@ export function Particles({ n = 14 }: { n?: number }) {
   );
 }
 
-export function PageHero({ eyebrow, title, subtitle, image, children }: { eyebrow: string; title: string; subtitle?: string; image: string; children?: ReactNode }) {
+export function PageHero({
+  eyebrow,
+  title,
+  subtitle,
+  image,
+  children,
+  tall = false,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  image: string;
+  children?: ReactNode;
+  /** Extra vertical padding for specialty/course listing heroes */
+  tall?: boolean;
+}) {
   return (
     <section className="relative overflow-hidden text-forest-foreground">
       <img src={image} alt={title} width={1600} height={912} className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
@@ -243,7 +258,13 @@ export function PageHero({ eyebrow, title, subtitle, image, children }: { eyebro
       <div className="animate-blob absolute -left-24 top-10 h-80 w-80 bg-gold/25 blur-3xl" />
       <div className="animate-blob absolute -right-20 bottom-0 h-96 w-96 bg-primary/40 blur-3xl [animation-delay:-6s]" />
       <Particles />
-      <div className="container-site relative pb-36 pt-24 md:pb-44 md:pt-32">
+      <div
+        className={
+          tall
+            ? "container-site relative pb-44 pt-28 md:pb-56 md:pt-40"
+            : "container-site relative pb-36 pt-24 md:pb-44 md:pt-32"
+        }
+      >
         <span className="animate-fade-up inline-block rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{eyebrow}</span>
         <h1 className="animate-fade-up delay-1 mt-5 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">{title}</h1>
         {subtitle && <p className="animate-fade-up delay-2 mt-5 max-w-2xl text-lg leading-8 opacity-90">{subtitle}</p>}

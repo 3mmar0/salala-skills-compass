@@ -8,6 +8,10 @@ export const getRouter = () => {
   const router = createRouter({
     routeTree,
     context: { queryClient },
+    // Hostinger + prerender autoSubfolderIndex serve pages as /path/index.html,
+    // so Apache redirects /path → /path/. Keep the client router on the same
+    // trailing-slash URLs to avoid hydration/match failures.
+    trailingSlash: "always",
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
   });
