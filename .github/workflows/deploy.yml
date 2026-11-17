@@ -1,0 +1,86 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "backend/**"
+      - "deploy/**"
+      - "scripts/deploy_hostinger.py"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.*"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "What to deploy"
+        required: true
+        default: full
+        type: choice
+        options:
+          - full
+          - frontend
+          - backend
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+      HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+      HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+      HOSTINGER_PASSWORD: ${{ secrets.HOSTINGER_PASSWORD }}
+      HOSTINGER_PUBLIC_ROOT: ${{ secrets.HOSTINGER_PUBLIC_ROOT }}
+      HOSTINGER_BACKEND_ROOT: ${{ secrets.HOSTINGER_BACKEND_ROOT }}
+      HOSTINGER_PHP_BIN: ${{ secrets.HOSTINGER_PHP_BIN }}
+      DEPLOY_TARGET: ${{ github.event.inputs.target || 'full' }}
+      VITE_CMS_API_BASE_URL: ${{ vars.VITE_CMS_API_BASE_URL || 'https://backend.solalaa.com/api' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: env.DEPLOY_TARGET != 'backend'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install frontend deps
+        if: env.DEPLOY_TARGET != 'backend'
+        run: npm ci
+
+      - name: Build frontend
+        if: env.DEPLOY_TARGET != 'backend'
+        run: npm run build
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deploy deps
+        run: pip install -r scripts/requirements-deploy.txt
+
+      - name: Verify required secrets
+        run: |
+          missing=0
+          for key in HOSTINGER_HOST HOSTINGER_USER HOSTINGER_PASSWORD; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Missing secret: $key"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Deploy to Hostinger
+        run: python scripts/deploy_hostinger.py
