@@ -48,20 +48,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Bun
         if: env.DEPLOY_TARGET != 'backend'
-        uses: actions/setup-node@v4
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
-          cache: npm
+          bun-version: latest
 
       - name: Install frontend deps
         if: env.DEPLOY_TARGET != 'backend'
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Build frontend
         if: env.DEPLOY_TARGET != 'backend'
-        run: npm run build
+        run: bun run build
 
       - name: Setup Python
         uses: actions/setup-python@v5
