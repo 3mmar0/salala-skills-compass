@@ -1,7 +1,7 @@
 import type { PageDef } from "../schema";
 import { homePage } from "./home";
 import { aboutPage } from "./about";
-import { coursesPage, livestockPage } from "./courses";
+import { coursesPage } from "./courses";
 import { consultingPage } from "./consulting";
 import { breedPage } from "./breed";
 import { entrepreneurshipPage } from "./entrepreneurship";
@@ -17,7 +17,6 @@ export const CMS_PAGES: PageDef[] = [
   homePage,
   aboutPage,
   coursesPage,
-  livestockPage,
   consultingPage,
   breedPage,
   entrepreneurshipPage,

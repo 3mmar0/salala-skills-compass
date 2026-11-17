@@ -21,7 +21,7 @@ import { meta } from "@/lib/meta";
 import heroImg from "@/assets/hero.jpg";
 
 export const Route = createFileRoute("/solalaa-link")({
-  head: () => meta("SOLALAA LINK | الوظائف والتوظيف", "خدمة سلالة لربط الكفاءات بفرص العمل والتدريب، مع ترشيح ومتابعة واضحة.", "/solalaa-link"),
+  head: () => meta("Solalaa Link | الوظائف والتوظيف", "خدمة سلالة لربط الكفاءات بفرص العمل والتدريب، مع ترشيح ومتابعة واضحة.", "/solalaa-link"),
   component: SolalaaLink,
 });
 
@@ -196,7 +196,7 @@ function Apply({
     <section id="apply" className="scroll-mt-24 bg-[#eef3e9] py-20">
       <div className="container-site grid gap-10 lg:grid-cols-[.75fr_1.25fr]">
         <div className="reveal">
-          <p className="font-display text-sm font-bold text-[#a37c1e]">SOLALAA LINK</p>
+          <p className="font-display text-sm font-bold text-[#a37c1e]">Solalaa Link</p>
           <h2 className="mt-3 text-3xl font-bold text-[#123c2b]">{c.title}</h2>
           <p className="mt-4 max-w-md leading-8 text-slate-600">{c.subtitle}</p>
           <div className="mt-8 flex gap-3 rounded-xl bg-white p-4 text-sm leading-7 text-[#185b38]">

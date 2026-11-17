@@ -2,7 +2,7 @@ import { definePage, f, section } from "../schema";
 import heroImg from "@/assets/hero.jpg";
 
 export const linkHero = section("hero", {
-  label: "واجهة SOLALAA LINK",
+  label: "واجهة Solalaa Link",
   description: "رسالة خدمة التوظيف وروابط الدعوة الرئيسية.",
   fields: [
     f.image("image", "صورة الخلفية"),
@@ -16,7 +16,7 @@ export const linkHero = section("hero", {
   defaults: {
     image: heroImg,
     eyebrow: "خدمة جديدة · الوظائف والتوظيف",
-    brand: "SOLALAA LINK",
+    brand: "Solalaa Link",
     title: "نربط الكفاءات بالفرص… وننمي المسار المهني",
     subtitle: "خدمة وساطة توظيف تربط الكفاءات الزراعية والإدارية بفرص عمل وتدريب مناسبة، مع فرز ومتابعة واضحة للطرفين.",
     jobCta: "قدّم على وظيفة",
@@ -62,7 +62,7 @@ export const linkApply = section("apply", {
   label: "نموذج التقديم",
   description: "نصوص نموذج طلب الوظيفة ورسالة النجاح.",
   fields: [f.text("title", "العنوان"), f.textarea("subtitle", "الوصف"), f.text("submitLabel", "نص زر الإرسال"), f.text("success", "رسالة النجاح"), f.text("consent", "نص الموافقة")],
-  defaults: { title: "قدّم طلبك عبر SOLALAA LINK", subtitle: "أرسل بياناتك وسيرتك الذاتية، وسيتواصل معك فريقنا عند وجود فرصة مناسبة.", submitLabel: "إرسال الطلب", success: "تم استلام طلبك بنجاح. سنتواصل معك عند مطابقة ملفك مع فرصة مناسبة.", consent: "أوافق على حفظ بياناتي لغرض الترشيح والتواصل بشأن فرص العمل والتدريب." },
+  defaults: { title: "قدّم طلبك عبر Solalaa Link", subtitle: "أرسل بياناتك وسيرتك الذاتية، وسيتواصل معك فريقنا عند وجود فرصة مناسبة.", submitLabel: "إرسال الطلب", success: "تم استلام طلبك بنجاح. سنتواصل معك عند مطابقة ملفك مع فرصة مناسبة.", consent: "أوافق على حفظ بياناتي لغرض الترشيح والتواصل بشأن فرص العمل والتدريب." },
 });
 
-export const solalaaLinkPage = definePage({ key: "solalaa-link", slug: "/solalaa-link", title: "SOLALAA LINK", description: "خدمة سلالة لربط الكفاءات بفرص العمل والتدريب.", sections: [linkHero, linkServices, linkJourney, linkOpportunities, linkApply] });
+export const solalaaLinkPage = definePage({ key: "solalaa-link", slug: "/solalaa-link", title: "Solalaa Link", description: "خدمة سلالة لربط الكفاءات بفرص العمل والتدريب.", sections: [linkHero, linkServices, linkJourney, linkOpportunities, linkApply] });

@@ -19,7 +19,7 @@ export const NAV = [
   { to: "/entrepreneurship", label: "ريادة الأعمال المتخصصة" },
   { to: "/library", label: "المكتبة" },
   { to: "/landscape", label: "Landscape" },
-  { to: "/solalaa-link", label: "SOLALAA LINK" },
+  { to: "/solalaa-link", label: "Solalaa Link" },
 ] as const;
 
 export const DEFAULT_LOGO = "/solala-logo.png";

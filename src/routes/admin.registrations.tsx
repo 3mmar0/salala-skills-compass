@@ -44,7 +44,7 @@ function Submissions() {
   return (
     <AdminShell
       title="الاستبيانات والطلبات"
-      desc="كل طلبات الدورات، SOLALAA LINK، ريادة الأعمال، ونماذج التواصل تظهر هنا للمتابعة."
+      desc="كل طلبات الدورات، Solalaa Link، ريادة الأعمال، ونماذج التواصل تظهر هنا للمتابعة."
       actions={
         <Link to="/admin/pages/$pageKey" params={{ pageKey: "solalaa-link" }} className="inline-flex items-center gap-2 rounded-xl border border-forest/15 bg-white px-3 py-2 text-sm font-semibold hover:border-primary/40">
           <BriefcaseBusiness className="h-4 w-4" />إدارة الوظائف
@@ -54,7 +54,7 @@ function Submissions() {
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           <TabBtn active={tab === "courses"} onClick={() => setTab("courses")} icon={ClipboardList} label="الدورات" />
-          <TabBtn active={tab === "link"} onClick={() => setTab("link")} icon={BriefcaseBusiness} label="SOLALAA LINK" />
+          <TabBtn active={tab === "link"} onClick={() => setTab("link")} icon={BriefcaseBusiness} label="Solalaa Link" />
           <TabBtn active={tab === "entrepreneurship"} onClick={() => setTab("entrepreneurship")} icon={Lightbulb} label="ريادة الأعمال" />
           <TabBtn active={tab === "inquiries"} onClick={() => setTab("inquiries")} icon={MessageSquareText} label="التواصل والاستشارات" />
         </div>
@@ -153,7 +153,7 @@ function LinkTable({ status }: { status: string }) {
   };
 
   return (
-    <Shell headers={["المتقدم", "النوع", "التفاصيل", "المرفقات", "التاريخ", "الحالة"]} empty="لا توجد طلبات SOLALAA LINK ضمن هذا الفلتر." count={rows.length}>
+    <Shell headers={["المتقدم", "النوع", "التفاصيل", "المرفقات", "التاريخ", "الحالة"]} empty="لا توجد طلبات Solalaa Link ضمن هذا الفلتر." count={rows.length}>
       {rows.map((row) => (
         <tr key={row.id} className="border-t border-forest/10">
           <td className="p-4 font-semibold">

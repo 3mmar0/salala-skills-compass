@@ -78,12 +78,43 @@ def upload_file(sftp: paramiko.SFTPClient, local: Path, remote: str) -> int:
     return local.stat().st_size
 
 
+def remove_remote_tree(sftp: paramiko.SFTPClient, remote: str) -> int:
+    """Delete a remote directory tree (best-effort). Used to drop stale prerender HTML."""
+    removed = 0
+    try:
+        entries = sftp.listdir_attr(remote)
+    except FileNotFoundError:
+        return 0
+    for entry in entries:
+        path = f"{remote}/{entry.filename}"
+        if entry.st_mode is not None and (entry.st_mode & 0o170000) == 0o040000:
+            removed += remove_remote_tree(sftp, path)
+            try:
+                sftp.rmdir(path)
+            except OSError:
+                pass
+        else:
+            try:
+                sftp.remove(path)
+                removed += 1
+            except OSError:
+                pass
+    return removed
+
+
 def upload_tree(sftp: paramiko.SFTPClient, local: Path, remote: str) -> tuple[int, int]:
     """Upload build output with assets before HTML to avoid CDN cache poisoning.
 
     If index.html is published before hashed CSS/JS exist, Hostinger CDN can
     cache the SPA fallback HTML under the asset URL and break the site.
     """
+    # Old prerender folders (e.g. courses/animal-livestock/animal/index.html) are
+    # not overwritten when a route is removed — wipe courses HTML before upload.
+    courses_remote = f"{remote}/courses"
+    deleted = remove_remote_tree(sftp, courses_remote)
+    if deleted:
+        print(f"Removed {deleted} stale files under {courses_remote}")
+
     planned: list[tuple[Path, str]] = []
     for root, dirs, filenames in os.walk(local):
         rel = Path(root).relative_to(local)

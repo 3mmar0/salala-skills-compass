@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up(): void
     {
         DB::table('cms_pages')->updateOrInsert(['slug' => '/solalaa-link'], [
-            'title' => 'SOLALAA LINK',
+            'title' => 'Solalaa Link',
             'description' => 'خدمة سلالة لربط الكفاءات بفرص العمل والتدريب.',
             'hero_title' => 'نربط الكفاءات بالفرص',
             'hero_subtitle' => 'خدمة توظيف وتدريب من سلالة.',

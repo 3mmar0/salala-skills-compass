@@ -139,7 +139,7 @@ export const CMS_SEED: CmsStore = {
     },
     {
       slug: "/solalaa-link",
-      title: "SOLALAA LINK",
+      title: "Solalaa Link",
       description: "خدمة سلالة لربط الكفاءات بفرص العمل والتدريب.",
       heroTitle: "نربط الكفاءات بالفرص",
       heroSubtitle: "خدمة توظيف وتدريب من سلالة.",
