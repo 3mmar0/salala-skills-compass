@@ -9,9 +9,20 @@ RewriteRule ^backend(?:/|$) - [L]
 # otherwise CDNs can cache index.html as text/css and break the site.
 RewriteRule ^(assets|shapes)/ - [L]
 
-# Prerender writes /path/index.html.
-# Serve it for BOTH /path and /path/ with an internal rewrite only —
-# never 301 between slash styles (that loops with Hostinger DirectorySlash).
+# Prefer exact prerender files for common hubs (avoids directory 301s).
+RewriteRule ^courses$ courses/index.html [L]
+RewriteRule ^about$ about/index.html [L]
+RewriteRule ^contact$ contact/index.html [L]
+RewriteRule ^consulting$ consulting/index.html [L]
+RewriteRule ^library$ library/index.html [L]
+RewriteRule ^landscape$ landscape/index.html [L]
+RewriteRule ^faq$ faq/index.html [L]
+RewriteRule ^policies$ policies/index.html [L]
+RewriteRule ^entrepreneurship$ entrepreneurship/index.html [L]
+RewriteRule ^breed-innovation$ breed-innovation/index.html [L]
+RewriteRule ^solalaa-link$ solalaa-link/index.html [L]
+
+# Prerender writes /path/index.html — serve for /path and /path/ (no 301).
 RewriteCond %{REQUEST_URI} ^/(.+?)/?$
 RewriteCond %{DOCUMENT_ROOT}/%1/index.html -f
 RewriteRule ^(.+?)/?$ $1/index.html [L]

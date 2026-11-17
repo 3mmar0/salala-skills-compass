@@ -8,9 +8,10 @@ export const getRouter = () => {
   const router = createRouter({
     routeTree,
     context: { queryClient },
-    // Keep URLs clean: /courses not /courses/. Hostinger .htaccess strips
-    // trailing slashes and still serves prerendered /path/index.html.
-    trailingSlash: "never",
+    // Do not rewrite slash style on load. Hostinger CDN still has a cached
+    // 301 for /courses → /courses/; "never" bounced those and caused a loop.
+    // Links stay without a trailing slash; both URL forms are accepted.
+    trailingSlash: "preserve",
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
   });

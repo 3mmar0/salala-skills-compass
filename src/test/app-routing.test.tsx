@@ -11,7 +11,7 @@ describe("App routing", () => {
     const router = createRouter({
       routeTree,
       context: { queryClient: new QueryClient() },
-      trailingSlash: "never",
+      trailingSlash: "preserve",
     });
 
     const matches = router.matchRoutes("/");
@@ -19,11 +19,11 @@ describe("App routing", () => {
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
 
-  it("matches the courses index without a trailing slash", () => {
+  it("matches the courses index with or without a trailing slash", () => {
     const router = createRouter({
       routeTree,
       context: { queryClient: new QueryClient() },
-      trailingSlash: "never",
+      trailingSlash: "preserve",
     });
 
     const withoutSlash = router.matchRoutes("/courses");
