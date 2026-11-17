@@ -4,9 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CatalogCourseCard, courseOrderLabel } from "@/components/site/CourseCards";
 import { CourseRegistrationForm } from "@/components/site/CourseRegistrationForm";
-import { PageHero } from "@/components/site/Layout";
-import { animalPrograms } from "@/data/courses";
-import { getCatalog, type PublicCategory, type PublicSpecialty } from "@/lib/course-catalog";
+import { PageHero, WavyBg } from "@/components/site/Layout";
+import { animalPrograms, type CourseProgram } from "@/data/courses";
+import { getCatalog, type PublicCategory, type PublicCourse, type PublicSpecialty } from "@/lib/course-catalog";
 import { meta } from "@/lib/meta";
 import courseHero from "@/assets/h-courses.jpg";
 import animalCourse1 from "@/assets/courses/animal-course-1.jpg";
@@ -16,9 +16,19 @@ import animalHubImg from "@/assets/courses/animal-hub.jpg";
 import poultryImg from "@/assets/courses/poultry.jpg";
 import fishImg from "@/assets/courses/fish.jpg";
 
+const SPECIALTY_TITLES: Record<string, string> = {
+  animal: "الإنتاج الحيواني",
+  poultry: "الإنتاج الداجني",
+  fish: "الإنتاج السمكي",
+};
+
 export const Route = createFileRoute("/courses/$category/$specialty")({
   head: ({ params }) =>
-    meta("تخصص تدريبي", "كورسات وتسجيل في تخصصات منصة سلالة.", `/courses/${params.category}/${params.specialty}`),
+    meta(
+      SPECIALTY_TITLES[params.specialty] ?? "تخصص تدريبي",
+      "كورسات وتسجيل في تخصصات منصة سلالة.",
+      `/courses/${params.category}/${params.specialty}`,
+    ),
   component: SpecialtyPage,
 });
 
@@ -35,9 +45,24 @@ const SPECIALTY_IMAGE_FALLBACKS: Record<string, string> = {
   fish: fishImg,
 };
 
-const STATIC_ORDER_BY_SLUG = Object.fromEntries(
-  animalPrograms.map((program) => [program.id, program.orderLabel]),
-);
+const STATIC_BY_SLUG = Object.fromEntries(animalPrograms.map((program) => [program.id, program])) as Record<
+  string,
+  CourseProgram
+>;
+
+function enrichCourse(course: PublicCourse): PublicCourse {
+  const fallback = STATIC_BY_SLUG[course.slug];
+  if (!fallback) return course;
+  return {
+    ...course,
+    badge: course.badge || fallback.badge,
+    format: course.format || fallback.format,
+    trainer: course.trainer || fallback.trainer,
+    duration: course.duration || fallback.hours,
+    image: course.image || fallback.image,
+    modules: course.modules?.length ? course.modules : fallback.modules,
+  };
+}
 
 function SpecialtyPage() {
   const { category, specialty } = Route.useParams();
@@ -52,14 +77,16 @@ function SpecialtyPage() {
     });
   }, [category, specialty]);
 
+  const courses = useMemo(() => (data?.specialty.courses ?? []).map(enrichCourse), [data]);
+
   const courseOptions = useMemo(
     () =>
-      (data?.specialty.courses ?? []).map((c) => ({
+      courses.map((c) => ({
         value: c.title,
         label: c.duration && c.trainer ? `${c.title} (${c.duration.replace("تدريبية ", "")} - ${c.trainer})` : c.title,
         id: c.id,
       })),
-    [data],
+    [courses],
   );
 
   if (!data) {
@@ -69,9 +96,8 @@ function SpecialtyPage() {
   }
 
   const { specialty: spec, category: cat } = data;
-  const heroImage =
-    spec.image || SPECIALTY_IMAGE_FALLBACKS[specialty] || cat.image || courseHero;
-  const courseCount = spec.courses.length;
+  const heroImage = spec.image || SPECIALTY_IMAGE_FALLBACKS[specialty] || cat.image || courseHero;
+  const courseCount = courses.length;
 
   return (
     <>
@@ -105,39 +131,42 @@ function SpecialtyPage() {
         ]}
       />
 
-      <section id="courses-list" className="container-site py-16 md:py-20">
-        <div className="mb-10 text-center">
-          <p className="text-sm font-semibold text-gold-dark">الكورسات المتاحة</p>
-          <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">
-            الكورسات التدريبية في {spec.title}
-          </h2>
-          <span className="title-line" />
-          <p className="mx-auto mt-4 max-w-3xl leading-8 text-muted-foreground">
-            كل دورة مصممة بعناية لتغطي محاور عملية دقيقة، معتمدة بعدد ساعات معتمد وإشراف نخبة من أكفأ الاستشاريين.
-          </p>
-        </div>
-
-        {spec.courses.length === 0 ? (
-          <p className="rounded-3xl border border-dashed bg-muted/40 py-16 text-center text-muted-foreground">
-            لا توجد كورسات منشورة في هذا التخصص حالياً.
-          </p>
-        ) : (
-          <div className="mx-auto flex max-w-4xl flex-col gap-8">
-            {spec.courses.map((course, index) => (
-              <CatalogCourseCard
-                key={course.id}
-                course={course}
-                orderLabel={STATIC_ORDER_BY_SLUG[course.slug] ?? courseOrderLabel(index)}
-                fallbackImage={
-                  COURSE_IMAGE_FALLBACKS[course.slug] ||
-                  SPECIALTY_IMAGE_FALLBACKS[specialty] ||
-                  heroImage
-                }
-                onRegister={() => setPreferredCourseTitle(course.title)}
-              />
-            ))}
+      <section id="courses-list" className="relative isolate overflow-hidden py-16 md:py-20">
+        <WavyBg />
+        <div className="container-site relative">
+          <div className="mb-10 text-center">
+            <p className="text-sm font-semibold text-muted-foreground">برامج تدريبية احترافية</p>
+            <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">
+              الكورسات التدريبية في {spec.title}
+            </h2>
+            <span className="title-line" />
+            <p className="mx-auto mt-4 max-w-3xl leading-8 text-muted-foreground">
+              كل دورة مصممة بعناية لتغطي محاور عملية دقيقة، معتمدة بعدد ساعات معتمد وإشراف نخبة من أكفأ الاستشاريين.
+            </p>
           </div>
-        )}
+
+          {courses.length === 0 ? (
+            <p className="rounded-3xl border border-dashed bg-muted/40 py-16 text-center text-muted-foreground">
+              لا توجد كورسات منشورة في هذا التخصص حالياً.
+            </p>
+          ) : (
+            <div className="mx-auto flex max-w-5xl flex-col gap-8">
+              {courses.map((course, index) => (
+                <CatalogCourseCard
+                  key={course.id}
+                  course={course}
+                  orderLabel={STATIC_BY_SLUG[course.slug]?.orderLabel ?? courseOrderLabel(index)}
+                  fallbackImage={
+                    COURSE_IMAGE_FALLBACKS[course.slug] ||
+                    SPECIALTY_IMAGE_FALLBACKS[specialty] ||
+                    heroImage
+                  }
+                  onRegister={() => setPreferredCourseTitle(course.title)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       <section className="bg-muted/50 py-16 md:py-20">

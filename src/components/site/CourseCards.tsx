@@ -114,85 +114,72 @@ function CourseProgramLayout({
 }) {
   const modules = course.modules ?? [];
   return (
-    <article className="card-fx reveal overflow-hidden rounded-[1.75rem] border border-gold/45 bg-card shadow-soft">
-      <div className="relative">
-        <img
-          src={image}
-          alt={course.title}
-          loading="lazy"
-          width={1200}
-          height={640}
-          className="h-64 w-full object-cover md:h-80"
-        />
-        <span className="absolute left-4 top-4 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold text-foreground shadow-sm">
-          {orderLabel}
-        </span>
-      </div>
-
-      <div className="p-6 md:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {course.badge ? (
-            <span className="rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
-              {course.badge}
-            </span>
-          ) : (
-            <span />
-          )}
-          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-dark">
-            <Star className="h-4 w-4 fill-gold text-gold" />
-            {course.format || "تدريب معتمد + حقل"}
+    <article className="card-fx reveal overflow-hidden rounded-3xl border border-forest/10 bg-card shadow-soft">
+      <div className="grid md:grid-cols-[280px_1fr]">
+        <div className="relative min-h-52 md:min-h-full">
+          <img
+            src={image}
+            alt={course.title}
+            loading="lazy"
+            width={560}
+            height={720}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-forest shadow-sm md:hidden">
+            {orderLabel}
           </span>
         </div>
 
-        <h3 className="mt-4 text-2xl font-bold leading-relaxed text-forest md:text-[1.75rem]">
-          {course.title}
-        </h3>
-
-        <div className="mt-5 grid gap-4 rounded-2xl border border-gold/40 bg-[#faf6ee] p-4 sm:grid-cols-2 sm:gap-6">
-          <div className="flex items-start gap-3">
-            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <User className="h-4 w-4" />
+        <div className="p-6 md:p-8">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+            <span className="rounded-full bg-secondary px-3 py-1 text-primary">{orderLabel}</span>
+            {course.badge ? (
+              <span className="rounded-full bg-gold/20 px-3 py-1 text-gold-dark">{course.badge}</span>
+            ) : null}
+            <span className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-muted-foreground">
+              <Star className="h-3.5 w-3.5 fill-gold text-gold" />
+              {course.format || "تدريب معتمد + حقل"}
             </span>
-            <div>
-              <p className="text-xs text-muted-foreground">اسم المدرب / الاستشاري:</p>
-              <p className="mt-1 font-bold text-forest">{course.trainer || "يُعلن لاحقًا"}</p>
-            </div>
           </div>
-          <div className="flex items-start gap-3">
-            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <Clock className="h-4 w-4" />
-            </span>
-            <div>
-              <p className="text-xs text-muted-foreground">عدد الساعات المعتمدة:</p>
-              <p className="mt-1 font-bold text-forest">{course.duration || "يُعلن لاحقًا"}</p>
+
+          <h3 className="mt-4 text-2xl font-bold leading-relaxed text-forest">{course.title}</h3>
+
+          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+            <div className="flex items-start gap-2">
+              <User className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <div>
+                <dt className="text-muted-foreground">اسم المدرب / الاستشاري</dt>
+                <dd className="font-semibold text-forest">{course.trainer || "يُعلن لاحقًا"}</dd>
+              </div>
             </div>
-          </div>
-        </div>
+            <div className="flex items-start gap-2">
+              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <div>
+                <dt className="text-muted-foreground">عدد الساعات المعتمدة</dt>
+                <dd className="font-semibold text-forest">{course.duration || "يُعلن لاحقًا"}</dd>
+              </div>
+            </div>
+          </dl>
 
-        {modules.length > 0 && (
-          <>
-            <h4 className="mt-6 text-base font-bold text-primary">
-              محاور الكورس الرئيسية ({modules.length} محاور):
-            </h4>
-            <ul className="mt-3 space-y-3">
-              {modules.map((module, index) => (
-                <li key={`${index}-${module}`} className="flex items-start gap-2.5 text-sm leading-7 text-muted-foreground">
-                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                  <span>
-                    <strong className="font-semibold text-forest">المحور {index + 1}:</strong> {module}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+          {modules.length > 0 && (
+            <>
+              <h4 className="mt-6 text-sm font-bold text-primary">
+                محاور الكورس الرئيسية ({modules.length} محاور):
+              </h4>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-muted-foreground">
+                {modules.map((module, index) => (
+                  <li key={`${index}-${module}`} className="flex items-start gap-2">
+                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                    <span>
+                      <strong className="font-semibold text-forest">المحور {index + 1}:</strong> {module}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
 
-        <div className="mt-7 border-t border-border/80 pt-6">
-          <a
-            href="#registration-form"
-            onClick={onRegister}
-            className="btn-primary w-full justify-center rounded-full py-3.5 text-base"
-          >
+          <a href="#registration-form" onClick={onRegister} className="btn-gold mt-6 inline-flex">
             سجّل الآن في هذا الكورس <ArrowLeft className="h-4 w-4" />
           </a>
         </div>

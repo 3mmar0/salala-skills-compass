@@ -4,7 +4,7 @@ import { definePage, f, section } from "../schema";
 
 export const homeHero = section("hero", {
   label: "الواجهة الرئيسية",
-  description: "الصورة الكبيرة والعنوان وأزرار البداية.",
+  description: "الصورة الكبيرة والعنوان وأزرار البداية وشارة Solalaa Genome.",
   fields: [
     f.text("badge", "الشارة أعلى العنوان"),
     f.text("title", "العنوان الرئيسي"),
@@ -14,6 +14,14 @@ export const homeHero = section("hero", {
     f.url("primaryHref", "رابط الزر الأول"),
     f.text("secondaryLabel", "نص الزر الثاني"),
     f.url("secondaryHref", "رابط الزر الثاني"),
+    f.image("genomeMedia", "وسائط دائرة DNA", {
+      hint: "صورة أو GIF داخل الدائرة. اتركها فارغة لاستخدام الرسوم الافتراضية.",
+    }),
+    f.video("genomeVideo", "فيديو دائرة DNA", {
+      hint: "اختياري — إن وُجد يُعرض بدل الصورة/GIF داخل الدائرة (MP4 أو WebM).",
+    }),
+    f.text("genomeLabel", "نص شارة Genome"),
+    f.url("genomeHref", "رابط شارة Genome"),
   ],
   defaults: {
     badge: "منصـــة Solala",
@@ -24,6 +32,10 @@ export const homeHero = section("hero", {
     primaryHref: "/about",
     secondaryLabel: "بوابة الخدمات",
     secondaryHref: "/courses",
+    genomeMedia: "",
+    genomeVideo: "",
+    genomeLabel: "Solalaa Genome",
+    genomeHref: "/breed-innovation",
   },
   legacyPageFields: { title: "heroTitle", subtitle: "heroSubtitle" },
 });

@@ -128,8 +128,14 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
 
   const upload = async (file?: File) => {
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("حجم الصورة أكبر من 5 ميجابايت.");
+    if (!/^image\/(jpeg|png|webp|gif)$/i.test(file.type) && !/\.(jpe?g|png|webp|gif)$/i.test(file.name)) {
+      toast.error("صيغة الصورة غير مدعومة. استخدم JPG/PNG/WebP/GIF.");
+      return;
+    }
+    // GIFs can be larger animated assets; still keep a hard ceiling.
+    const maxBytes = /\.gif$/i.test(file.name) || file.type === "image/gif" ? 12 * 1024 * 1024 : 5 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      toast.error(file.type === "image/gif" || /\.gif$/i.test(file.name) ? "حجم الـ GIF أكبر من 12 ميجابايت." : "حجم الصورة أكبر من 5 ميجابايت.");
       return;
     }
     setUploading(true);
@@ -170,7 +176,7 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition hover:bg-forest disabled:opacity-60"
           >
             {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImageUp className="h-3.5 w-3.5" />}
-            {uploading ? "جاري الرفع…" : "رفع صورة"}
+            {uploading ? "جاري الرفع…" : "رفع صورة / GIF"}
           </button>
           <div className="flex gap-1.5">
             <button
@@ -196,7 +202,7 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
       {showUrl && (
         <input dir="ltr" className={`${fieldInput} mt-2 text-left text-xs`} placeholder="https://…" value={value} onChange={(e) => onChange(e.target.value)} />
       )}
-      <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={(e) => void upload(e.target.files?.[0])} />
+      <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,.gif" className="sr-only" onChange={(e) => void upload(e.target.files?.[0])} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 function canonicalPath(pathname: string) {
   if (!pathname || pathname === "/") return "/";
-  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+  return pathname.replace(/\/+$/, "") || "/";
 }
 
 export const meta = (title: string, description: string, pathname = "/") => {

@@ -24,12 +24,12 @@ class MediaController extends Controller
         }
 
         $data = $request->validate([
-            // Images stay small; videos/PDFs need a higher ceiling (50 MB).
-            'file' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,mp4,webm,pdf', 'max:51200'],
+            // Images/GIFs stay moderate; videos/PDFs need a higher ceiling (50 MB).
+            'file' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,gif,mp4,webm,pdf', 'max:51200'],
             'alt' => ['nullable', 'string', 'max:255'],
         ], [
             'file.required' => 'اختر ملفًا للرفع.',
-            'file.mimes' => 'الصيغة غير مدعومة. استخدم JPG/PNG/WebP أو MP4/WebM أو PDF.',
+            'file.mimes' => 'الصيغة غير مدعومة. استخدم JPG/PNG/WebP/GIF أو MP4/WebM أو PDF.',
             'file.max' => 'حجم الملف أكبر من 50 ميجابايت.',
         ]);
 
