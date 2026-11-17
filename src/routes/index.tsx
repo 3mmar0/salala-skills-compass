@@ -142,28 +142,61 @@ function Methodology() {
 
 function VideoSection() {
   const c = useSectionContent(homeVideo);
+  const items = Array.isArray(c.items) ? c.items : [];
   return (
     <section className="container-site py-24">
-      <SectionHead eyebrow={c.eyebrow} title={c.title} desc={c.subtitle} />
-      <div className="mx-auto mt-10 max-w-4xl overflow-hidden rounded-3xl border bg-card shadow-soft">
-        {c.src ? (
-          <video
-            className="aspect-video w-full bg-forest/90 object-cover"
-            src={c.src}
-            poster={c.poster || undefined}
-            controls
-            playsInline
-            preload="metadata"
-          >
-            متصفحك لا يدعم تشغيل الفيديو.
-          </video>
-        ) : c.poster ? (
-          <img src={c.poster} alt={c.title} className="aspect-video w-full object-cover" />
-        ) : (
-          <div className="grid aspect-video place-items-center bg-forest/90 px-6 text-center text-forest-foreground/80">
-            <p className="text-sm md:text-base">الفيديو التعريفي سيظهر هنا بعد رفعه من لوحة الإدارة.</p>
-          </div>
-        )}
+      <div className="grid items-center gap-12 lg:grid-cols-2">
+        {/* RTL: first column sits on the right — details beside the video */}
+        <div>
+          <span className="text-sm font-semibold text-primary">{c.eyebrow}</span>
+          <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">{c.title}</h2>
+          <p className="mt-3 text-muted-foreground leading-8">{c.subtitle}</p>
+          {items.length > 0 && (
+            <div className="mt-8 space-y-4">
+              {items.map((p, i) => {
+                const Icon = cmsIcon(p.icon);
+                return (
+                  <div key={p._id ?? i} className="flex gap-4 rounded-2xl border bg-card p-5">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-gold shadow-soft">
+                      <Icon className="h-6 w-6 icon-wiggle" />
+                    </span>
+                    <div>
+                      <h4 className="font-bold text-forest">{p.title}</h4>
+                      <p className="mt-1 text-sm leading-7 text-muted-foreground">{p.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {c.ctaLabel && (
+            <CmsLink href={c.ctaHref} className="btn-primary mt-8">
+              {c.ctaLabel} <ArrowLeft className="h-4 w-4" />
+            </CmsLink>
+          )}
+        </div>
+        <div className="overflow-hidden rounded-3xl border bg-card shadow-soft">
+          {c.src ? (
+            <video
+              className="aspect-video w-full bg-forest/90 object-cover"
+              src={c.src}
+              poster={c.poster || undefined}
+              controls
+              playsInline
+              preload="metadata"
+            >
+              متصفحك لا يدعم تشغيل الفيديو.
+            </video>
+          ) : c.poster ? (
+            <img src={c.poster} alt={c.title} className="aspect-video w-full object-cover" />
+          ) : (
+            <div className="grid aspect-video place-items-center bg-forest/90 px-6 text-center text-forest-foreground/80">
+              <p className="max-w-sm text-sm leading-7 md:text-base">
+                الفيديو التعريفي سيظهر هنا بعد رفعه من لوحة الإدارة.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

@@ -88,13 +88,16 @@ export const homeMethodology = section("methodology", {
 
 export const homeVideo = section("video", {
   label: "قسم الفيديو",
-  description: "فيديو تعريفي يظهر في الصفحة الرئيسية (يُرفع كملف).",
+  description: "فيديو تعريفي يظهر في الصفحة الرئيسية بجانب تفاصيل قابلة للتعديل.",
   fields: [
     f.text("eyebrow", "العنوان الصغير"),
     f.text("title", "العنوان"),
     f.textarea("subtitle", "الوصف"),
     f.video("src", "ملف الفيديو"),
     f.image("poster", "صورة الغلاف", { hint: "اختيارية — تظهر قبل تشغيل الفيديو" }),
+    f.list("items", "النقاط", "نقطة", [f.icon(), f.text("title", "العنوان"), f.textarea("description", "الوصف")]),
+    f.text("ctaLabel", "نص الزر"),
+    f.url("ctaHref", "رابط الزر"),
   ],
   defaults: {
     eyebrow: "تعرّف علينا",
@@ -102,6 +105,13 @@ export const homeVideo = section("video", {
     subtitle: "لمحة سريعة عن منهجيتنا وبرامجنا وكيف نرافق المتدربين والمستثمرين.",
     src: "",
     poster: "",
+    items: [
+      { icon: "Eye", title: "منهجية عملية", description: "نعرض كيف ندمج التدريب النظري مع التطبيق الحقلي خطوة بخطوة." },
+      { icon: "Users", title: "مرافقة المتدربين", description: "رحلة واضحة من أول تسجيل حتى متابعة ما بعد البرنامج." },
+      { icon: "Sprout", title: "فرص للمستثمرين", description: "نوضح مسارات الاستثمار الزراعي وكيف ندعم اتخاذ القرار." },
+    ],
+    ctaLabel: "اكتشف برامجنا",
+    ctaHref: "/courses",
   },
 });
 
