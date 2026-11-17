@@ -136,16 +136,46 @@ function CustomTraining() {
 }
 
 function CatalogCard({ category, featured, cta }: { category: PublicCategory; featured?: boolean; cta: string }) {
+  const label = cta.replace(/[←→]\s*$/, "").trim() || "عرض التفاصيل";
   return (
     <Link
       to="/courses/$slug"
       params={{ slug: category.slug }}
-      className={`card-fx flex flex-col rounded-3xl border bg-card p-6 shadow-soft ${featured ? "border-gold" : ""}`}
+      className={`group flex h-full flex-col overflow-hidden rounded-3xl border bg-card shadow-soft transition hover:-translate-y-1 ${
+        featured ? "border-gold/70" : "border-forest/10 hover:border-gold/40"
+      }`}
     >
-      {category.image && <img src={category.image} alt="" className="mb-5 h-28 w-28 rounded-2xl object-cover" />}
-      <h3 className="text-xl font-bold text-forest">{category.title}</h3>
-      <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{category.description}</p>
-      <span className="mt-6 text-sm font-semibold text-primary">{cta}</span>
+      <span className="block h-1.5 w-full bg-gradient-to-l from-gold via-gold-light to-gold" />
+      <div className={`flex flex-1 flex-col text-center ${featured ? "p-8 pt-9" : "p-6 pt-7"}`}>
+        <div
+          className={`mx-auto grid place-items-center overflow-hidden rounded-full border-[3px] border-gold bg-muted shadow-[0_10px_28px_rgba(16,60,43,.12)] ${
+            featured ? "h-32 w-32" : "h-24 w-24"
+          }`}
+        >
+          {category.image ? (
+            <img
+              src={category.image}
+              alt=""
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <span className="text-2xl font-bold text-forest/40">{category.title.slice(0, 1)}</span>
+          )}
+        </div>
+        <h3 className={`mt-6 font-bold text-forest ${featured ? "text-2xl" : "text-xl"}`}>{category.title}</h3>
+        <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{category.description}</p>
+        {featured ? (
+          <span className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-forest px-4 py-3.5 text-sm font-semibold text-forest-foreground transition group-hover:bg-primary">
+            {label}
+            <ArrowLeft className="h-4 w-4" />
+          </span>
+        ) : (
+          <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-forest/10 bg-muted/50 px-4 py-2.5 text-sm font-semibold text-forest transition group-hover:border-gold/40 group-hover:text-primary">
+            <ArrowLeft className="h-4 w-4" />
+            {label}
+          </span>
+        )}
+      </div>
     </Link>
   );
 }

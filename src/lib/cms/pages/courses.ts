@@ -33,7 +33,7 @@ export const coursesCatalog = section("catalog", {
     title: "مجالات التدريب",
     subtitle: "اختر تخصصك وابدأ رحلتك..",
     emptyText: "لا توجد نتائج مطابقة.",
-    cardCta: "استكشف التخصصات ←",
+    cardCta: "عرض التفاصيل",
   },
 });
 
