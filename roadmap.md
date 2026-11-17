@@ -5,7 +5,7 @@
 - [x] Logo using uploaded logo name + brand colors
 - [x] Schema-driven CMS: page definitions + editable sections + live-preview page editor
 - [x] Courses admin: catalog tree, CRUD, categories/specialties dialogs, reorder, duplicate
-- [x] Backend: bulk page-content save (PUT /admin/page-content), course/category/specialty DELETE endpoints, CORS for Lovable preview origins
+- [x] Backend: bulk page-content save (PUT /admin/page-content), course/category/specialty DELETE endpoints, CORS for production and local origins
 - [x] Add a useful, protected admin dashboard to the admin pages list
 - [x] Move the admin sidebar to the right and improve the mobile layout
 - [x] Repair broken checkbox and check-input styling in the admin

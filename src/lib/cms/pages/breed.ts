@@ -5,7 +5,7 @@ import { definePage, f, section } from "../schema";
 export const breedHero = section("hero", {
   label: "الواجهة الرئيسية",
   fields: [f.image("image", "الصورة"), f.text("text1", "الشارة"), f.text("text2", "العنوان"), f.textarea("text3", "النص التعريفي"), f.url("text4", "رابط الزر"), f.text("text5", "نص الزر")],
-  defaults: {"image": heroImg, "text1": "Solala Plus · مركز ابتكار السلالات", "text2": "Solalaa Genome", "text3": "نُطلق إمكاناتك غير المستغلة عبر علم الوراثة المتقدم والانتخاب الجينومي. بفضل فريق خبرائنا المهرة، نساعدك على تحقيق أقصى كفاءة وأداء لمنتجات الدواجن التقليدية والتجارية مع الحفاظ الكامل على المظهر والخصائص الفريدة للسلالة الخاصة بك.", "text4": "#genome-form", "text5": "احصل على الخدمة"},
+  defaults: {"image": heroImg, "text1": "Solala Plus · Solalaa Genome", "text2": "Solalaa Genome", "text3": "نُطلق إمكاناتك غير المستغلة عبر علم الوراثة المتقدم والانتخاب الجينومي. بفضل فريق خبرائنا المهرة، نساعدك على تحقيق أقصى كفاءة وأداء لمنتجات الدواجن التقليدية والتجارية مع الحفاظ الكامل على المظهر والخصائص الفريدة للسلالة الخاصة بك.", "text4": "#genome-form", "text5": "احصل على الخدمة"},
 });
 
 export const breedIntro = section("intro", {
@@ -53,7 +53,7 @@ export const breedCta = section("cta", {
 export const breedPage = definePage({
   key: "breed",
   slug: "/breed-innovation",
-  title: "مركز ابتكار السلالات",
+  title: "Solalaa Genome",
   description: "Solalaa Genome: الانتخاب الجينومي وتحسين برامج تربية الدواجن مع الحفاظ على هوية السلالة.",
   sections: [breedHero, breedIntro, breedGenetics, breedPackage, breedOffers, breedMissions, breedForm, breedCta],
 });

@@ -5,7 +5,10 @@ export const Route = createFileRoute("/admin")({
   ssr: false,
   component: AdminLayout,
   beforeLoad: async ({ location }) => {
-    const path = location.pathname;
+    // Hostinger normalises directory-like URLs with a trailing slash. Treat
+    // /admin/login and /admin/login/ as the same public login route; every
+    // other admin route is still verified against the protected API.
+    const path = location.pathname.replace(/\/+$/, "") || "/";
     if (path === "/admin/login") return;
     await requireAdminSession();
   },

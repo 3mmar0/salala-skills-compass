@@ -13,7 +13,7 @@ import { landscapePage, landscapeHero, landscapeBreadcrumbs, landscapeStats, lan
 export const Route = createFileRoute("/landscape")({
   head: () =>
     meta(
-      "اللاندسكيب",
+      "Landscape",
       "خدمات هندسة وتصميم اللاندسكيب: معاينة، تصميم ثلاثي الأبعاد، وتنفيذ باحتراف مع الري الذكي والإنارة البيئية.",
       "/landscape",
     ),

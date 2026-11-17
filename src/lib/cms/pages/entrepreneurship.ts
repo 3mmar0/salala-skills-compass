@@ -66,4 +66,4 @@ export const entrepreneurshipCta = section("cta", {
 },
 });
 
-export const entrepreneurshipPage = definePage({ key: "entrepreneurship", slug: "/entrepreneurship", title: "ريادة الأعمال والمشاريع", sections: [entrepreneurshipHero, entrepreneurshipStages, entrepreneurshipCta] });
+export const entrepreneurshipPage = definePage({ key: "entrepreneurship", slug: "/entrepreneurship", title: "ريادة الأعمال المتخصصة", sections: [entrepreneurshipHero, entrepreneurshipStages, entrepreneurshipCta] });

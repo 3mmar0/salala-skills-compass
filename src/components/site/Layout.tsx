@@ -1,40 +1,61 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
+import { ChevronDown, Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
 import { useCmsOptional } from "@/lib/cms/CmsProvider";
 import { CmsLink } from "@/components/cms/CmsLink";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const NAV = [
   { to: "/", label: "الرئيسية" },
-  { to: "/about", label: "عن سلالة" },
-  { to: "/courses", label: "الدورات والتدريبات" },
+  { to: "/about", label: "Solalaa is" },
+  { to: "/courses", label: "البرامج التدريبية" },
   { to: "/consulting", label: "الاستشارات" },
-  { to: "/breed-innovation", label: "مركز ابتكار السلالات" },
-  { to: "/entrepreneurship", label: "ريادة الأعمال والمشاريع" },
+  { to: "/breed-innovation", label: "Solalaa Genome" },
+  { to: "/entrepreneurship", label: "ريادة الأعمال المتخصصة" },
   { to: "/library", label: "المكتبة" },
-  { to: "/landscape", label: "اللاندسكيب" },
+  { to: "/landscape", label: "Landscape" },
+  { to: "/solalaa-link", label: "SOLALAA LINK" },
 ] as const;
 
+export const DEFAULT_LOGO = "/solala-logo.png";
+
+/** Links kept visible in the desktop header; the rest open under the chevron. */
+const PRIMARY_COUNT = 4;
+const PRIMARY_NAV = NAV.slice(0, PRIMARY_COUNT);
+const MORE_NAV = NAV.slice(PRIMARY_COUNT);
+
 function Logo({ light = false }: { light?: boolean }) {
+  const cms = useCmsOptional();
+  const logo = cms?.store.settings.logo?.trim() || DEFAULT_LOGO;
+  const siteName = cms?.store.settings.siteName?.trim() || "Solala";
   return (
     <Link
       to="/"
-      aria-label="سلالة - الصفحة الرئيسية"
+      aria-label={`${siteName} - الصفحة الرئيسية`}
       className={`inline-flex overflow-hidden rounded-xl ${light ? "bg-white p-1.5" : ""}`}
     >
-      <img src="/solala-logo.png" alt="Solala سلالة" width={142} height={147} className="h-12 w-auto" />
+      <img src={logo} alt={siteName} width={142} height={147} className="h-12 w-auto" />
     </Link>
   );
 }
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const moreActive = MORE_NAV.some((n) => pathname === n.to || (n.to !== "/" && pathname.startsWith(`${n.to}/`)));
+
   return (
     <header className="sticky top-0 z-50 border-b bg-background/85 backdrop-blur">
       <div className="container-site flex h-18 items-center justify-between gap-4 py-3">
         <Logo />
         <nav className="hidden items-center gap-1 xl:flex">
-          {NAV.map((n) => (
+          {PRIMARY_NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
@@ -45,6 +66,42 @@ export function Header() {
               {n.label}
             </Link>
           ))}
+          {MORE_NAV.length > 0 && (
+            <DropdownMenu open={moreOpen} onOpenChange={setMoreOpen}>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="المزيد من الروابط"
+                  aria-expanded={moreOpen}
+                  className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition ${
+                    moreOpen || moreActive
+                      ? "bg-secondary text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-primary"
+                  }`}
+                >
+                  <ChevronDown className={`h-4 w-4 transition ${moreOpen ? "rotate-180" : ""}`} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-56 rounded-xl p-1.5">
+                {MORE_NAV.map((n) => {
+                  const active = pathname === n.to || (n.to !== "/" && pathname.startsWith(`${n.to}/`));
+                  return (
+                    <DropdownMenuItem key={n.to} asChild className="rounded-lg p-0 focus:bg-transparent">
+                      <Link
+                        to={n.to}
+                        onClick={() => setMoreOpen(false)}
+                        className={`block w-full rounded-lg px-3 py-2.5 text-sm font-medium outline-none transition ${
+                          active ? "bg-secondary text-primary" : "text-forest hover:bg-muted"
+                        }`}
+                      >
+                        {n.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </nav>
         <div className="hidden xl:block">
           <Link to="/contact" className="btn-primary text-sm">تواصل معنا</Link>

@@ -50,7 +50,7 @@ function Hero({ cat }: { cat: PublicCategory | null }) {
       <Breadcrumbs
         items={[
           { label: "الرئيسية", to: "/" },
-          { label: "الدورات والتدريبات", to: "/courses" },
+          { label: "البرامج التدريبية", to: "/courses" },
           { label: title },
         ]}
       />

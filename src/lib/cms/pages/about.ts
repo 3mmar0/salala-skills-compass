@@ -100,4 +100,4 @@ export const aboutCta = section("cta", {
 },
 });
 
-export const aboutPage = definePage({ key: "about", slug: "/about", title: "عن سلالة", sections: [aboutHero, aboutVision, aboutValues, aboutTeam, aboutCta] });
+export const aboutPage = definePage({ key: "about", slug: "/about", title: "Solalaa is", sections: [aboutHero, aboutVision, aboutValues, aboutTeam, aboutCta] });

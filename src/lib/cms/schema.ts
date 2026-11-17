@@ -8,7 +8,7 @@
  * replaces the defaults.
  */
 
-export type ScalarFieldType = "text" | "textarea" | "image" | "url" | "icon";
+export type ScalarFieldType = "text" | "textarea" | "image" | "video" | "url" | "icon";
 
 export type ScalarField = {
   name: string;
@@ -92,6 +92,7 @@ export const f = {
   text: (name: string, label: string, extra: FieldExtra = {}): ScalarField => ({ name, label, type: "text", ...extra }),
   textarea: (name: string, label: string, extra: FieldExtra = {}): ScalarField => ({ name, label, type: "textarea", ...extra }),
   image: (name: string, label: string, extra: FieldExtra = {}): ScalarField => ({ name, label, type: "image", ...extra }),
+  video: (name: string, label: string, extra: FieldExtra = {}): ScalarField => ({ name, label, type: "video", ...extra }),
   url: (name: string, label: string, extra: FieldExtra = {}): ScalarField => ({ name, label, type: "url", dir: "ltr", ...extra }),
   icon: (name = "icon", label = "الأيقونة"): ScalarField => ({ name, label, type: "icon" }),
   list: (

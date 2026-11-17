@@ -47,12 +47,25 @@ export async function adminApi<T>(path: string, init: RequestInit = {}): Promise
   return response.status === 204 ? (undefined as T) : (response.json() as Promise<T>);
 }
 
+/** Public API helper. Unlike adminApi it deliberately sends no session token. */
+export async function publicApi<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const response = await fetch(`${API_BASE}${path}`, {
+    ...init,
+    headers: { Accept: "application/json", ...(init.body && !(init.body instanceof FormData) ? { "Content-Type": "application/json" } : {}), ...init.headers },
+  });
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => null)) as { message?: string; errors?: Record<string, string[]> } | null;
+    throw new ApiError(Object.values(payload?.errors ?? {})[0]?.[0] || payload?.message || "تعذر إرسال الطلب.", response.status);
+  }
+  return response.json() as Promise<T>;
+}
+
 export async function fetchCmsStore(): Promise<CmsStore> {
   try {
     const document = await adminApi<{ settings: CmsStore["settings"]; pages: CmsStore["pages"] }>("/cms");
     const store: CmsStore = {
       version: 2,
-      settings: document.settings,
+      settings: { ...document.settings, logo: document.settings?.logo ?? "" },
       pages: document.pages.map(({ sections: _sections, ...page }) => page),
       sections: document.pages.flatMap((page) =>
         (page.sections ?? []).map((section) => ({

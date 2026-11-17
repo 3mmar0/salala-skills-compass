@@ -18,6 +18,7 @@ import {
   homePillars,
   homeSponsors,
   homeStats,
+  homeVideo,
 } from "@/lib/cms/pages/home";
 
 export const Route = createFileRoute("/")({
@@ -34,6 +35,7 @@ function Index() {
         pillars: Pillars,
         stats: StatsSection,
         methodology: Methodology,
+        video: VideoSection,
         consulting: Consulting,
         entrepreneurship: Entrepreneurship,
         experts: Experts,
@@ -138,6 +140,28 @@ function Methodology() {
   );
 }
 
+function VideoSection() {
+  const c = useSectionContent(homeVideo);
+  if (!c.src) return null;
+  return (
+    <section className="container-site py-24">
+      <SectionHead eyebrow={c.eyebrow} title={c.title} desc={c.subtitle} />
+      <div className="mx-auto mt-10 max-w-4xl overflow-hidden rounded-3xl border bg-card shadow-soft">
+        <video
+          className="aspect-video w-full bg-forest/90 object-cover"
+          src={c.src}
+          poster={c.poster || undefined}
+          controls
+          playsInline
+          preload="metadata"
+        >
+          متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+      </div>
+    </section>
+  );
+}
+
 function Consulting() {
   const c = useSectionContent(homeConsulting);
   return (
@@ -214,16 +238,31 @@ function Experts() {
 
 function Sponsors() {
   const c = useSectionContent(homeSponsors);
+  const items = c.items.filter((p) => p.logo || p.name);
+  const loop = items.length > 0 ? [...items, ...items] : [];
   return (
-    <section className="container-site py-20">
-      <SectionHead eyebrow={c.eyebrow} title={c.title} desc={c.subtitle} />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {c.items.map((p, i) => (
-          <div key={p._id ?? i} className="grid h-24 place-items-center rounded-2xl border border-dashed bg-card p-3 font-display text-muted-foreground">
-            {p.logo ? <img src={p.logo} alt={p.name} loading="lazy" className="max-h-16 w-auto object-contain" /> : p.name}
-          </div>
-        ))}
+    <section className="py-20">
+      <div className="container-site">
+        <SectionHead eyebrow={c.eyebrow} title={c.title} desc={c.subtitle} />
       </div>
+      {loop.length > 0 && (
+        <div className="mt-10 overflow-hidden" dir="ltr" aria-label={c.title}>
+          <div className="sponsors-marquee flex items-center gap-10 px-4 md:gap-14">
+            {loop.map((p, i) => (
+              <figure key={`${p._id ?? p.name}-${i}`} className="flex w-36 shrink-0 flex-col items-center gap-3 md:w-44">
+                {p.logo ? (
+                  <img src={p.logo} alt={p.name || ""} loading="lazy" className="h-16 w-auto max-w-full object-contain md:h-20" />
+                ) : null}
+                {p.name ? (
+                  <figcaption dir="rtl" className="text-center font-display text-sm text-muted-foreground md:text-base">
+                    {p.name}
+                  </figcaption>
+                ) : null}
+              </figure>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

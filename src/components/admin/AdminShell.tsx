@@ -36,9 +36,9 @@ export function AdminShell({ children, title, desc, actions }: { children: React
         <Link to="/admin" className="flex items-center gap-2 font-display font-bold"><Sprout className="h-5 w-5 text-gold" /> Solala Admin</Link>
         <Button variant="ghost" size="icon" aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"} aria-expanded={menuOpen} aria-controls="admin-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </div>
-      <div className="mx-auto grid min-h-screen max-w-[1400px] lg:grid-cols-[260px_minmax(0,1fr)]">
-        <main className="order-2 min-w-0 px-4 py-6 sm:px-8 lg:py-10">
-          <header className="sticky top-14 z-30 -mt-6 mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-forest/10 bg-muted py-6 lg:top-0 lg:-mt-10">
+      <div className="grid min-h-[calc(100dvh-3.5rem)] w-full grid-cols-1 lg:min-h-dvh lg:grid-cols-[280px_minmax(0,1fr)]">
+        <main className="min-w-0 px-4 py-6 sm:px-8 lg:col-start-2 lg:row-start-1 lg:px-10 lg:py-8 xl:px-14">
+          <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-forest/10 pb-6">
             <div className="min-w-0">
               <h1 className="break-words font-display text-2xl font-bold sm:text-3xl">{title}</h1>
               {desc && <p className="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">{desc}</p>}
@@ -52,8 +52,8 @@ export function AdminShell({ children, title, desc, actions }: { children: React
           {children}
         </main>
 
-        <aside id="admin-navigation" className={`${menuOpen ? "block" : "hidden"} fixed right-0 top-14 z-40 max-h-[calc(100dvh-3.5rem)] w-72 max-w-full overflow-y-auto order-1 border-b border-border bg-forest text-forest-foreground lg:static lg:block lg:max-h-none lg:w-auto lg:overflow-visible lg:border-b-0 lg:border-e lg:border-forest-foreground/20`}>
-          <div className="flex flex-col px-4 py-4 sm:px-5 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto lg:py-6">
+        <aside id="admin-navigation" className={`${menuOpen ? "block" : "hidden"} fixed inset-y-14 right-0 z-40 w-72 max-w-[88vw] overflow-y-auto border-s border-forest-foreground/20 bg-forest text-forest-foreground shadow-2xl lg:sticky lg:top-0 lg:col-start-1 lg:row-start-1 lg:block lg:h-dvh lg:w-auto lg:max-w-none lg:self-start lg:border-s lg:shadow-none`}>
+          <div className="flex min-h-full flex-col px-4 py-5 sm:px-5 lg:h-dvh lg:py-7">
             <Link to="/admin" className="mb-8 hidden items-center gap-3 px-2 lg:flex">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold/20 text-gold">
                 <Sprout className="h-5 w-5" />
@@ -84,7 +84,7 @@ export function AdminShell({ children, title, desc, actions }: { children: React
               })}
             </nav>
 
-            <div className="mt-6 space-y-2 border-t border-forest-foreground/10 pt-4">
+            <div className="mt-auto space-y-2 border-t border-forest-foreground/10 pt-4">
               <Link to="/" className="block rounded-xl px-3 py-2 text-sm opacity-80 hover:bg-forest-foreground/5">
                 عرض الموقع
               </Link>

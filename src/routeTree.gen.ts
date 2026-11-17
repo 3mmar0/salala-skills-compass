@@ -21,6 +21,7 @@ import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LandscapeRouteImport } from './routes/landscape'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as SolalaaLinkRouteImport } from './routes/solalaa-link'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
@@ -32,7 +33,6 @@ import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as CoursesAnimalLivestockRouteImport } from './routes/courses.animal-livestock'
 import { Route as AdminPagesIndexRouteImport } from './routes/admin.pages.index'
 import { Route as AdminPagesPageKeyRouteImport } from './routes/admin.pages.$pageKey'
-import { Route as AdminPagesPageSlugRouteImport } from './routes/admin.pages.$pageSlug'
 import { Route as CoursesCategorySpecialtyRouteImport } from './routes/courses.$category.$specialty'
 import { Route as CoursesAnimalLivestockIndexRouteImport } from './routes/courses.animal-livestock.index'
 import { Route as CoursesCategorySpecialtyCourseRouteImport } from './routes/courses.$category.$specialty.$course'
@@ -97,6 +97,11 @@ const PoliciesRoute = PoliciesRouteImport.update({
   path: '/policies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SolalaaLinkRoute = SolalaaLinkRouteImport.update({
+  id: '/solalaa-link',
+  path: '/solalaa-link',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -152,11 +157,6 @@ const AdminPagesPageKeyRoute = AdminPagesPageKeyRouteImport.update({
   path: '/$pageKey',
   getParentRoute: () => AdminPagesRoute,
 } as any)
-const AdminPagesPageSlugRoute = AdminPagesPageSlugRouteImport.update({
-  id: '/$pageSlug',
-  path: '/$pageSlug',
-  getParentRoute: () => AdminPagesRoute,
-} as any)
 const CoursesCategorySpecialtyRoute =
   CoursesCategorySpecialtyRouteImport.update({
     id: '/$category/$specialty',
@@ -189,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/solalaa-link': typeof SolalaaLinkRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/pages': typeof AdminPagesRouteWithChildren
@@ -199,7 +200,6 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/admin/pages/$pageKey': typeof AdminPagesPageKeyRoute
-  '/admin/pages/$pageSlug': typeof AdminPagesPageSlugRoute
   '/courses/$category/$specialty': typeof CoursesCategorySpecialtyRouteWithChildren
   '/admin/pages/': typeof AdminPagesIndexRoute
   '/courses/animal-livestock/': typeof CoursesAnimalLivestockIndexRoute
@@ -216,6 +216,7 @@ export interface FileRoutesByTo {
   '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/solalaa-link': typeof SolalaaLinkRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/registrations': typeof AdminRegistrationsRoute
@@ -224,7 +225,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/courses': typeof CoursesIndexRoute
   '/admin/pages/$pageKey': typeof AdminPagesPageKeyRoute
-  '/admin/pages/$pageSlug': typeof AdminPagesPageSlugRoute
   '/courses/$category/$specialty': typeof CoursesCategorySpecialtyRouteWithChildren
   '/admin/pages': typeof AdminPagesIndexRoute
   '/courses/animal-livestock': typeof CoursesAnimalLivestockIndexRoute
@@ -244,6 +244,7 @@ export interface FileRoutesById {
   '/landscape': typeof LandscapeRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/solalaa-link': typeof SolalaaLinkRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/pages': typeof AdminPagesRouteWithChildren
@@ -254,7 +255,6 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/admin/pages/$pageKey': typeof AdminPagesPageKeyRoute
-  '/admin/pages/$pageSlug': typeof AdminPagesPageSlugRoute
   '/courses/$category/$specialty': typeof CoursesCategorySpecialtyRouteWithChildren
   '/admin/pages/': typeof AdminPagesIndexRoute
   '/courses/animal-livestock/': typeof CoursesAnimalLivestockIndexRoute
@@ -275,6 +275,7 @@ export interface FileRouteTypes {
     | '/landscape'
     | '/library'
     | '/policies'
+    | '/solalaa-link'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/pages'
@@ -285,7 +286,6 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/courses/'
     | '/admin/pages/$pageKey'
-    | '/admin/pages/$pageSlug'
     | '/courses/$category/$specialty'
     | '/admin/pages/'
     | '/courses/animal-livestock/'
@@ -302,6 +302,7 @@ export interface FileRouteTypes {
     | '/landscape'
     | '/library'
     | '/policies'
+    | '/solalaa-link'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/registrations'
@@ -310,7 +311,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/courses'
     | '/admin/pages/$pageKey'
-    | '/admin/pages/$pageSlug'
     | '/courses/$category/$specialty'
     | '/admin/pages'
     | '/courses/animal-livestock'
@@ -329,6 +329,7 @@ export interface FileRouteTypes {
     | '/landscape'
     | '/library'
     | '/policies'
+    | '/solalaa-link'
     | '/admin/courses'
     | '/admin/login'
     | '/admin/pages'
@@ -339,7 +340,6 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/courses/'
     | '/admin/pages/$pageKey'
-    | '/admin/pages/$pageSlug'
     | '/courses/$category/$specialty'
     | '/admin/pages/'
     | '/courses/animal-livestock/'
@@ -359,6 +359,7 @@ export interface RootRouteChildren {
   LandscapeRoute: typeof LandscapeRoute
   LibraryRoute: typeof LibraryRoute
   PoliciesRoute: typeof PoliciesRoute
+  SolalaaLinkRoute: typeof SolalaaLinkRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -447,6 +448,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoliciesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/solalaa-link': {
+      id: '/solalaa-link'
+      path: '/solalaa-link'
+      fullPath: '/solalaa-link'
+      preLoaderRoute: typeof SolalaaLinkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -524,13 +532,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPagesPageKeyRouteImport
       parentRoute: typeof AdminPagesRoute
     }
-    '/admin/pages/$pageSlug': {
-      id: '/admin/pages/$pageSlug'
-      path: '/$pageSlug'
-      fullPath: '/admin/pages/$pageSlug'
-      preLoaderRoute: typeof AdminPagesPageSlugRouteImport
-      parentRoute: typeof AdminPagesRoute
-    }
     '/courses/$category/$specialty': {
       id: '/courses/$category/$specialty'
       path: '/$category/$specialty'
@@ -557,13 +558,11 @@ declare module '@tanstack/react-router' {
 
 interface AdminPagesRouteChildren {
   AdminPagesPageKeyRoute: typeof AdminPagesPageKeyRoute
-  AdminPagesPageSlugRoute: typeof AdminPagesPageSlugRoute
   AdminPagesIndexRoute: typeof AdminPagesIndexRoute
 }
 
 const AdminPagesRouteChildren: AdminPagesRouteChildren = {
   AdminPagesPageKeyRoute: AdminPagesPageKeyRoute,
-  AdminPagesPageSlugRoute: AdminPagesPageSlugRoute,
   AdminPagesIndexRoute: AdminPagesIndexRoute,
 }
 
@@ -649,6 +648,7 @@ const rootRouteChildren: RootRouteChildren = {
   LandscapeRoute: LandscapeRoute,
   LibraryRoute: LibraryRoute,
   PoliciesRoute: PoliciesRoute,
+  SolalaaLinkRoute: SolalaaLinkRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -10,6 +10,7 @@ import { landscapePage } from "./landscape";
 import { faqPage } from "./faq";
 import { policiesPage } from "./policies";
 import { contactPage } from "./contact";
+import { solalaaLinkPage } from "./solalaa-link";
 
 /** Every admin-editable page, in the order shown in the admin. */
 export const CMS_PAGES: PageDef[] = [
@@ -25,6 +26,7 @@ export const CMS_PAGES: PageDef[] = [
   faqPage,
   policiesPage,
   contactPage,
+  solalaaLinkPage,
 ];
 
 export function findCmsPage(key: string) {

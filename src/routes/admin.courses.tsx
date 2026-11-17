@@ -208,7 +208,7 @@ function CoursesAdmin() {
 
   return (
     <AdminShell
-      title="الدورات والتدريبات"
+      title="البرامج التدريبية"
       desc="رتّب التصنيفات والتخصصات، وأضف الدورات وعدّلها وانشرها من مكان واحد."
       actions={
         <button

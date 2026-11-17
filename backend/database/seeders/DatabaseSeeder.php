@@ -20,15 +20,16 @@ class DatabaseSeeder extends Seeder
         );
 
         DB::table('cms_settings')->updateOrInsert(['key' => 'site'], ['value' => json_encode([
-            'siteName' => 'Solala سلالة', 'tagline' => 'تدريب، استشارات، ريادة أعمال',
+            'siteName' => 'Solala سلالة', 'tagline' => 'تدريب، استشارات، ريادة أعمال', 'logo' => '',
             'email' => 'info@solalaa.com', 'phone' => '', 'address' => '', 'facebook' => '#', 'twitter' => '#', 'linkedin' => '#',
             'seoDescription' => 'سلالة منصة عربية للتدريب الزراعي والاستشارات وريادة الأعمال والمشروعات الاستثمارية.',
         ], JSON_UNESCAPED_UNICODE), 'created_at' => now(), 'updated_at' => now()]);
 
         $pages = [
-            ['/', 'الرئيسية'], ['/about', 'عن سلالة'], ['/courses', 'الدورات والتدريبات'], ['/consulting', 'الاستشارات'],
-            ['/entrepreneurship', 'ريادة الأعمال والمشاريع'], ['/library', 'المكتبة'], ['/faq', 'الأسئلة الشائعة'], ['/policies', 'السياسات والشروط'],
-            ['/contact', 'تواصل معنا'], ['/landscape', 'اللاندسكيب'], ['/breed-innovation', 'مركز ابتكار السلالات'],
+            ['/', 'الرئيسية'], ['/about', 'Solalaa is'], ['/courses', 'البرامج التدريبية'], ['/consulting', 'الاستشارات'],
+            ['/entrepreneurship', 'ريادة الأعمال المتخصصة'], ['/library', 'المكتبة'], ['/faq', 'الأسئلة الشائعة'], ['/policies', 'السياسات والشروط'],
+            ['/contact', 'تواصل معنا'], ['/landscape', 'Landscape'], ['/breed-innovation', 'Solalaa Genome'],
+            ['/solalaa-link', 'SOLALAA LINK'],
             ['/courses/animal-livestock', 'الإنتاج الحيواني والداجني والسمكي'], ['/courses/animal-livestock/animal', 'الإنتاج الحيواني'],
             ['/courses/animal-livestock/poultry', 'الإنتاج الداجني'], ['/courses/animal-livestock/fish', 'الاستزراع السمكي'],
         ];

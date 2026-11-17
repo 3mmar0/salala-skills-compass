@@ -1,6 +1,7 @@
 export type SiteSettings = {
   siteName: string;
   tagline: string;
+  logo: string;
   email: string;
   phone: string;
   address: string;

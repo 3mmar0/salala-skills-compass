@@ -73,6 +73,10 @@ class CmsController extends Controller
                     DB::table('cms_sections')->where('id', $existing[$section['key']]->id)->update($row);
                 } else {
                     DB::table('cms_sections')->insert($row + [
+                        // Legacy schema keeps section_id as a required unique key.
+                        // Derive a stable value so fixed page sections can be seeded on
+                        // first save without a database error.
+                        'section_id' => sha1($page->slug.'|'.$section['key']),
                         'page_slug' => $page->slug,
                         'section_key' => $section['key'],
                         'section_type' => $section['key'],
@@ -86,7 +90,18 @@ class CmsController extends Controller
 
     public function updateSettings(Request $request)
     {
-        $settings = $request->validate(['siteName' => ['required','string','max:120'], 'tagline' => ['nullable','string','max:255'], 'email' => ['nullable','email'], 'phone' => ['nullable','string','max:80'], 'address' => ['nullable','string','max:500'], 'facebook' => ['nullable','string','max:500'], 'twitter' => ['nullable','string','max:500'], 'linkedin' => ['nullable','string','max:500'], 'seoDescription' => ['nullable','string','max:2000']]);
+        $settings = $request->validate([
+            'siteName' => ['required', 'string', 'max:120'],
+            'tagline' => ['nullable', 'string', 'max:255'],
+            'logo' => ['nullable', 'string', 'max:2000'],
+            'email' => ['nullable', 'email'],
+            'phone' => ['nullable', 'string', 'max:80'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'facebook' => ['nullable', 'string', 'max:500'],
+            'twitter' => ['nullable', 'string', 'max:500'],
+            'linkedin' => ['nullable', 'string', 'max:500'],
+            'seoDescription' => ['nullable', 'string', 'max:2000'],
+        ]);
         DB::table('cms_settings')->updateOrInsert(['key' => 'site'], ['value' => json_encode($settings, JSON_UNESCAPED_UNICODE), 'updated_at' => now()]);
         return response()->json($settings);
     }

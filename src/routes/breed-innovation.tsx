@@ -24,7 +24,7 @@ import { breedPage, breedHero, breedIntro, breedGenetics, breedPackage, breedOff
 export const Route = createFileRoute("/breed-innovation")({
   head: () =>
     meta(
-      "مركز ابتكار السلالات",
+      "Solalaa Genome",
       "Solalaa Genome: الانتخاب الجينومي وتحسين برامج تربية الدواجن مع الحفاظ على هوية السلالة.",
       "/breed-innovation",
     ),

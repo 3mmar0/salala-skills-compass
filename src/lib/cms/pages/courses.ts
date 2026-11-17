@@ -58,7 +58,7 @@ export const coursesCustomTraining = section("customTraining", {
 export const coursesPage = definePage({
   key: "courses",
   slug: "/courses",
-  title: "الدورات والتدريبات",
+  title: "البرامج التدريبية",
   description: "صفحة مجالات التدريب",
   sections: [coursesHero, coursesCatalog, coursesCustomTraining],
 });

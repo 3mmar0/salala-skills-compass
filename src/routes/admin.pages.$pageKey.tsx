@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { SectionFieldsEditor, fieldInput } from "@/components/admin/fields";
 import { isAdminAuthed, savePageContent, updatePageRow } from "@/lib/cms/client-store";
 import { useCms } from "@/lib/cms/CmsProvider";
-import { findCmsPage } from "@/lib/cms/pages";
+import { CMS_PAGES, findCmsPage } from "@/lib/cms/pages";
 import { PREVIEW_PARAM, isPreviewMessage, type PreviewSectionState } from "@/lib/cms/preview";
 import { resolveContent, serializeContent, type PageDef, type SectionContent } from "@/lib/cms/schema";
 import { savedSectionStates } from "@/lib/cms/use-section";
@@ -41,7 +41,14 @@ export const Route = createFileRoute("/admin/pages/$pageKey")({
 
 function PageEditorRoute() {
   const { pageKey } = Route.useParams();
-  const page = findCmsPage(pageKey);
+  const { store, loading } = useCms();
+  // Older admin links used the database id (/admin/pages/1). Keep those
+  // bookmarks working while the editor itself stays keyed by a fixed page key.
+  const legacyRow = /^\d+$/.test(pageKey) ? store.pages.find((row) => row.id === Number(pageKey)) : undefined;
+  const page = findCmsPage(pageKey) ?? (legacyRow ? CMS_PAGES.find((item) => item.slug === legacyRow.slug) : undefined);
+  if (!page && loading) {
+    return <div className="grid min-h-screen place-items-center bg-muted p-6 text-sm text-muted-foreground">جاري فتح الصفحة…</div>;
+  }
   if (!page) {
     return (
       <div className="grid min-h-screen place-items-center bg-muted p-6 text-center">

@@ -9,7 +9,7 @@ import { PageHero, SectionHead, ExpertCard, CtaBand , WavyBg } from "@/component
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/about")({
-  head: () => meta("عن سلالة", "رؤية ورسالة وقيم منصة سلالة وفريق خبرائها من المهندسين الزراعيين.", "/about"),
+  head: () => meta("Solalaa is", "رؤية ورسالة وقيم منصة سلالة وفريق خبرائها من المهندسين الزراعيين.", "/about"),
   component: About,
 });
 

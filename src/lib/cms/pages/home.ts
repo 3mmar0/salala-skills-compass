@@ -86,6 +86,25 @@ export const homeMethodology = section("methodology", {
   },
 });
 
+export const homeVideo = section("video", {
+  label: "قسم الفيديو",
+  description: "فيديو تعريفي يظهر في الصفحة الرئيسية (يُرفع كملف).",
+  fields: [
+    f.text("eyebrow", "العنوان الصغير"),
+    f.text("title", "العنوان"),
+    f.textarea("subtitle", "الوصف"),
+    f.video("src", "ملف الفيديو", { hint: "MP4 أو WebM — حتى 50 ميجابايت" }),
+    f.image("poster", "صورة الغلاف", { hint: "اختيارية — تظهر قبل تشغيل الفيديو" }),
+  ],
+  defaults: {
+    eyebrow: "تعرّف علينا",
+    title: "شاهد سلالة عن قرب",
+    subtitle: "لمحة سريعة عن منهجيتنا وبرامجنا وكيف نرافق المتدربين والمستثمرين.",
+    src: "",
+    poster: "",
+  },
+});
+
 export const homeConsulting = section("consulting", {
   label: "خدمة الاستشارات",
   fields: [
@@ -169,7 +188,7 @@ export const homeSponsors = section("sponsors", {
     f.text("eyebrow", "العنوان الصغير"),
     f.text("title", "العنوان"),
     f.textarea("subtitle", "الوصف"),
-    f.list("items", "الرعاة", "راعٍ", [f.text("name", "الاسم"), f.image("logo", "الشعار", { hint: "اختياري — يظهر الاسم بدونه" })]),
+    f.list("items", "الرعاة", "راعٍ", [f.image("logo", "الشعار"), f.text("name", "الاسم", { hint: "اختياري — يظهر تحت الصورة إن وُجد" })]),
   ],
   defaults: {
     eyebrow: "شركاء النجاح والدعم",
@@ -200,5 +219,5 @@ export const homePage = definePage({
   slug: "/",
   title: "الرئيسية",
   description: "الصفحة الرئيسية للموقع",
-  sections: [homeHero, homePillars, homeStats, homeMethodology, homeConsulting, homeEntrepreneurship, homeExperts, homeSponsors, homeCta],
+  sections: [homeHero, homePillars, homeStats, homeMethodology, homeVideo, homeConsulting, homeEntrepreneurship, homeExperts, homeSponsors, homeCta],
 });

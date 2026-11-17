@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ImageInput } from "@/components/admin/fields";
 import { AdminField, AdminShell, adminInput } from "@/components/admin/AdminShell";
 import { isAdminAuthed } from "@/lib/cms/client-store";
 import { useCms } from "@/lib/cms/CmsProvider";
@@ -18,11 +19,11 @@ export const Route = createFileRoute("/admin/settings")({
 
 function AdminSettings() {
   const { store, updateSettings, saving } = useCms();
-  const [form, setForm] = useState<SiteSettings>(store.settings);
+  const [form, setForm] = useState<SiteSettings>({ ...store.settings, logo: store.settings.logo ?? "" });
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setForm(store.settings);
+    setForm({ ...store.settings, logo: store.settings.logo ?? "" });
   }, [store.settings]);
 
   const set = <K extends keyof SiteSettings>(key: K, value: SiteSettings[K]) => {
@@ -46,6 +47,9 @@ function AdminSettings() {
           </AdminField>
           <AdminField label="الشعار / Tagline">
             <input className={adminInput} value={form.tagline} onChange={(e) => set("tagline", e.target.value)} />
+          </AdminField>
+          <AdminField label="شعار الموقع (اللوجو)" hint="يظهر في الهيدر والفوتر. اتركه فارغاً لاستخدام الشعار الافتراضي.">
+            <ImageInput value={form.logo ?? ""} onChange={(v) => set("logo", v)} />
           </AdminField>
           <AdminField label="البريد الإلكتروني">
             <input className={adminInput} dir="ltr" value={form.email} onChange={(e) => set("email", e.target.value)} />

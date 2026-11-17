@@ -131,6 +131,12 @@
 @utility animate-spin-slow { animation: spin-slow 30s linear infinite; }
 @utility wave-track { width: 200%; animation: wave-x 18s linear infinite; }
 @utility wave-track-slow { width: 200%; animation: wave-x 30s linear infinite reverse; }
+@utility sponsors-marquee {
+  width: max-content;
+  animation: wave-x 28s linear infinite;
+  &:hover { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
 @utility particle {
   position: absolute; bottom: -10px; width: 8px; height: 8px; border-radius: 999px;
   background: var(--gold); filter: blur(.5px); animation: rise 9s linear infinite;
@@ -226,33 +232,118 @@
   100% { transform: rotate(360deg); }
 }
 @keyframes dnaPulse {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.08); opacity: 1; }
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 @keyframes dnaFlow {
   0% { stroke-dashoffset: 0; }
   100% { stroke-dashoffset: 60; }
 }
+@keyframes dnaFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes dnaHalo {
+  0%, 100% { transform: scale(0.92); opacity: 0.45; }
+  50% { transform: scale(1.08); opacity: 0.85; }
+}
+@keyframes dnaTwinkle {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+@keyframes dnaEnter {
+  from { opacity: 0; transform: translateY(-18px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.solala-plus-float {
+  top: clamp(7.5rem, 18vh, 11rem);
+  left: clamp(1rem, 2.4vw, 1.75rem);
+  animation: dnaEnter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both 0.35s;
+}
+.solala-plus-float__link {
+  animation: dnaFloat 5.5s ease-in-out infinite 1.25s;
+  transition: filter 0.35s ease;
+}
+.solala-plus-float__link:hover {
+  filter: brightness(1.08);
+  animation-play-state: paused;
+}
+.solala-plus-float__link:hover .solala-plus-float__orb {
+  transform: scale(1.04);
+}
+.solala-plus-float__orb {
+  width: 5.75rem;
+  height: 5.75rem;
+  filter: drop-shadow(0 10px 22px rgba(8, 28, 21, 0.45))
+    drop-shadow(0 0 18px rgba(212, 175, 55, 0.35));
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.solala-plus-float__halo {
+  position: absolute;
+  inset: 4%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.35) 0%, transparent 68%);
+  animation: dnaHalo 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.solala-plus-float__chip {
+  border-radius: 999px;
+  color: #fff4c8;
+  border: 1px solid color-mix(in oklab, var(--gold) 70%, transparent);
+  background: linear-gradient(
+    145deg,
+    rgba(8, 28, 21, 0.82) 0%,
+    rgba(22, 75, 41, 0.78) 100%
+  );
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 8px 22px rgba(8, 28, 21, 0.35),
+    inset 0 1px 0 rgba(255, 244, 184, 0.18);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.solala-plus-float__link:hover .solala-plus-float__chip {
+  border-color: var(--gold);
+  box-shadow:
+    0 10px 26px rgba(8, 28, 21, 0.4),
+    0 0 16px rgba(212, 175, 55, 0.35),
+    inset 0 1px 0 rgba(255, 244, 184, 0.25);
+}
+.solala-plus-float__label {
+  font-family: "Readex Pro", sans-serif;
+  letter-spacing: 0.01em;
+}
+.solala-plus-float__plus {
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  line-height: 1;
+  color: #1a3d28;
+  background: linear-gradient(135deg, #fff4b8, #d4af37);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.45);
+}
 .dna-spin {
   transform-origin: center;
   transform-box: fill-box;
-  animation: dnaRotate 14s linear infinite;
+  animation: dnaRotate 16s linear infinite;
 }
 .dna-pulse-group {
   transform-origin: center;
   transform-box: fill-box;
-  animation: dnaPulse 3s ease-in-out infinite;
+  animation: dnaPulse 3.4s ease-in-out infinite;
 }
 .dna-rung {
   stroke: url(#dnaGoldGrad);
-  stroke-width: 2.5;
+  stroke-width: 2.2;
   stroke-linecap: round;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 .dna-strand-1 {
   fill: none;
   stroke: url(#dnaGoldGrad);
-  stroke-width: 3.5;
+  stroke-width: 3.2;
   stroke-linecap: round;
   stroke-dasharray: 6 3;
   animation: dnaFlow 4s linear infinite;
@@ -260,20 +351,23 @@
 .dna-strand-2 {
   fill: none;
   stroke: url(#dnaGreenGrad);
-  stroke-width: 3.5;
+  stroke-width: 3.2;
   stroke-linecap: round;
   stroke-dasharray: 6 3;
   animation: dnaFlow 4s linear infinite reverse;
 }
 .dna-node-gold {
-  fill: #FFF4B8;
-  stroke: #D4AF37;
-  stroke-width: 1.5;
+  fill: #fff4b8;
+  stroke: #d4af37;
+  stroke-width: 1.4;
 }
 .dna-node-green {
-  fill: #A8E6CF;
-  stroke: #164B29;
-  stroke-width: 1.5;
+  fill: #a8e6cf;
+  stroke: #164b29;
+  stroke-width: 1.4;
+}
+.dna-node-twinkle {
+  animation: dnaTwinkle 2.4s ease-in-out infinite;
 }
 
 /* ---------- Admin live preview (site rendered inside the editor frame) ---------- */

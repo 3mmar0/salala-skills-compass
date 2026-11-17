@@ -9,7 +9,7 @@ import { PageHero, SectionHead, CtaBand , WavyBg } from "@/components/site/Layou
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/entrepreneurship")({
-  head: () => meta("ريادة الأعمال والمشاريع", "برامج سلالة لاحتضان الأفكار وبناء وتطوير المشاريع الزراعية وربطها بالمستثمرين.", "/entrepreneurship"),
+  head: () => meta("ريادة الأعمال المتخصصة", "برامج سلالة لاحتضان الأفكار وبناء وتطوير المشاريع الزراعية وربطها بالمستثمرين.", "/entrepreneurship"),
   component: Page,
 });
 

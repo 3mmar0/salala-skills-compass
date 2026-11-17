@@ -14,7 +14,7 @@ import { meta } from "@/lib/meta";
 export const Route = createFileRoute("/courses/")({
   head: () =>
     meta(
-      "الدورات والتدريبات",
+      "البرامج التدريبية",
       "مجالات التدريب الزراعي في سلالة: الإنتاج الحيواني والنباتي، وقاية النبات، التصنيع الغذائي وغيرها.",
       "/courses",
     ),
@@ -63,7 +63,7 @@ function Hero({ q, setQ }: { q: string; setQ: (v: string) => void }) {
           <path d="M0,100 C360,0 1080,0 1440,100 Z" />
         </svg>
       </section>
-      <Breadcrumbs items={[{ label: "الرئيسية", to: "/" }, { label: "الدورات والتدريبات" }]} />
+      <Breadcrumbs items={[{ label: "الرئيسية", to: "/" }, { label: "البرامج التدريبية" }]} />
     </>
   );
 }

@@ -16,7 +16,7 @@ export const landscapeHero = section("hero", {
 export const landscapeBreadcrumbs = section("breadcrumbs", {
   label: "مسار التنقل",
   fields: [f.list("items", "العناصر", "عنصر", [f.text("label", "الاسم"), f.url("href", "الرابط")])],
-  defaults: {"items": [{"label": "الرئيسية", "href": "/"}, {"label": "اللاندسكيب", "href": ""}]},
+  defaults: {"items": [{"label": "الرئيسية", "href": "/"}, {"label": "Landscape", "href": ""}]},
 });
 
 export const landscapeStats = section("stats", {
@@ -70,7 +70,7 @@ export const landscapeCta = section("cta", {
 export const landscapePage = definePage({
   key: "landscape",
   slug: "/landscape",
-  title: "اللاندسكيب",
+  title: "Landscape",
   description: "خدمات هندسة وتصميم اللاندسكيب والمعاينة والتنفيذ.",
   sections: [landscapeHero, landscapeBreadcrumbs, landscapeStats, landscapePhases, landscapeElements, landscapeExperts, landscapeSteps, landscapeProjects, landscapeForm, landscapeCta],
 });

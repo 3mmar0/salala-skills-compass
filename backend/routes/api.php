@@ -5,13 +5,16 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\CmsController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\RegistrationController;
+use App\Http\Controllers\Api\LinkApplicationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', fn () => response()->json(['ok' => true]));
+Route::get('/media/{path}', [MediaController::class, 'show'])->where('path', '.*');
 Route::get('/cms', [CmsController::class, 'show']);
 Route::get('/courses/catalog', [CourseController::class, 'catalog']);
 Route::get('/courses/{category}/{specialty}/{course}', [CourseController::class, 'detail']);
 Route::post('/course-registrations', [RegistrationController::class, 'store']);
+Route::post('/link-applications', [LinkApplicationController::class, 'store']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('admin.token')->group(function () {
     Route::get('/admin/content', [CmsController::class, 'adminIndex']);
