@@ -22,6 +22,7 @@ function AdminSettings() {
   const [form, setForm] = useState<SiteSettings>({
     ...store.settings,
     logo: store.settings.logo ?? "",
+    whatsapp: store.settings.whatsapp ?? store.settings.phone ?? "",
     instagram: store.settings.instagram ?? "",
     tiktok: store.settings.tiktok ?? "",
   });
@@ -31,6 +32,7 @@ function AdminSettings() {
     setForm({
       ...store.settings,
       logo: store.settings.logo ?? "",
+      whatsapp: store.settings.whatsapp ?? store.settings.phone ?? "",
       instagram: store.settings.instagram ?? "",
       tiktok: store.settings.tiktok ?? "",
     });
@@ -66,6 +68,15 @@ function AdminSettings() {
           </AdminField>
           <AdminField label="الهاتف">
             <input className={adminInput} dir="ltr" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
+          </AdminField>
+          <AdminField label="رقم واتساب" hint="يُستخدم في زر التواصل بعد التسجيل الناجح في الدورات. مثال: 2010xxxxxxxx">
+            <input
+              className={adminInput}
+              dir="ltr"
+              value={form.whatsapp ?? ""}
+              onChange={(e) => set("whatsapp", e.target.value)}
+              placeholder="2010xxxxxxxx"
+            />
           </AdminField>
           <AdminField label="العنوان">
             <input className={adminInput} value={form.address} onChange={(e) => set("address", e.target.value)} />

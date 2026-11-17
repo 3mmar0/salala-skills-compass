@@ -1,10 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { PageHero, WavyBg } from "@/components/site/Layout";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { PageSections } from "@/components/cms/PageSections";
+import { SpecialtyCard } from "@/components/site/SpecialtyCard";
 import { getCatalog, type PublicCategory } from "@/lib/course-catalog";
 import { useSectionContent } from "@/lib/cms/use-section";
 import { livestockCustom, livestockHero, livestockPage, livestockSpecialties } from "@/lib/cms/pages/courses";
@@ -65,7 +66,8 @@ function Specialties({ cat }: { cat: PublicCategory | null }) {
       <WavyBg />
       <div className="container-site relative">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-forest md:text-4xl">{c.title}</h2>
+          <p className="text-sm font-semibold text-muted-foreground">بوابة التخصصات</p>
+          <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">{c.title}</h2>
           <span className="title-line" />
         </div>
         {!cat ? (
@@ -73,19 +75,15 @@ function Specialties({ cat }: { cat: PublicCategory | null }) {
         ) : (
           <div className="grid gap-6 lg:grid-cols-3">
             {cat.specialties.map((specialty) => (
-              <Link
+              <SpecialtyCard
                 key={specialty.id}
-                to="/courses/$category/$specialty"
-                params={{ category: cat.slug, specialty: specialty.slug }}
-                className="rounded-3xl border bg-card p-6 shadow-soft"
-              >
-                {specialty.image && <img src={specialty.image} alt="" className="mb-4 h-40 w-full rounded-2xl object-cover" />}
-                <h3 className="text-xl font-bold text-forest">{specialty.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{specialty.description}</p>
-                <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                  {c.cardCta} <ArrowLeft className="h-4 w-4" />
-                </span>
-              </Link>
+                categorySlug={cat.slug}
+                specialtySlug={specialty.slug}
+                title={specialty.title}
+                description={specialty.description}
+                image={specialty.image}
+                ctaLabel={c.cardCta?.includes("دخول") ? c.cardCta : `دخول قسم`}
+              />
             ))}
           </div>
         )}

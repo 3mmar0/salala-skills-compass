@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('cms_settings')->updateOrInsert(['key' => 'site'], ['value' => json_encode([
             'siteName' => 'Solala سلالة', 'tagline' => 'تدريب، استشارات، ريادة أعمال', 'logo' => '',
-            'email' => 'info@solalaa.com', 'phone' => '', 'address' => '', 'facebook' => '#', 'instagram' => '#', 'tiktok' => '#', 'linkedin' => '#',
+            'email' => 'info@solalaa.com', 'phone' => '', 'whatsapp' => '', 'address' => '', 'facebook' => '#', 'instagram' => '#', 'tiktok' => '#', 'linkedin' => '#',
             'seoDescription' => 'سلالة منصة عربية للتدريب الزراعي والاستشارات وريادة الأعمال والمشروعات الاستثمارية.',
         ], JSON_UNESCAPED_UNICODE), 'created_at' => now(), 'updated_at' => now()]);
 

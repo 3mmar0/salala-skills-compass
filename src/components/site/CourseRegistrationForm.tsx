@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, MessageCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import {
   COURSE_COUNTRIES,
@@ -17,36 +17,50 @@ import {
 } from "@/lib/course-registration-schema";
 import { submitCourseRegistration } from "@/lib/submit-course-registration";
 import { adminApi } from "@/lib/cms/client-store";
+import { useCmsOptional } from "@/lib/cms/CmsProvider";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const field =
   "w-full rounded-xl border bg-background px-4 py-3 outline-none focus:border-primary disabled:opacity-60";
 const labelCls = "mb-1.5 block text-sm font-medium text-forest";
 const errCls = "mt-1 text-xs text-destructive";
 
+type CourseOption = { value: string; label: string; id?: number };
+
 type Props = {
   track: string;
   defaultCourseTitle?: string;
-  courseOptions?: { value: string; label: string }[];
+  preferredCourseTitle?: string;
+  courseOptions?: CourseOption[];
   title?: string;
   description?: string;
   courseId?: number;
+  resolveCourseId?: (courseTitle: string) => number | undefined;
 };
 
 export function CourseRegistrationForm({
   track,
   defaultCourseTitle = "",
+  preferredCourseTitle,
   courseOptions = animalProgramSelectOptions(),
   title = "استمارة التسجيل في دورات الإنتاج الحيواني",
   description = "اختر الكورس الذي ترغب في الالتحاق به واملأ البيانات التالية، وسيتواصل معك منسق البرنامج التدريبي لتأكيد التسجيل.",
   courseId,
+  resolveCourseId,
 }: Props) {
+  const cms = useCmsOptional();
+  const whatsappNumber =
+    cms?.store.settings.whatsapp?.trim() || cms?.store.settings.phone?.trim() || "";
+
   const [done, setDone] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<CourseRegistrationInput | null>(null);
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<CourseRegistrationFormValues, unknown, CourseRegistrationInput>({
     resolver: zodResolver(courseRegistrationSchema),
@@ -65,6 +79,12 @@ export function CourseRegistrationForm({
     },
   });
 
+  useEffect(() => {
+    if (preferredCourseTitle) {
+      setValue("courseTitle", preferredCourseTitle, { shouldValidate: true, shouldDirty: true });
+    }
+  }, [preferredCourseTitle, setValue]);
+
   const status = watch("status");
   const country = watch("country");
   const dial = useMemo(
@@ -81,11 +101,21 @@ export function CourseRegistrationForm({
         dial && !values.phone.trim().startsWith("+")
           ? `${dial}${values.phone.replace(/^0+/, "")}`
           : values.phone;
-      if (courseId) {
-        await adminApi("/course-registrations", { method: "POST", body: JSON.stringify({ ...values, phone, courseId }) });
+      const payload = { ...values, phone, track };
+      const resolvedId =
+        courseId ??
+        resolveCourseId?.(values.courseTitle) ??
+        courseOptions.find((o) => o.value === values.courseTitle)?.id;
+
+      if (resolvedId) {
+        await adminApi("/course-registrations", {
+          method: "POST",
+          body: JSON.stringify({ ...payload, courseId: resolvedId }),
+        });
       } else {
-        await submitCourseRegistration({ data: { ...values, phone, track } });
+        await submitCourseRegistration({ data: payload });
       }
+      setSubmitted(payload);
       setDone(true);
     } catch (e) {
       console.error(e);
@@ -96,17 +126,52 @@ export function CourseRegistrationForm({
   });
 
   if (done) {
+    const detailsMessage = [
+      "مرحباً، تم تسجيل طلب دورة عبر موقع Solala:",
+      submitted?.courseTitle ? `الكورس: ${submitted.courseTitle}` : null,
+      submitted?.fullName ? `الاسم: ${submitted.fullName}` : null,
+      submitted?.phone ? `الهاتف: ${submitted.phone}` : null,
+      submitted?.email ? `البريد: ${submitted.email}` : null,
+      submitted?.status ? `الصفة: ${submitted.status}` : null,
+      submitted?.schedule ? `الموعد المفضل: ${submitted.schedule}` : null,
+      submitted?.country ? `البلد: ${submitted.country}` : null,
+      submitted?.governorate ? `المحافظة: ${submitted.governorate}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const waUrl = whatsappNumber ? buildWhatsAppUrl(whatsappNumber, detailsMessage) : "";
+
     return (
       <div
         id="registration-form"
-        className="rounded-3xl border bg-card p-8 text-center shadow-soft md:p-12"
+        className="rounded-3xl border border-forest/10 bg-card p-8 text-center shadow-soft md:p-12"
       >
         <CheckCircle2 className="mx-auto h-14 w-14 text-primary" />
         <h3 className="mt-4 text-2xl font-bold text-forest">تم تسجيل طلبك بنجاح!</h3>
-        <p className="mt-3 text-muted-foreground leading-8">
+        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground leading-8">
           شكراً لك، سيتواصل معك منسق الكورس التدريبي من فريق Solala عبر الهاتف أو الواتساب لتأكيد
           موعد الدورة وتفاصيل الالتحاق.
         </p>
+        {waUrl ? (
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary mt-8 inline-flex"
+          >
+            <MessageCircle className="h-5 w-5" />
+            تواصل عبر واتساب لإكمال التفاصيل
+          </a>
+        ) : (
+          <p className="mt-6 text-sm text-muted-foreground">
+            رقم واتساب غير مضبوط حالياً في إعدادات الموقع. يمكنك{" "}
+            <Link to="/contact" className="font-semibold text-primary underline">
+              التواصل معنا
+            </Link>
+            .
+          </p>
+        )}
       </div>
     );
   }

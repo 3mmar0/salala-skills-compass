@@ -96,6 +96,7 @@ class CmsController extends Controller
             'logo' => ['nullable', 'string', 'max:2000'],
             'email' => ['nullable', 'email'],
             'phone' => ['nullable', 'string', 'max:80'],
+            'whatsapp' => ['nullable', 'string', 'max:80'],
             'address' => ['nullable', 'string', 'max:500'],
             'facebook' => ['nullable', 'string', 'max:500'],
             'instagram' => ['nullable', 'string', 'max:500'],

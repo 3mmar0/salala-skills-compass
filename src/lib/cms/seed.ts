@@ -10,6 +10,7 @@ export const CMS_SEED: CmsStore = {
     logo: "",
     email: "info@yourcompany.example.com",
     phone: "+1 555-555-5556",
+    whatsapp: "+1 555-555-5556",
     address: "",
     facebook: "#",
     instagram: "#",

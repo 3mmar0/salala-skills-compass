@@ -14,7 +14,12 @@ export function getLocalCmsStore(): CmsStore {
     return {
       ...CMS_SEED,
       ...parsed,
-      settings: { ...CMS_SEED.settings, ...parsed.settings, logo: parsed.settings?.logo ?? "" },
+      settings: {
+        ...CMS_SEED.settings,
+        ...parsed.settings,
+        logo: parsed.settings?.logo ?? "",
+        whatsapp: parsed.settings?.whatsapp ?? parsed.settings?.phone ?? CMS_SEED.settings.whatsapp,
+      },
     };
   } catch {
     return CMS_SEED;
@@ -71,7 +76,12 @@ export async function fetchCmsStore(): Promise<CmsStore> {
     const document = await adminApi<{ settings: CmsStore["settings"]; pages: CmsStore["pages"] }>("/cms");
     const store: CmsStore = {
       version: 2,
-      settings: { ...CMS_SEED.settings, ...document.settings, logo: document.settings?.logo ?? "" },
+      settings: {
+        ...CMS_SEED.settings,
+        ...document.settings,
+        logo: document.settings?.logo ?? "",
+        whatsapp: document.settings?.whatsapp ?? document.settings?.phone ?? CMS_SEED.settings.whatsapp,
+      },
       pages: document.pages.map(({ sections: _sections, ...page }) => page),
       sections: document.pages.flatMap((page) =>
         (page.sections ?? []).map((section) => ({

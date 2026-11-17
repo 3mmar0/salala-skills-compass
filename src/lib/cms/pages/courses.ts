@@ -86,7 +86,7 @@ export const livestockSpecialties = section("specialties", {
   label: "التخصصات",
   description: "بطاقات التخصصات تُدار من صفحة «الدورات» في لوحة التحكم.",
   fields: [f.text("title", "العنوان"), f.text("cardCta", "نص رابط البطاقة")],
-  defaults: { title: "الدورات المتخصصة في فروع الإنتاج الحيواني", cardCta: "عرض الدورات" },
+  defaults: { title: "الدورات المتخصصة في فروع الإنتاج الحيواني", cardCta: "دخول قسم" },
 });
 
 export const livestockCustom = section("cta", {

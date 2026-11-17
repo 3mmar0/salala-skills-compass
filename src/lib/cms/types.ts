@@ -4,6 +4,7 @@ export type SiteSettings = {
   logo: string;
   email: string;
   phone: string;
+  whatsapp: string;
   address: string;
   facebook: string;
   instagram: string;
