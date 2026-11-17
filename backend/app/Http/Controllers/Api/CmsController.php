@@ -98,7 +98,8 @@ class CmsController extends Controller
             'phone' => ['nullable', 'string', 'max:80'],
             'address' => ['nullable', 'string', 'max:500'],
             'facebook' => ['nullable', 'string', 'max:500'],
-            'twitter' => ['nullable', 'string', 'max:500'],
+            'instagram' => ['nullable', 'string', 'max:500'],
+            'tiktok' => ['nullable', 'string', 'max:500'],
             'linkedin' => ['nullable', 'string', 'max:500'],
             'seoDescription' => ['nullable', 'string', 'max:2000'],
         ]);

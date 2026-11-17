@@ -9,7 +9,13 @@ export function getLocalCmsStore(): CmsStore {
   if (typeof window === "undefined") return CMS_SEED;
   try {
     const raw = localStorage.getItem(LS_KEY);
-    return raw ? (JSON.parse(raw) as CmsStore) : CMS_SEED;
+    if (!raw) return CMS_SEED;
+    const parsed = JSON.parse(raw) as CmsStore;
+    return {
+      ...CMS_SEED,
+      ...parsed,
+      settings: { ...CMS_SEED.settings, ...parsed.settings, logo: parsed.settings?.logo ?? "" },
+    };
   } catch {
     return CMS_SEED;
   }
@@ -65,7 +71,7 @@ export async function fetchCmsStore(): Promise<CmsStore> {
     const document = await adminApi<{ settings: CmsStore["settings"]; pages: CmsStore["pages"] }>("/cms");
     const store: CmsStore = {
       version: 2,
-      settings: { ...document.settings, logo: document.settings?.logo ?? "" },
+      settings: { ...CMS_SEED.settings, ...document.settings, logo: document.settings?.logo ?? "" },
       pages: document.pages.map(({ sections: _sections, ...page }) => page),
       sections: document.pages.flatMap((page) =>
         (page.sections ?? []).map((section) => ({
@@ -167,9 +173,51 @@ export async function savePageContent(
   return { mode: "legacy", skipped };
 }
 
-export async function uploadMedia(file: File): Promise<string> {
+export async function uploadMedia(
+  file: File,
+  options?: { onProgress?: (percent: number) => void },
+): Promise<string> {
   const form = new FormData();
   form.append("file", file);
+
+  // XHR gives upload progress and clearer failures for large video files.
+  if (options?.onProgress) {
+    const media = await new Promise<{ url: string }>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${API_BASE}/admin/media`);
+      xhr.setRequestHeader("Accept", "application/json");
+      const auth = token();
+      if (auth) xhr.setRequestHeader("Authorization", `Bearer ${auth}`);
+      xhr.upload.onprogress = (event) => {
+        if (!event.lengthComputable) return;
+        options.onProgress?.(Math.round((event.loaded / event.total) * 100));
+      };
+      xhr.onload = () => {
+        let payload: { message?: string; errors?: Record<string, string[]>; url?: string } | null = null;
+        try {
+          payload = JSON.parse(xhr.responseText) as typeof payload;
+        } catch {
+          payload = null;
+        }
+        if (xhr.status >= 200 && xhr.status < 300 && payload?.url) {
+          resolve({ url: payload.url });
+          return;
+        }
+        const firstError = payload?.errors ? Object.values(payload.errors)[0]?.[0] : undefined;
+        const fallback =
+          xhr.status === 413
+            ? "حجم الملف أكبر من الحد المسموح على الخادم."
+            : xhr.status === 0
+              ? "انقطع الاتصال أثناء الرفع. حاول مرة أخرى بملف أصغر."
+              : "تعذر رفع الملف.";
+        reject(new ApiError(firstError || payload?.message || fallback, xhr.status || 0));
+      };
+      xhr.onerror = () => reject(new ApiError("انقطع الاتصال أثناء الرفع. حاول مرة أخرى.", 0));
+      xhr.send(form);
+    });
+    return media.url;
+  }
+
   const media = await adminApi<{ url: string }>("/admin/media", { method: "POST", body: form });
   return media.url;
 }

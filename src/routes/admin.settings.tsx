@@ -19,11 +19,21 @@ export const Route = createFileRoute("/admin/settings")({
 
 function AdminSettings() {
   const { store, updateSettings, saving } = useCms();
-  const [form, setForm] = useState<SiteSettings>({ ...store.settings, logo: store.settings.logo ?? "" });
+  const [form, setForm] = useState<SiteSettings>({
+    ...store.settings,
+    logo: store.settings.logo ?? "",
+    instagram: store.settings.instagram ?? "",
+    tiktok: store.settings.tiktok ?? "",
+  });
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setForm({ ...store.settings, logo: store.settings.logo ?? "" });
+    setForm({
+      ...store.settings,
+      logo: store.settings.logo ?? "",
+      instagram: store.settings.instagram ?? "",
+      tiktok: store.settings.tiktok ?? "",
+    });
   }, [store.settings]);
 
   const set = <K extends keyof SiteSettings>(key: K, value: SiteSettings[K]) => {
@@ -66,8 +76,11 @@ function AdminSettings() {
           <AdminField label="Facebook">
             <input className={adminInput} dir="ltr" value={form.facebook} onChange={(e) => set("facebook", e.target.value)} />
           </AdminField>
-          <AdminField label="X / Twitter">
-            <input className={adminInput} dir="ltr" value={form.twitter} onChange={(e) => set("twitter", e.target.value)} />
+          <AdminField label="Instagram">
+            <input className={adminInput} dir="ltr" value={form.instagram} onChange={(e) => set("instagram", e.target.value)} />
+          </AdminField>
+          <AdminField label="TikTok">
+            <input className={adminInput} dir="ltr" value={form.tiktok} onChange={(e) => set("tiktok", e.target.value)} />
           </AdminField>
           <AdminField label="LinkedIn">
             <input className={adminInput} dir="ltr" value={form.linkedin} onChange={(e) => set("linkedin", e.target.value)} />

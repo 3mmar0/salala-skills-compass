@@ -93,7 +93,7 @@ export const homeVideo = section("video", {
     f.text("eyebrow", "العنوان الصغير"),
     f.text("title", "العنوان"),
     f.textarea("subtitle", "الوصف"),
-    f.video("src", "ملف الفيديو", { hint: "MP4 أو WebM — حتى 50 ميجابايت" }),
+    f.video("src", "ملف الفيديو"),
     f.image("poster", "صورة الغلاف", { hint: "اختيارية — تظهر قبل تشغيل الفيديو" }),
   ],
   defaults: {

@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ChevronDown, Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Linkedin, Twitter } from "lucide-react";
+import { ChevronDown, Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Instagram, Linkedin } from "lucide-react";
 import { useCmsOptional } from "@/lib/cms/CmsProvider";
 import { CmsLink } from "@/components/cms/CmsLink";
 import {
@@ -123,6 +123,14 @@ export function Header() {
   );
 }
 
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.73a8.18 8.18 0 0 0 4.76 1.52V6.8a4.85 4.85 0 0 1-1-.11Z" />
+    </svg>
+  );
+}
+
 export function Footer() {
   const cms = useCmsOptional();
   const settings = cms?.store.settings;
@@ -134,7 +142,8 @@ export function Footer() {
   const siteName = settings?.siteName || "Solala";
   const socials = [
     { I: Facebook, href: settings?.facebook || "#", label: "Facebook" },
-    { I: Twitter, href: settings?.twitter || "#", label: "X" },
+    { I: Instagram, href: settings?.instagram || "#", label: "Instagram" },
+    { I: TikTokIcon, href: settings?.tiktok || "#", label: "TikTok" },
     { I: Linkedin, href: settings?.linkedin || "#", label: "LinkedIn" },
   ];
 

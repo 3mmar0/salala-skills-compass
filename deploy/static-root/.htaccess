@@ -1,11 +1,17 @@
 Options -Indexes
 RewriteEngine On
 
-# Let Laravel's backend subdomain directory and all real build assets pass through unchanged.
+# Keep the Laravel API mount untouched.
 RewriteRule ^backend(?:/|$) - [L]
+
+# Never SPA-fallback hashed build assets. A missing asset must 404,
+# otherwise CDNs can cache index.html as text/css and break the site.
+RewriteRule ^(assets|shapes)/ - [L]
+
+# Real files and directories pass through.
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Dynamic course URLs are rendered by the frontend router.
+# Frontend router for app pages.
 RewriteRule ^ index.html [L]

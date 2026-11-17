@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import {
-  BriefcaseBusiness,
   Building2,
   CheckCircle2,
   Clock3,
@@ -12,13 +11,14 @@ import {
   Send,
   ShieldCheck,
   UserRound,
-  UsersRound,
 } from "lucide-react";
 import { PageSections } from "@/components/cms/PageSections";
+import { PageHero } from "@/components/site/Layout";
 import { useSectionContent } from "@/lib/cms/use-section";
 import { publicApi } from "@/lib/cms/client-store";
 import { linkApply, linkHero, linkJourney, linkOpportunities, linkServices, solalaaLinkPage } from "@/lib/cms/pages/solalaa-link";
 import { meta } from "@/lib/meta";
+import heroImg from "@/assets/hero.jpg";
 
 export const Route = createFileRoute("/solalaa-link")({
   head: () => meta("SOLALAA LINK | الوظائف والتوظيف", "خدمة سلالة لربط الكفاءات بفرص العمل والتدريب، مع ترشيح ومتابعة واضحة.", "/solalaa-link"),
@@ -64,35 +64,18 @@ function SolalaaLink() {
 
 function Hero({ onIntent }: { onIntent: (intent: Intent) => void }) {
   const c = useSectionContent(linkHero);
+  const eyebrow = [c.brand, c.eyebrow].filter(Boolean).join(" · ");
   return (
-    <section className="relative isolate overflow-hidden bg-[#103c2b] text-white">
-      <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(circle_at_12%_20%,#d7b257_0,transparent_21%),radial-gradient(circle_at_85%_80%,#5d9567_0,transparent_24%)]" />
-      <div className="container-site relative grid min-h-[560px] items-center gap-10 py-20 lg:grid-cols-[1.2fr_.8fr] lg:py-28">
-        <div className="max-w-3xl">
-          <span className="animate-fade-up inline-flex rounded-full border border-[#d7b257]/45 bg-[#d7b257]/10 px-4 py-2 text-sm text-[#f0d483]">{c.eyebrow}</span>
-          <p dir="ltr" className="animate-fade-up delay-1 mt-7 font-display text-2xl font-bold tracking-[0.12em] text-[#f0d483] sm:text-3xl">{c.brand}</p>
-          <h1 className="animate-fade-up delay-1 mt-4 max-w-2xl text-4xl font-bold leading-[1.25] sm:text-5xl lg:text-6xl">{c.title}</h1>
-          <p className="animate-fade-up delay-2 mt-6 max-w-2xl text-lg leading-9 text-white/80">{c.subtitle}</p>
-          <div className="animate-fade-up delay-3 mt-9 flex flex-wrap gap-3">
-            <button type="button" onClick={() => onIntent("seeker")} className="inline-flex items-center gap-2 rounded-xl bg-[#d7b257] px-5 py-3 font-bold text-[#103c2b] transition hover:bg-[#efd28d]">
-              <Send className="h-4 w-4" />{c.jobCta}
-            </button>
-            <button type="button" onClick={() => onIntent("employer")} className="inline-flex items-center gap-2 rounded-xl border border-white/35 px-5 py-3 font-bold transition hover:bg-white/10">
-              <Building2 className="h-4 w-4" />{c.companyCta}
-            </button>
-          </div>
-        </div>
-        <div className="animate-fade-up delay-2 relative mx-auto hidden w-full max-w-sm lg:block" aria-hidden="true">
-          <div className="animate-float aspect-square rounded-[40%_60%_55%_45%/40%_40%_60%_60%] border border-white/15 bg-white/5 p-10 backdrop-blur-sm">
-            <div className="grid h-full place-items-center rounded-[45%_55%_40%_60%/55%_45%_55%_45%] border border-[#d7b257]/45 bg-[#0a2c20] shadow-2xl">
-              <UsersRound className="h-32 w-32 text-[#d7b257]" strokeWidth={1.1} />
-            </div>
-          </div>
-          <span className="absolute -right-4 top-12 grid h-16 w-16 place-items-center rounded-2xl bg-[#d7b257] text-[#103c2b] shadow-xl"><BriefcaseBusiness /></span>
-          <span className="absolute -bottom-3 left-2 grid h-14 w-14 place-items-center rounded-full border border-white/20 bg-[#216343] text-white"><Handshake /></span>
-        </div>
-      </div>
-    </section>
+    <PageHero image={c.image || heroImg} eyebrow={eyebrow} title={c.title} subtitle={c.subtitle}>
+      <button type="button" onClick={() => onIntent("seeker")} className="btn-gold">
+        <Send className="h-4 w-4" />
+        {c.jobCta}
+      </button>
+      <button type="button" onClick={() => onIntent("employer")} className="btn-ghost-light">
+        <Building2 className="h-4 w-4" />
+        {c.companyCta}
+      </button>
+    </PageHero>
   );
 }
 

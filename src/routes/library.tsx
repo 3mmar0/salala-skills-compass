@@ -1,12 +1,10 @@
 import { PageSections } from "@/components/cms/PageSections";
-import { CmsLink } from "@/components/cms/CmsLink";
 import { useSectionContent } from "@/lib/cms/use-section";
-import { cmsIcon } from "@/lib/cms/icons";
 import { libraryPage, libraryHero, libraryResources } from "@/lib/cms/pages/library";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { BookOpen, FileText, PlayCircle, Download } from "lucide-react";
-import { PageHero, SectionHead , FloatsBg } from "@/components/site/Layout";
+import { BookOpen, Download, FileText, PlayCircle } from "lucide-react";
+import { PageHero, SectionHead } from "@/components/site/Layout";
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/library")({
@@ -17,28 +15,26 @@ export const Route = createFileRoute("/library")({
 const types = { book: { i: BookOpen }, guide: { i: FileText }, video: { i: PlayCircle } } as const;
 type T = keyof typeof types;
 
-
-
 function Library() {
-  return <PageSections page={libraryPage} components={{hero: HeroSection, resources: ResourcesSection}} />;
+  return <PageSections page={libraryPage} components={{ hero: HeroSection, resources: ResourcesSection }} />;
 }
 
 function HeroSection() {
   const c = useSectionContent(libraryHero);
-  return (
-<PageHero image={c.image} eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
-  );
+  return <PageHero image={c.image} eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />;
 }
 
 function ResourcesSection() {
   const c = useSectionContent(libraryResources);
   const [f, setF] = useState<T | "all">("all");
   const list = c.items.filter((x) => f === "all" || x.k === f);
-  const typeLabel = (k: string) => k === "book" ? c.bookLabel : k === "guide" ? c.guideLabel : c.videoLabel;
+  const typeLabel = (k: string) => (k === "book" ? c.bookLabel : k === "guide" ? c.guideLabel : c.videoLabel);
+  const downloadLabel = c.downloadLabel || "تحميل PDF";
+
   return (
-<section className="relative isolate overflow-hidden py-24">
-        {c.backgroundImage && <img src={c.backgroundImage} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60" />}
-        <div className="container-site relative">
+    <section className="relative isolate overflow-hidden py-24">
+      {c.backgroundImage && <img src={c.backgroundImage} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60" />}
+      <div className="container-site relative">
         <SectionHead title={c.title} />
         <div className="mb-10 flex flex-wrap justify-center gap-2">
           {(["all", "book", "guide", "video"] as const).map((k) => (
@@ -50,6 +46,7 @@ function ResourcesSection() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((x, i) => {
             const I = types[x.k as T]?.i ?? BookOpen;
+            const pdf = typeof x.pdf === "string" ? x.pdf.trim() : "";
             return (
               <div key={x._id ?? i} className="rounded-2xl border bg-card p-6 shadow-soft card-fx reveal">
                 <div className="flex items-center justify-between">
@@ -59,12 +56,27 @@ function ResourcesSection() {
                 <h4 className="mt-5 text-lg font-bold text-forest">{x.t}</h4>
                 <p className="text-xs font-medium text-primary">{x.c}</p>
                 <p className="mt-2 text-sm leading-7 text-muted-foreground">{x.d}</p>
-                <button className="mt-5 flex items-center gap-2 text-sm font-semibold text-primary"><Download className="h-4 w-4" />{c.text2}</button>
+                {pdf ? (
+                  <a
+                    href={pdf}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+                  >
+                    <Download className="h-4 w-4" />
+                    {downloadLabel}
+                  </a>
+                ) : (
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground">
+                    <Download className="h-4 w-4" />
+                    {c.text2 || "قريباً"}
+                  </span>
+                )}
               </div>
             );
           })}
         </div>
-        </div>
-      </section>
+      </div>
+    </section>
   );
 }

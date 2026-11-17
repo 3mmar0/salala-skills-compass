@@ -6,7 +6,8 @@ export type SiteSettings = {
   phone: string;
   address: string;
   facebook: string;
-  twitter: string;
+  instagram: string;
+  tiktok: string;
   linkedin: string;
   seoDescription: string;
 };

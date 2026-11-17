@@ -1,17 +1,28 @@
 import { definePage, f, section } from "../schema";
+import heroImg from "@/assets/hero.jpg";
 
 export const linkHero = section("hero", {
   label: "واجهة SOLALAA LINK",
   description: "رسالة خدمة التوظيف وروابط الدعوة الرئيسية.",
   fields: [
-    f.text("eyebrow", "الشارة"), f.text("brand", "اسم الخدمة", { dir: "ltr" }), f.text("title", "العنوان الرئيسي"),
-    f.textarea("subtitle", "النص التعريفي"), f.text("jobCta", "زر الباحث عن عمل"), f.text("companyCta", "زر الشركات"),
+    f.image("image", "صورة الخلفية"),
+    f.text("eyebrow", "الشارة"),
+    f.text("brand", "اسم الخدمة", { dir: "ltr" }),
+    f.text("title", "العنوان الرئيسي"),
+    f.textarea("subtitle", "النص التعريفي"),
+    f.text("jobCta", "زر الباحث عن عمل"),
+    f.text("companyCta", "زر الشركات"),
   ],
   defaults: {
-    eyebrow: "خدمة جديدة · الوظائف والتوظيف", brand: "SOLALAA LINK", title: "نربط الكفاءات بالفرص… وننمي المسار المهني",
+    image: heroImg,
+    eyebrow: "خدمة جديدة · الوظائف والتوظيف",
+    brand: "SOLALAA LINK",
+    title: "نربط الكفاءات بالفرص… وننمي المسار المهني",
     subtitle: "خدمة وساطة توظيف تربط الكفاءات الزراعية والإدارية بفرص عمل وتدريب مناسبة، مع فرز ومتابعة واضحة للطرفين.",
-    jobCta: "قدّم على وظيفة", companyCta: "أنا شركة وأبحث عن كفاءات",
+    jobCta: "قدّم على وظيفة",
+    companyCta: "أنا شركة وأبحث عن كفاءات",
   },
+  legacyPageFields: { title: "heroTitle", subtitle: "heroSubtitle" },
 });
 
 export const linkServices = section("services", {

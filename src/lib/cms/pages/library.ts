@@ -53,7 +53,23 @@ export const libraryHero = section("hero", {
 
 export const libraryResources = section("resources", {
  label: "محتوى المكتبة",
- fields: [f.image("backgroundImage", "صورة الخلفية الزخرفية"), f.list("items", "محتوى المكتبة", "عنصر", [f.text("t", "العنوان"), f.textarea("d", "الوصف"), f.text("k", "النوع (guide / book / video)", { dir: "ltr" }), f.text("c", "الفئة")]), f.text("title", "العنوان"), f.text("text2", "نص «قريباً»"), f.text("allLabel", "نص «الكل»"), f.text("bookLabel", "نص زر الكتاب"), f.text("guideLabel", "نص زر الدليل"), f.text("videoLabel", "نص زر الفيديو")],
+ fields: [
+   f.image("backgroundImage", "صورة الخلفية الزخرفية"),
+   f.list("items", "محتوى المكتبة", "عنصر", [
+     f.text("t", "العنوان"),
+     f.textarea("d", "الوصف"),
+     f.text("k", "النوع (guide / book / video)", { dir: "ltr" }),
+     f.text("c", "الفئة"),
+     f.pdf("pdf", "ملف PDF"),
+   ]),
+   f.text("title", "العنوان"),
+   f.text("text2", "نص زر بدون ملف"),
+   f.text("downloadLabel", "نص زر التحميل"),
+   f.text("allLabel", "نص «الكل»"),
+   f.text("bookLabel", "نص زر الكتاب"),
+   f.text("guideLabel", "نص زر الدليل"),
+   f.text("videoLabel", "نص زر الفيديو"),
+ ],
  defaults: {
  "backgroundImage": "/shapes/floats.svg",
   "items": [
@@ -61,41 +77,48 @@ export const libraryResources = section("resources", {
       "t": "أساسيات الزراعة المائية",
       "d": "دليل عملي لتركيب وتشغيل أنظمة الهيدروبونيك.",
       "k": "guide",
-      "c": "الإنتاج النباتي"
+      "c": "الإنتاج النباتي",
+      "pdf": ""
     },
     {
       "t": "المكافحة المتكاملة للآفات",
       "d": "مرجع شامل لبرامج IPM في المحاصيل الحقلية.",
       "k": "book",
-      "c": "وقاية النبات"
+      "c": "وقاية النبات",
+      "pdf": ""
     },
     {
       "t": "تصميم شبكات الري بالتنقيط",
       "d": "سلسلة فيديوهات تطبيقية خطوة بخطوة.",
       "k": "video",
-      "c": "الهندسة الزراعية"
+      "c": "الهندسة الزراعية",
+      "pdf": ""
     },
     {
       "t": "تغذية الدواجن الحديثة",
       "d": "علائق متوازنة وإدارة العنابر.",
       "k": "guide",
-      "c": "الإنتاج الحيواني"
+      "c": "الإنتاج الحيواني",
+      "pdf": ""
     },
     {
       "t": "دراسة جدوى مزرعة سمكية",
       "d": "نموذج جاهز قابل للتعديل.",
       "k": "book",
-      "c": "إدارة المشاريع"
+      "c": "إدارة المشاريع",
+      "pdf": ""
     },
     {
       "t": "تحليل التربة وتفسير النتائج",
       "d": "كيف تقرأ تقرير المعمل وتبني برنامج التسميد.",
       "k": "video",
-      "c": "الأراضي والمياه"
+      "c": "الأراضي والمياه",
+      "pdf": ""
     }
   ],
   "title": "تصفح المحتوى",
-  "text2": " قريباً",
+  "text2": "قريباً",
+  "downloadLabel": "تحميل PDF",
   "allLabel": "الكل",
   "bookLabel": "كتاب",
   "guideLabel": "دليل",

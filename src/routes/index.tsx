@@ -142,21 +142,28 @@ function Methodology() {
 
 function VideoSection() {
   const c = useSectionContent(homeVideo);
-  if (!c.src) return null;
   return (
     <section className="container-site py-24">
       <SectionHead eyebrow={c.eyebrow} title={c.title} desc={c.subtitle} />
       <div className="mx-auto mt-10 max-w-4xl overflow-hidden rounded-3xl border bg-card shadow-soft">
-        <video
-          className="aspect-video w-full bg-forest/90 object-cover"
-          src={c.src}
-          poster={c.poster || undefined}
-          controls
-          playsInline
-          preload="metadata"
-        >
-          متصفحك لا يدعم تشغيل الفيديو.
-        </video>
+        {c.src ? (
+          <video
+            className="aspect-video w-full bg-forest/90 object-cover"
+            src={c.src}
+            poster={c.poster || undefined}
+            controls
+            playsInline
+            preload="metadata"
+          >
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        ) : c.poster ? (
+          <img src={c.poster} alt={c.title} className="aspect-video w-full object-cover" />
+        ) : (
+          <div className="grid aspect-video place-items-center bg-forest/90 px-6 text-center text-forest-foreground/80">
+            <p className="text-sm md:text-base">الفيديو التعريفي سيظهر هنا بعد رفعه من لوحة الإدارة.</p>
+          </div>
+        )}
       </div>
     </section>
   );

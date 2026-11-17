@@ -42,6 +42,7 @@ TARGET = env_or("DEPLOY_TARGET", "full").lower()
 LOCAL_PUBLIC = Path(env_or("LOCAL_PUBLIC", str(ROOT / ".output" / "public")))
 LOCAL_BACKEND = Path(env_or("LOCAL_BACKEND", str(ROOT / "backend")))
 LOCAL_HTACCESS = Path(env_or("LOCAL_HTACCESS", str(ROOT / "deploy" / "static-root" / ".htaccess")))
+LOCAL_HEADERS = Path(env_or("LOCAL_HEADERS", str(ROOT / "deploy" / "static-root" / "_headers")))
 
 # Keep the Laravel public mount under public_html/backend intact.
 SKIP_TOP = {"backend"}
@@ -54,6 +55,7 @@ BACKEND_SYNC = [
     "bootstrap/app.php",
     "composer.json",
     "composer.lock",
+    "public/.user.ini",
     "deploy/hostinger-public/index.php",
     "deploy/hostinger-public/.htaccess",
 ]
@@ -77,21 +79,36 @@ def upload_file(sftp: paramiko.SFTPClient, local: Path, remote: str) -> int:
 
 
 def upload_tree(sftp: paramiko.SFTPClient, local: Path, remote: str) -> tuple[int, int]:
-    files = 0
-    bytes_ = 0
+    """Upload build output with assets before HTML to avoid CDN cache poisoning.
+
+    If index.html is published before hashed CSS/JS exist, Hostinger CDN can
+    cache the SPA fallback HTML under the asset URL and break the site.
+    """
+    planned: list[tuple[Path, str]] = []
     for root, dirs, filenames in os.walk(local):
         rel = Path(root).relative_to(local)
         if rel.parts and rel.parts[0] in SKIP_TOP:
             dirs[:] = []
             continue
         remote_dir = remote if str(rel) == "." else f"{remote}/{rel.as_posix()}"
-        ensure_remote_dir(sftp, remote_dir)
         for name in filenames:
             local_file = Path(root) / name
-            remote_file = f"{remote_dir}/{name}"
-            size = upload_file(sftp, local_file, remote_file)
-            files += 1
-            bytes_ += size
+            planned.append((local_file, f"{remote_dir}/{name}"))
+
+    def sort_key(item: tuple[Path, str]) -> tuple[int, str]:
+        path = item[0].as_posix().replace("\\", "/").lower()
+        if "/assets/" in path:
+            return (0, path)
+        if path.endswith(".html"):
+            return (2, path)
+        return (1, path)
+
+    files = 0
+    bytes_ = 0
+    for local_file, remote_file in sorted(planned, key=sort_key):
+        size = upload_file(sftp, local_file, remote_file)
+        files += 1
+        bytes_ += size
     return files, bytes_
 
 
@@ -124,6 +141,13 @@ def upload_backend(sftp: paramiko.SFTPClient) -> tuple[int, int]:
             files += 1
             bytes_ += size
             print(f"  + {rel} -> {remote_file}")
+            # Hostinger reads PHP upload limits from the API vhost directory too.
+            if rel == "public/.user.ini":
+                mirror = f"{REMOTE_PUBLIC}/backend/.user.ini"
+                size = upload_file(sftp, local, mirror)
+                files += 1
+                bytes_ += size
+                print(f"  + {rel} -> {mirror}")
     return files, bytes_
 
 
@@ -175,6 +199,10 @@ def main() -> None:
             files, bytes_ = upload_tree(sftp, LOCAL_PUBLIC, REMOTE_PUBLIC)
             if LOCAL_HTACCESS.exists():
                 size = upload_file(sftp, LOCAL_HTACCESS, f"{REMOTE_PUBLIC}/.htaccess")
+                files += 1
+                bytes_ += size
+            if LOCAL_HEADERS.exists():
+                size = upload_file(sftp, LOCAL_HEADERS, f"{REMOTE_PUBLIC}/_headers")
                 files += 1
                 bytes_ += size
             print(f"Frontend uploaded: {files} files, {bytes_:,} bytes")
