@@ -24,7 +24,7 @@ function AdminHome() {
           {[
             { label: "صفحات الموقع", value: CMS_PAGES.length, detail: "إدارة المحتوى", to: "/admin/pages", icon: FileText },
             { label: "إجمالي الدورات", value: data.courses, detail: `${data.publishedCourses} دورة منشورة`, to: "/admin/courses", icon: GraduationCap },
-            { label: "التسجيلات", value: data.registrations, detail: "جميع طلبات الالتحاق", to: "/admin/registrations", icon: Users },
+            { label: "الاستبيانات", value: data.registrations, detail: "طلبات الدورات والاستبيانات", to: "/admin/registrations", icon: Users },
             { label: "طلبات جديدة", value: data.newRegistrations, detail: "بانتظار المتابعة", to: "/admin/registrations", icon: Inbox },
           ].map((item) => (
             <Link key={item.label} to={item.to} className="group min-w-0 rounded-lg border border-border bg-card p-4 transition hover:border-primary/40 sm:p-5">

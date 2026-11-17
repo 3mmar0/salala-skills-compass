@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import {
   ArrowLeft,
   CheckCircle2,
+  Loader2,
   Dna,
   Database,
   FlaskConical,
@@ -19,6 +20,7 @@ import { CmsLink } from "@/components/cms/CmsLink";
 import { PageSections } from "@/components/cms/PageSections";
 import { useSectionContent } from "@/lib/cms/use-section";
 import { cmsIcon } from "@/lib/cms/icons";
+import { publicApi } from "@/lib/cms/client-store";
 import { breedPage, breedHero, breedIntro, breedGenetics, breedPackage, breedOffers, breedMissions, breedForm, breedCta } from "@/lib/cms/pages/breed";
 
 export const Route = createFileRoute("/breed-innovation")({
@@ -234,8 +236,40 @@ function Missions() {
 function Form() {
   const c = useSectionContent(breedForm);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const [phonePrefix, setPhonePrefix] = useState(c.defaultPhonePrefix);
-  function onSubmit(e: FormEvent) { e.preventDefault(); setSent(true); }
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setError("");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    try {
+      await publicApi("/inquiries", {
+        method: "POST",
+        body: JSON.stringify({
+          source: "breed",
+          full_name: data.get("full_name"),
+          phone: data.get("phone"),
+          email: data.get("email"),
+          subject: data.get("service"),
+          payload: {
+            activity: data.get("activity"),
+            organization: data.get("organization"),
+            country: data.get("country"),
+            message: data.get("notes"),
+          },
+        }),
+      });
+      setSent(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "تعذر إرسال الطلب.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   return (
       <section id="genome-form" className="container-site py-24">
@@ -268,7 +302,7 @@ function Form() {
               <form onSubmit={onSubmit} className="grid gap-4 md:grid-cols-2">
                 <label className="md:col-span-2">
                   {c.text13 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text13}</span>) : null}
-                  <select required className={input} defaultValue="">
+                  <select required name="service" className={input} defaultValue="">
                     <option value="" disabled>
                       {c.text14}
                     </option>
@@ -281,7 +315,7 @@ function Form() {
                 </label>
                 <label>
                   {c.text15 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text15}</span>) : null}
-                  <select required className={input} defaultValue={c.activities[0]?.text ?? ""}>
+                  <select required name="activity" className={input} defaultValue={c.activities[0]?.text ?? ""}>
                     {c.activities.map((item, i) => (
                       <option key={item._id ?? i} value={item.text}>
                         {item.text}
@@ -291,16 +325,17 @@ function Form() {
                 </label>
                 <label>
                   {c.text16 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text16}</span>) : null}
-                  <input required placeholder={c.text2} className={input} />
+                  <input required name="full_name" placeholder={c.text2} className={input} />
                 </label>
                 <label className="md:col-span-2">
                   {c.text17 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text17}</span>) : null}
-                  <input placeholder={c.text3} className={input} />
+                  <input name="organization" placeholder={c.text3} className={input} />
                 </label>
                 <label>
                   {c.text18 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text18}</span>) : null}
                   <select
                     required
+                    name="country"
                     className={input}
                     defaultValue=""
                     onChange={(e) => {
@@ -322,6 +357,7 @@ function Form() {
                   {c.text20 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text20}</span>) : null}
                   <input
                     required
+                    name="phone"
                     type="tel"
                     dir="ltr"
                     defaultValue={phonePrefix}
@@ -332,19 +368,22 @@ function Form() {
                 </label>
                 <label className="md:col-span-2">
                   {c.text21 ? (<span className="mb-2 block text-sm font-medium text-forest">{c.text21}</span>) : null}
-                  <input required type="email" placeholder={c.text4} className={input} />
+                  <input required name="email" type="email" placeholder={c.text4} className={input} />
                 </label>
                 <label className="md:col-span-2">
                   {c.text22 ? (<span className="mb-2 block text-sm font-medium text-forest">
                     {c.text22}
                   </span>) : null}
                   <textarea
+                    name="notes"
                     rows={5}
                     placeholder={c.text5}
                     className={input}
                   />
                 </label>
-                <button type="submit" className="btn-primary w-fit">
+                {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700 md:col-span-2">{error}</p>}
+                <button disabled={sending} type="submit" className="btn-primary inline-flex w-fit items-center gap-2">
+                  {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   {c.text23}
                 </button>
               </form>

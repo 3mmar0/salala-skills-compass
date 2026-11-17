@@ -20,7 +20,7 @@ const NAV: { to: "/admin" | "/admin/pages" | "/admin/courses" | "/admin/registra
   { to: "/admin", label: "نظرة عامة", icon: LayoutDashboard, exact: true },
   { to: "/admin/pages", label: "صفحات الموقع", icon: FileText },
   { to: "/admin/courses", label: "الدورات", icon: GraduationCap },
-  { to: "/admin/registrations", label: "التسجيلات", icon: ClipboardList },
+  { to: "/admin/registrations", label: "الاستبيانات", icon: ClipboardList },
   { to: "/admin/settings", label: "إعدادات الموقع", icon: Settings2 },
 ];
 

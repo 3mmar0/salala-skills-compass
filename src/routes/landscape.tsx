@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowLeft, CheckCircle2, MapPinned, Ruler, Sparkles, Cuboid, Hammer, SunMedium } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Loader2, MapPinned, Ruler, Sparkles, Cuboid, Hammer, SunMedium } from "lucide-react";
 import { PageHero, SectionHead, CtaBand, ExpertCard } from "@/components/site/Layout";
 import { ChevronLeft } from "lucide-react";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { PageSections } from "@/components/cms/PageSections";
 import { useSectionContent } from "@/lib/cms/use-section";
 import { cmsIcon } from "@/lib/cms/icons";
+import { publicApi } from "@/lib/cms/client-store";
 import { meta } from "@/lib/meta";
 import { landscapePage, landscapeHero, landscapeBreadcrumbs, landscapeStats, landscapePhases, landscapeElements, landscapeExperts, landscapeSteps, landscapeProjects, landscapeForm, landscapeCta } from "@/lib/cms/pages/landscape";
 
@@ -248,8 +249,40 @@ function ProjectsSection() {
 function FormSection() {
   const c = useSectionContent(landscapeForm);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const [phonePrefix, setPhonePrefix] = useState(c.initialPhonePrefix);
-  const onSubmit = (e: FormEvent) => { e.preventDefault(); setSent(true); };
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setError("");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    try {
+      await publicApi("/inquiries", {
+        method: "POST",
+        body: JSON.stringify({
+          source: "landscape",
+          full_name: data.get("full_name"),
+          phone: data.get("phone"),
+          email: data.get("email"),
+          subject: data.get("service"),
+          payload: {
+            place: data.get("place"),
+            area: data.get("area"),
+            country: data.get("country"),
+            message: data.get("notes"),
+          },
+        }),
+      });
+      setSent(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "تعذر إرسال الطلب.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   return (
       <section id="landscape-form" className="container-site py-24">
@@ -294,7 +327,7 @@ function FormSection() {
               <form onSubmit={onSubmit} className="grid gap-4 md:grid-cols-2">
                 <label className="md:col-span-2">
                   <span className="mb-2 block text-sm font-medium text-forest">{c.serviceLabel}</span>
-                  <select required className={input} defaultValue="">
+                  <select required name="service" className={input} defaultValue="">
                     <option value="" disabled>
                       {c.servicePlaceholder}
                     </option>
@@ -307,11 +340,11 @@ function FormSection() {
                 </label>
                 <label>
                   <span className="mb-2 block text-sm font-medium text-forest">{c.nameLabel}</span>
-                  <input required placeholder={c.namePlaceholder} className={input} />
+                  <input required name="full_name" placeholder={c.namePlaceholder} className={input} />
                 </label>
                 <label>
                   <span className="mb-2 block text-sm font-medium text-forest">{c.placeLabel}</span>
-                  <select required className={input} defaultValue="">
+                  <select required name="place" className={input} defaultValue="">
                     <option value="" disabled>
                       {c.placePlaceholder}
                     </option>
@@ -324,12 +357,13 @@ function FormSection() {
                 </label>
                 <label>
                   <span className="mb-2 block text-sm font-medium text-forest">{c.areaLabel}</span>
-                  <input type="number" min={1} placeholder={c.areaPlaceholder} className={input} />
+                  <input name="area" type="number" min={1} placeholder={c.areaPlaceholder} className={input} />
                 </label>
                 <label>
                   <span className="mb-2 block text-sm font-medium text-forest">{c.countryLabel}</span>
                   <select
                     required
+                    name="country"
                     className={input}
                     defaultValue=""
                     onChange={(e) => {
@@ -351,6 +385,7 @@ function FormSection() {
                   <span className="mb-2 block text-sm font-medium text-forest">{c.phoneLabel}</span>
                   <input
                     required
+                    name="phone"
                     type="tel"
                     dir="ltr"
                     defaultValue={phonePrefix}
@@ -361,13 +396,15 @@ function FormSection() {
                 </label>
                 <label>
                   <span className="mb-2 block text-sm font-medium text-forest">{c.emailLabel}</span>
-                  <input required type="email" placeholder={c.emailPlaceholder} className={input} />
+                  <input required name="email" type="email" placeholder={c.emailPlaceholder} className={input} />
                 </label>
                 <label className="md:col-span-2">
                   <span className="mb-2 block text-sm font-medium text-forest">{c.notesLabel}</span>
-                  <textarea rows={4} placeholder={c.notesPlaceholder} className={input} />
+                  <textarea name="notes" rows={4} placeholder={c.notesPlaceholder} className={input} />
                 </label>
-                <button type="submit" className="btn-primary w-fit">
+                {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700 md:col-span-2">{error}</p>}
+                <button disabled={sending} type="submit" className="btn-primary inline-flex w-fit items-center gap-2">
+                  {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   {c.submitLabel}
                 </button>
               </form>

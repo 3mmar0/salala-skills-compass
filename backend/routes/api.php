@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\CmsController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\RegistrationController;
 use App\Http\Controllers\Api\LinkApplicationController;
+use App\Http\Controllers\Api\EntrepreneurshipApplicationController;
+use App\Http\Controllers\Api\InquiryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', fn () => response()->json(['ok' => true]));
@@ -15,6 +17,8 @@ Route::get('/courses/catalog', [CourseController::class, 'catalog']);
 Route::get('/courses/{category}/{specialty}/{course}', [CourseController::class, 'detail']);
 Route::post('/course-registrations', [RegistrationController::class, 'store']);
 Route::post('/link-applications', [LinkApplicationController::class, 'store']);
+Route::post('/entrepreneurship-applications', [EntrepreneurshipApplicationController::class, 'store']);
+Route::post('/inquiries', [InquiryController::class, 'store']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('admin.token')->group(function () {
     Route::get('/admin/content', [CmsController::class, 'adminIndex']);
@@ -36,5 +40,11 @@ Route::middleware('admin.token')->group(function () {
     Route::delete('/admin/course-specialties/{id}', [CourseController::class, 'deleteSpecialty']);
     Route::get('/admin/course-registrations', [RegistrationController::class, 'index']);
     Route::put('/admin/course-registrations/{id}', [RegistrationController::class, 'update']);
+    Route::get('/admin/link-applications', [LinkApplicationController::class, 'index']);
+    Route::put('/admin/link-applications/{id}', [LinkApplicationController::class, 'update']);
+    Route::get('/admin/entrepreneurship-applications', [EntrepreneurshipApplicationController::class, 'index']);
+    Route::put('/admin/entrepreneurship-applications/{id}', [EntrepreneurshipApplicationController::class, 'update']);
+    Route::get('/admin/inquiries', [InquiryController::class, 'index']);
+    Route::put('/admin/inquiries/{id}', [InquiryController::class, 'update']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });

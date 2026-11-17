@@ -56,13 +56,24 @@ export const entrepreneurshipStages = section("stages", {
 });
 
 export const entrepreneurshipCta = section("cta", {
- label: "دعوة للتواصل",
- fields: [f.text("title", "العنوان"), f.textarea("body", "الوصف"), f.text("ctaLabel", "نص الزر"), f.url("ctaHref", "رابط الزر")],
+ label: "استبيان تقديم الفكرة",
+ fields: [
+   f.text("title", "العنوان"),
+   f.textarea("body", "الوصف"),
+   f.text("submitLabel", "نص زر الإرسال"),
+   f.text("success", "رسالة النجاح"),
+   f.text("consent", "نص الموافقة"),
+   f.text("ctaLabel", "نص الزر القديم"),
+   f.url("ctaHref", "رابط الزر القديم"),
+ ],
  defaults: {
   "title": "لديك فكرة مشروع زراعي؟",
-  "body": "قدّم فكرتك الآن وسيتواصل معك فريق ريادة الأعمال لتقييمها وتحديد المرحلة المناسبة.",
+  "body": "قدّم فكرتك الآن مع رابط LinkedIn أو سيرتك الذاتية، وسيتواصل معك فريق ريادة الأعمال لتقييمها وتحديد المرحلة المناسبة.",
+  "submitLabel": "إرسال الفكرة",
+  "success": "تم استلام فكرتك بنجاح. سيتواصل معك فريق ريادة الأعمال قريبًا.",
+  "consent": "أوافق على حفظ بياناتي لغرض تقييم الفكرة والتواصل بشأن برامج ريادة الأعمال.",
   "ctaLabel": "قدّم فكرتك",
-  "ctaHref": "/contact"
+  "ctaHref": "#apply-idea"
 },
 });
 
