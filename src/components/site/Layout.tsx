@@ -16,14 +16,18 @@ export const NAV = [
   { to: "/courses", label: "البرامج التدريبية" },
   { to: "/consulting", label: "الاستشارات" },
   { to: "/breed-innovation", label: "Solalaa Genome" },
-  { to: "/arabian-horse", label: "الخيل العربي" },
-  { to: "/solalaa-camel", label: "Solalaa Camel" },
-  { to: "/large-animal", label: "الحيوانات الكبيرة" },
-  { to: "/poultry", label: "الدواجن" },
   { to: "/entrepreneurship", label: "ريادة الأعمال المتخصصة" },
   { to: "/library", label: "المكتبة" },
   { to: "/landscape", label: "Landscape" },
   { to: "/solalaa-link", label: "Solalaa Link" },
+] as const;
+
+/** Breed pages are reached from the Solalaa Genome cards; the footer still lists them. */
+const BREED_LINKS = [
+  { to: "/arabian-horse", label: "الخيل العربي" },
+  { to: "/solalaa-camel", label: "Solalaa Camel" },
+  { to: "/large-animal", label: "الحيوانات الكبيرة" },
+  { to: "/poultry", label: "الدواجن" },
 ] as const;
 
 export const DEFAULT_LOGO = "/solala-logo.png";
@@ -175,7 +179,7 @@ export function Footer() {
         <div>
           <h5 className="mb-4 font-bold text-gold">روابط مفيدة</h5>
           <ul className="space-y-2 text-sm opacity-85">
-            {NAV.map((n) => (
+            {[...NAV, ...BREED_LINKS].map((n) => (
               <li key={n.to}>
                 <Link to={n.to} className="hover:text-gold">
                   {n.label}
