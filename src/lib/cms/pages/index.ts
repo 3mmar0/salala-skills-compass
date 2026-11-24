@@ -11,6 +11,10 @@ import { faqPage } from "./faq";
 import { policiesPage } from "./policies";
 import { contactPage } from "./contact";
 import { solalaaLinkPage } from "./solalaa-link";
+import { arabianHorsePage } from "./arabian-horse";
+import { camelPage } from "./camel";
+import { largeAnimalPage } from "./large-animal";
+import { poultryPage } from "./poultry";
 
 /** Every admin-editable page, in the order shown in the admin. */
 export const CMS_PAGES: PageDef[] = [
@@ -19,6 +23,10 @@ export const CMS_PAGES: PageDef[] = [
   coursesPage,
   consultingPage,
   breedPage,
+  arabianHorsePage,
+  camelPage,
+  largeAnimalPage,
+  poultryPage,
   entrepreneurshipPage,
   libraryPage,
   landscapePage,

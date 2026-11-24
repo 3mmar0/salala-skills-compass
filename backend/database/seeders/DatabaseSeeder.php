@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
             ['/', 'الرئيسية'], ['/about', 'Solalaa is'], ['/courses', 'البرامج التدريبية'], ['/consulting', 'الاستشارات'],
             ['/entrepreneurship', 'ريادة الأعمال المتخصصة'], ['/library', 'المكتبة'], ['/faq', 'الأسئلة الشائعة'], ['/policies', 'السياسات والشروط'],
             ['/contact', 'تواصل معنا'], ['/landscape', 'Landscape'], ['/breed-innovation', 'Solalaa Genome'],
-            ['/solalaa-link', 'Solalaa Link'],
+            ['/solalaa-link', 'Solalaa Link'], ['/arabian-horse', 'الخيل العربي'], ['/solalaa-camel', 'Solalaa Camel'],
+            ['/large-animal', 'الحيوانات الكبيرة'], ['/poultry', 'الدواجن'],
         ];
         foreach ($pages as [$slug, $title]) {
             DB::table('cms_pages')->updateOrInsert(['slug' => $slug], [

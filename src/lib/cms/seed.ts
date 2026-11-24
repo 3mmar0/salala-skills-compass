@@ -101,6 +101,20 @@ export const CMS_SEED: CmsStore = {
       published: true,
       updatedAt: now(),
     },
+    ...[
+      ["/arabian-horse", "الخيل العربي", "ميدان الخيول العربية"],
+      ["/solalaa-camel", "Solalaa Camel", "ابتكار ووراثة سلالات الإبل العربية"],
+      ["/large-animal", "الحيوانات الكبيرة", "علم وراثة وتحسين سلالات الحيوانات الكبيرة"],
+      ["/poultry", "الدواجن", "علم وراثة وسلالات الدواجن"],
+    ].map(([slug, title, heroTitle]) => ({
+      slug: slug!,
+      title: title!,
+      description: "وراثة وتحسين السلالات الحيوانية.",
+      heroTitle: heroTitle!,
+      heroSubtitle: "",
+      published: true,
+      updatedAt: now(),
+    })),
     {
       slug: "/about",
       title: "Solalaa is",
