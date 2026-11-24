@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ArabianHorseRouteImport } from './routes/arabian-horse'
 import { Route as BreedInnovationRouteImport } from './routes/breed-innovation'
 import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -19,8 +20,11 @@ import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as EntrepreneurshipRouteImport } from './routes/entrepreneurship'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LandscapeRouteImport } from './routes/landscape'
+import { Route as LargeAnimalRouteImport } from './routes/large-animal'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as PoultryRouteImport } from './routes/poultry'
+import { Route as SolalaaCamelRouteImport } from './routes/solalaa-camel'
 import { Route as SolalaaLinkRouteImport } from './routes/solalaa-link'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
@@ -48,6 +52,11 @@ const AboutRoute = AboutRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArabianHorseRoute = ArabianHorseRouteImport.update({
+  id: '/arabian-horse',
+  path: '/arabian-horse',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BreedInnovationRoute = BreedInnovationRouteImport.update({
@@ -85,6 +94,11 @@ const LandscapeRoute = LandscapeRouteImport.update({
   path: '/landscape',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LargeAnimalRoute = LargeAnimalRouteImport.update({
+  id: '/large-animal',
+  path: '/large-animal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryRoute = LibraryRouteImport.update({
   id: '/library',
   path: '/library',
@@ -93,6 +107,16 @@ const LibraryRoute = LibraryRouteImport.update({
 const PoliciesRoute = PoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoultryRoute = PoultryRouteImport.update({
+  id: '/poultry',
+  path: '/poultry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolalaaCamelRoute = SolalaaCamelRouteImport.update({
+  id: '/solalaa-camel',
+  path: '/solalaa-camel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SolalaaLinkRoute = SolalaaLinkRouteImport.update({
@@ -167,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/arabian-horse': typeof ArabianHorseRoute
   '/breed-innovation': typeof BreedInnovationRoute
   '/consulting': typeof ConsultingRoute
   '/contact': typeof ContactRoute
@@ -174,8 +199,11 @@ export interface FileRoutesByFullPath {
   '/entrepreneurship': typeof EntrepreneurshipRoute
   '/faq': typeof FaqRoute
   '/landscape': typeof LandscapeRoute
+  '/large-animal': typeof LargeAnimalRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/poultry': typeof PoultryRoute
+  '/solalaa-camel': typeof SolalaaCamelRoute
   '/solalaa-link': typeof SolalaaLinkRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -193,14 +221,18 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/arabian-horse': typeof ArabianHorseRoute
   '/breed-innovation': typeof BreedInnovationRoute
   '/consulting': typeof ConsultingRoute
   '/contact': typeof ContactRoute
   '/entrepreneurship': typeof EntrepreneurshipRoute
   '/faq': typeof FaqRoute
   '/landscape': typeof LandscapeRoute
+  '/large-animal': typeof LargeAnimalRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/poultry': typeof PoultryRoute
+  '/solalaa-camel': typeof SolalaaCamelRoute
   '/solalaa-link': typeof SolalaaLinkRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -219,6 +251,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/arabian-horse': typeof ArabianHorseRoute
   '/breed-innovation': typeof BreedInnovationRoute
   '/consulting': typeof ConsultingRoute
   '/contact': typeof ContactRoute
@@ -226,8 +259,11 @@ export interface FileRoutesById {
   '/entrepreneurship': typeof EntrepreneurshipRoute
   '/faq': typeof FaqRoute
   '/landscape': typeof LandscapeRoute
+  '/large-animal': typeof LargeAnimalRoute
   '/library': typeof LibraryRoute
   '/policies': typeof PoliciesRoute
+  '/poultry': typeof PoultryRoute
+  '/solalaa-camel': typeof SolalaaCamelRoute
   '/solalaa-link': typeof SolalaaLinkRoute
   '/admin/courses': typeof AdminCoursesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -248,6 +284,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/arabian-horse'
     | '/breed-innovation'
     | '/consulting'
     | '/contact'
@@ -255,8 +292,11 @@ export interface FileRouteTypes {
     | '/entrepreneurship'
     | '/faq'
     | '/landscape'
+    | '/large-animal'
     | '/library'
     | '/policies'
+    | '/poultry'
+    | '/solalaa-camel'
     | '/solalaa-link'
     | '/admin/courses'
     | '/admin/login'
@@ -274,14 +314,18 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/arabian-horse'
     | '/breed-innovation'
     | '/consulting'
     | '/contact'
     | '/entrepreneurship'
     | '/faq'
     | '/landscape'
+    | '/large-animal'
     | '/library'
     | '/policies'
+    | '/poultry'
+    | '/solalaa-camel'
     | '/solalaa-link'
     | '/admin/courses'
     | '/admin/login'
@@ -299,6 +343,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/arabian-horse'
     | '/breed-innovation'
     | '/consulting'
     | '/contact'
@@ -306,8 +351,11 @@ export interface FileRouteTypes {
     | '/entrepreneurship'
     | '/faq'
     | '/landscape'
+    | '/large-animal'
     | '/library'
     | '/policies'
+    | '/poultry'
+    | '/solalaa-camel'
     | '/solalaa-link'
     | '/admin/courses'
     | '/admin/login'
@@ -327,6 +375,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
+  ArabianHorseRoute: typeof ArabianHorseRoute
   BreedInnovationRoute: typeof BreedInnovationRoute
   ConsultingRoute: typeof ConsultingRoute
   ContactRoute: typeof ContactRoute
@@ -334,8 +383,11 @@ export interface RootRouteChildren {
   EntrepreneurshipRoute: typeof EntrepreneurshipRoute
   FaqRoute: typeof FaqRoute
   LandscapeRoute: typeof LandscapeRoute
+  LargeAnimalRoute: typeof LargeAnimalRoute
   LibraryRoute: typeof LibraryRoute
   PoliciesRoute: typeof PoliciesRoute
+  PoultryRoute: typeof PoultryRoute
+  SolalaaCamelRoute: typeof SolalaaCamelRoute
   SolalaaLinkRoute: typeof SolalaaLinkRoute
 }
 
@@ -360,6 +412,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arabian-horse': {
+      id: '/arabian-horse'
+      path: '/arabian-horse'
+      fullPath: '/arabian-horse'
+      preLoaderRoute: typeof ArabianHorseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/breed-innovation': {
@@ -411,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LandscapeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/large-animal': {
+      id: '/large-animal'
+      path: '/large-animal'
+      fullPath: '/large-animal'
+      preLoaderRoute: typeof LargeAnimalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -423,6 +489,20 @@ declare module '@tanstack/react-router' {
       path: '/policies'
       fullPath: '/policies'
       preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/poultry': {
+      id: '/poultry'
+      path: '/poultry'
+      fullPath: '/poultry'
+      preLoaderRoute: typeof PoultryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solalaa-camel': {
+      id: '/solalaa-camel'
+      path: '/solalaa-camel'
+      fullPath: '/solalaa-camel'
+      preLoaderRoute: typeof SolalaaCamelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/solalaa-link': {
@@ -586,6 +666,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
+  ArabianHorseRoute: ArabianHorseRoute,
   BreedInnovationRoute: BreedInnovationRoute,
   ConsultingRoute: ConsultingRoute,
   ContactRoute: ContactRoute,
@@ -593,8 +674,11 @@ const rootRouteChildren: RootRouteChildren = {
   EntrepreneurshipRoute: EntrepreneurshipRoute,
   FaqRoute: FaqRoute,
   LandscapeRoute: LandscapeRoute,
+  LargeAnimalRoute: LargeAnimalRoute,
   LibraryRoute: LibraryRoute,
   PoliciesRoute: PoliciesRoute,
+  PoultryRoute: PoultryRoute,
+  SolalaaCamelRoute: SolalaaCamelRoute,
   SolalaaLinkRoute: SolalaaLinkRoute,
 }
 export const routeTree = rootRouteImport
