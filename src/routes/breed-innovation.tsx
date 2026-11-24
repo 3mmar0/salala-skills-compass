@@ -143,6 +143,18 @@ function Genetics() {
   );
 }
 
+/** Cards whose title names one of the breed pages link to it when no link is set in the admin. */
+const BREED_CARD_LINKS: [RegExp, string][] = [
+  [/خيل|خيول/, "/arabian-horse"],
+  [/إبل|ابل|هجن/, "/solalaa-camel"],
+  [/دواجن/, "/poultry"],
+  [/الحيوانات|ماشية|أبقار/, "/large-animal"],
+];
+
+function breedCardHref(title: string) {
+  return BREED_CARD_LINKS.find(([pattern]) => pattern.test(title))?.[1] ?? "";
+}
+
 function Package() {
   const c = useSectionContent(breedPackage);
   return (
@@ -155,13 +167,33 @@ function Package() {
             desc={c.text3}
           />
           <div className="grid gap-5 md:grid-cols-2">
-            {c.items.map((item, i) => (
-              <div key={item._id ?? i} className="rounded-3xl border bg-card p-8 shadow-soft card-fx reveal">
-                <Sparkles className="h-8 w-8 text-gold-dark" />
-                <h3 className="mt-4 text-xl font-bold text-forest">{item.t}</h3>
-                <p className="mt-3 leading-8 text-muted-foreground">{item.d}</p>
-              </div>
-            ))}
+            {c.items.map((item, i) => {
+              const href = item.href?.trim() || breedCardHref(item.t);
+              const body = (
+                <>
+                  <div className="flex items-start justify-between gap-4">
+                    <Sparkles className="h-8 w-8 text-gold-dark" />
+                    {href ? (
+                      <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-primary transition group-hover:bg-primary group-hover:text-gold">
+                        <ArrowLeft className="h-5 w-5" />
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="mt-4 text-xl font-bold text-forest">{item.t}</h3>
+                  <p className="mt-3 leading-8 text-muted-foreground">{item.d}</p>
+                </>
+              );
+              const cls = "group block rounded-3xl border bg-card p-8 shadow-soft card-fx reveal";
+              return href ? (
+                <CmsLink key={item._id ?? i} href={href} className={`${cls} cursor-pointer hover:border-primary/40`}>
+                  {body}
+                </CmsLink>
+              ) : (
+                <div key={item._id ?? i} className={cls}>
+                  {body}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
