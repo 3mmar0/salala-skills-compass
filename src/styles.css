@@ -78,11 +78,15 @@
 
 @layer base {
   * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    font-size: 112.5%; /* ~18px — slightly larger site-wide for Arabic */
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    line-height: 1.75;
   }
   h1, h2, h3, h4, h5 { font-family: var(--font-display); }
 }
@@ -103,7 +107,7 @@
   overflow: visible;
 }
 .page-arabian-horse :where(p, li, figcaption) {
-  font-size: 1.1em;
+  font-size: 1.18em;
   line-height: 2.5 !important;
   padding-block: 0.15em;
 }
