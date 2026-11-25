@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Search, ArrowLeft } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { Particles, WavyBg } from "@/components/site/Layout";
+import { Particles, Wave, WavyBg } from "@/components/site/Layout";
 import { SmartImage } from "@/components/site/SmartImage";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CmsLink } from "@/components/cms/CmsLink";
@@ -37,7 +37,7 @@ function Hero({ q, setQ }: { q: string; setQ: (v: string) => void }) {
   const c = useSectionContent(coursesHero);
   return (
     <>
-      <section className="relative overflow-hidden text-forest-foreground">
+      <section className="relative isolate overflow-hidden text-forest-foreground">
         <SmartImage
           src={c.image}
           alt={c.title}
@@ -48,9 +48,12 @@ function Hero({ q, setQ }: { q: string; setQ: (v: string) => void }) {
           className="animate-ken-burns"
           placeholderClassName="bg-forest/70"
         />
-        <div className="absolute inset-0 bg-forest/70" />
-        <Particles />
-        <div className="container-site relative flex flex-col items-center py-28 text-center md:py-36">
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-forest/70" />
+        <div className="pointer-events-none absolute inset-0 z-[1]">
+          <Particles />
+        </div>
+        <Wave />
+        <div className="container-site relative z-20 flex flex-col items-center pb-40 pt-28 text-center md:pb-48 md:pt-36">
           {c.logoText && (
             <span dir="ltr" className="logo-hero animate-fade-up text-6xl md:text-8xl">
               {c.logoText}
@@ -69,9 +72,6 @@ function Hero({ q, setQ }: { q: string; setQ: (v: string) => void }) {
             <Search className="h-5 w-5 text-muted-foreground" />
           </label>
         </div>
-        <svg className="absolute bottom-0 left-0 h-16 w-full fill-background md:h-24" viewBox="0 0 1440 100" preserveAspectRatio="none">
-          <path d="M0,100 C360,0 1080,0 1440,100 Z" />
-        </svg>
       </section>
       <Breadcrumbs items={[{ label: "الرئيسية", to: "/" }, { label: "البرامج التدريبية" }]} />
     </>

@@ -223,7 +223,7 @@ export function Footer() {
 export function Wave({ className = "" }: { className?: string }) {
   const d = "M0,64 C120,96 240,32 360,48 C480,64 600,112 720,96 C840,80 960,24 1080,32 C1200,40 1320,88 1440,64 L1440,120 L0,120 Z";
   return (
-    <div dir="ltr" className={`pointer-events-none absolute inset-x-0 bottom-0 h-24 overflow-hidden md:h-32 ${className}`}>
+    <div dir="ltr" className={`pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-28 overflow-hidden md:h-36 ${className}`}>
       <svg className="wave-track-slow absolute bottom-0 left-0 h-full fill-background opacity-40" viewBox="0 0 2880 120" preserveAspectRatio="none">
         <path d={d} /><path d={d} transform="translate(1440 0)" />
       </svg>
@@ -251,6 +251,9 @@ export function PageHero({
   image,
   children,
   tall = false,
+  overlay = "default",
+  titleClassName,
+  imageClassName,
 }: {
   eyebrow: string;
   title: string;
@@ -259,7 +262,13 @@ export function PageHero({
   children?: ReactNode;
   /** Extra vertical padding for specialty/course listing heroes */
   tall?: boolean;
+  /** `light` keeps more of the photo visible behind the copy */
+  overlay?: "default" | "light";
+  titleClassName?: string;
+  /** Extra classes for the background image (e.g. object-position). */
+  imageClassName?: string;
 }) {
+  const light = overlay === "light";
   return (
     <section className="relative isolate overflow-hidden text-forest-foreground">
       <SmartImage
@@ -269,28 +278,42 @@ export function PageHero({
         height={912}
         fill
         priority
-        className="animate-ken-burns"
+        className={imageClassName ?? "animate-ken-burns object-center"}
         placeholderClassName="bg-forest/70"
       />
-      <div className="bg-hero-overlay pointer-events-none absolute inset-0 z-[1]" />
-      <div className="pointer-events-none absolute -left-24 top-10 z-[1] h-80 w-80 animate-blob bg-gold/25 blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 bottom-0 z-[1] h-96 w-96 animate-blob bg-primary/40 blur-3xl [animation-delay:-6s]" />
-      <div className="pointer-events-none absolute inset-0 z-[1]">
-        <Particles />
-      </div>
       <div
-        className={
-          tall
-            ? "container-site relative z-20 pb-44 pt-28 md:pb-56 md:pt-40"
-            : "container-site relative z-20 pb-36 pt-24 md:pb-44 md:pt-32"
-        }
-      >
-        <span className="animate-fade-up inline-block rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{eyebrow}</span>
-        <h1 className="animate-fade-up delay-1 mt-5 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">{title}</h1>
-        {subtitle && <p className="animate-fade-up delay-2 mt-5 max-w-2xl text-lg leading-8 opacity-90">{subtitle}</p>}
-        {children && <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">{children}</div>}
+        className={`pointer-events-none absolute inset-0 z-[1] ${light ? "bg-hero-overlay-light" : "bg-hero-overlay"}`}
+      />
+      <div
+        className={`pointer-events-none absolute -left-24 top-10 z-[1] h-80 w-80 animate-blob blur-3xl ${light ? "bg-gold/15" : "bg-gold/25"}`}
+      />
+      <div
+        className={`pointer-events-none absolute -right-20 bottom-0 z-[1] h-96 w-96 animate-blob blur-3xl [animation-delay:-6s] ${light ? "bg-primary/20" : "bg-primary/40"}`}
+      />
+      <div className="pointer-events-none absolute inset-0 z-[1]">
+        <Particles n={light ? 8 : 14} />
       </div>
       <Wave />
+      <div
+        className={`container-site relative z-20 flex flex-col items-start ${
+          tall ? "pb-44 pt-28 md:pb-56 md:pt-40" : "pb-40 pt-24 md:pb-48 md:pt-32"
+        }`}
+      >
+        {eyebrow ? (
+          <span className="animate-fade-up mb-4 inline-block w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">
+            {eyebrow}
+          </span>
+        ) : null}
+        <h1
+          className={`animate-fade-up delay-1 max-w-3xl text-4xl font-bold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] md:text-6xl ${titleClassName ?? ""}`}
+        >
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="animate-fade-up delay-2 mt-5 max-w-2xl text-lg leading-8 opacity-95 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">{subtitle}</p>
+        )}
+        {children && <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">{children}</div>}
+      </div>
     </section>
   );
 }

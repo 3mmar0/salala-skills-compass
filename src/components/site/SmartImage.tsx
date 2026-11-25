@@ -47,7 +47,6 @@ export function SmartImage({
       className={cn(
         "overflow-hidden",
         fill ? "pointer-events-none absolute inset-0 -z-0 block" : "relative block w-full",
-        !fill && className,
       )}
     >
       <span
@@ -73,7 +72,7 @@ export function SmartImage({
           "transition-opacity duration-500 ease-out",
           loaded ? "opacity-100" : "opacity-0",
           fill ? "h-full w-full object-cover" : "relative h-auto w-full",
-          fill && className,
+          className,
         )}
       />
     </span>

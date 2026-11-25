@@ -24,7 +24,13 @@ function About() {
 function HeroSection() {
   const c = useSectionContent(aboutHero);
   return (
-<PageHero image={c.image} eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} />
+    <PageHero
+      image={c.image}
+      eyebrow={c.eyebrow}
+      title={c.title}
+      subtitle={c.subtitle}
+      overlay="light"
+    />
   );
 }
 

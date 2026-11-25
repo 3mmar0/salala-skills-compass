@@ -46,10 +46,31 @@ export function BreedPage({ page }: { page: PageDef }) {
   return <PageSections page={page} elements={elements} />;
 }
 
+function isArabianHorse(def: SectionDef) {
+  return def.page?.key === "arabian-horse" || def.id.startsWith("arabian-horse.");
+}
+
+function isPoultry(def: SectionDef) {
+  return def.page?.key === "poultry" || def.id.startsWith("poultry.");
+}
+
 function BreedHero({ def }: { def: SectionDef<BreedHeroContent> }) {
   const c = useSectionContent(def);
+  const horse = isArabianHorse(def);
+  const poultry = isPoultry(def);
   return (
-    <PageHero image={c.image} eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle}>
+    <PageHero
+      image={c.image}
+      eyebrow={c.eyebrow}
+      title={c.title}
+      subtitle={c.subtitle}
+      titleClassName={horse ? "horse-ruqaa-title" : undefined}
+      imageClassName={
+        poultry
+          ? "object-cover object-center origin-center"
+          : "animate-ken-burns object-center"
+      }
+    >
       {c.primaryLabel ? (
         <CmsLink href={c.primaryHref} className="btn-gold btn-glow">
           {c.primaryLabel} <ArrowLeft className="h-4 w-4" />
@@ -81,6 +102,7 @@ function DnaPanel({ badge }: { badge?: string }) {
 
 function BreedPillars({ def }: { def: SectionDef<BreedPillarsContent> }) {
   const c = useSectionContent(def);
+  const horse = isArabianHorse(def);
   return (
     <section id="pillars" className="container-site scroll-mt-24 py-24">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
@@ -106,14 +128,16 @@ function BreedPillars({ def }: { def: SectionDef<BreedPillarsContent> }) {
             </span>
           ) : null}
         </div>
-        <div>
+        <div className="flex flex-col items-start">
           {c.eyebrow ? (
-            <span className="reveal inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1 text-sm font-semibold text-primary">
+            <span className="reveal mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-secondary px-4 py-1 text-sm font-semibold text-primary">
               <Sparkles className="h-4 w-4 text-gold-dark" /> {c.eyebrow}
             </span>
           ) : null}
           {c.title ? (
-            <h2 className="text-shimmer reveal mt-3 text-3xl font-bold leading-snug md:text-4xl">
+            <h2
+              className={`reveal text-3xl font-bold md:text-4xl ${horse ? "horse-ruqaa-title text-shimmer" : "text-shimmer mt-3 leading-snug"}`}
+            >
               {c.title}
             </h2>
           ) : null}
@@ -145,6 +169,7 @@ function BreedPillars({ def }: { def: SectionDef<BreedPillarsContent> }) {
 
 function BreedSpotlight({ def }: { def: SectionDef<BreedSpotlightContent> }) {
   const c = useSectionContent(def);
+  const poultry = isPoultry(def);
   return (
     <section
       id="spotlight"
@@ -166,13 +191,17 @@ function BreedSpotlight({ def }: { def: SectionDef<BreedSpotlightContent> }) {
           <span className="title-line mx-0!" />
           {c.desc ? <p className="reveal mt-5 leading-8 text-muted-foreground">{c.desc}</p> : null}
           {c.image ? (
-            <div className="card-fx reveal mt-8 overflow-hidden rounded-3xl shadow-soft">
+            <div className="card-fx reveal mt-8 overflow-hidden rounded-3xl bg-card shadow-soft">
               <SmartImage
                 src={c.image}
                 alt={c.title}
                 width={1080}
                 height={720}
-                className="aspect-[3/2] object-cover"
+                className={
+                  poultry
+                    ? "aspect-[3/2] object-contain object-center bg-card p-4"
+                    : "aspect-[3/2] object-cover object-center"
+                }
                 placeholderClassName="aspect-[3/2] bg-muted"
               />
             </div>
