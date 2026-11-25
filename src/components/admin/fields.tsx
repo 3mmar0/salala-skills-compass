@@ -121,6 +121,35 @@ export function ScalarInput({ field, value, onChange }: { field: ScalarField; va
   }
 }
 
+const IMAGE_MAX_BYTES = 2 * 1024 * 1024;
+const GIF_MAX_BYTES = 1.5 * 1024 * 1024;
+
+async function compressStillImage(file: File): Promise<File> {
+  if (file.type === "image/gif" || /\.gif$/i.test(file.name)) return file;
+  if (typeof createImageBitmap !== "function") return file;
+
+  const bitmap = await createImageBitmap(file);
+  const maxEdge = 1920;
+  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
+  const width = Math.max(1, Math.round(bitmap.width * scale));
+  const height = Math.max(1, Math.round(bitmap.height * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    bitmap.close();
+    return file;
+  }
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/webp", 0.82));
+  if (!blob || blob.size >= file.size) return file;
+  const base = file.name.replace(/\.[^.]+$/, "") || "image";
+  return new File([blob], `${base}.webp`, { type: "image/webp", lastModified: Date.now() });
+}
+
 export function ImageInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -132,15 +161,20 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
       toast.error("صيغة الصورة غير مدعومة. استخدم JPG/PNG/WebP/GIF.");
       return;
     }
-    // GIFs can be larger animated assets; still keep a hard ceiling.
-    const maxBytes = /\.gif$/i.test(file.name) || file.type === "image/gif" ? 12 * 1024 * 1024 : 5 * 1024 * 1024;
+    const isGif = file.type === "image/gif" || /\.gif$/i.test(file.name);
+    const maxBytes = isGif ? GIF_MAX_BYTES : IMAGE_MAX_BYTES;
     if (file.size > maxBytes) {
-      toast.error(file.type === "image/gif" || /\.gif$/i.test(file.name) ? "حجم الـ GIF أكبر من 12 ميجابايت." : "حجم الصورة أكبر من 5 ميجابايت.");
+      toast.error(
+        isGif
+          ? "حجم الـ GIF أكبر من 1.5 ميجابايت. للرسوم المتحركة ارفع فيديو MP4/WebM بدل GIF."
+          : "حجم الصورة أكبر من 2 ميجابايت. ارفع JPG/WebP مضغوطًا.",
+      );
       return;
     }
     setUploading(true);
     try {
-      onChange(await uploadMedia(file));
+      const payload = isGif ? file : await compressStillImage(file);
+      onChange(await uploadMedia(payload));
       toast.success("تم رفع الصورة");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "تعذر رفع الصورة");
@@ -178,6 +212,7 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
             {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImageUp className="h-3.5 w-3.5" />}
             {uploading ? "جاري الرفع…" : "رفع صورة / GIF"}
           </button>
+          <p className="text-[11px] leading-5 text-muted-foreground">صور حتى 2MB · GIF حتى 1.5MB · للحركة استخدم فيديو</p>
           <div className="flex gap-1.5">
             <button
               type="button"

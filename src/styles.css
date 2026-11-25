@@ -145,12 +145,32 @@
 @utility delay-1 { animation-delay: .15s; }
 @utility delay-2 { animation-delay: .3s; }
 @utility delay-3 { animation-delay: .45s; }
-@utility animate-ken-burns { animation: ken-burns 22s ease-in-out infinite alternate; }
-@utility animate-blob { animation: blob 14s ease-in-out infinite; }
-@utility animate-float { animation: float-y 6s ease-in-out infinite; }
-@utility animate-spin-slow { animation: spin-slow 30s linear infinite; }
-@utility wave-track { width: 200%; animation: wave-x 18s linear infinite; }
-@utility wave-track-slow { width: 200%; animation: wave-x 30s linear infinite reverse; }
+@utility animate-ken-burns {
+  animation: ken-burns 22s ease-in-out infinite alternate;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+@utility animate-blob {
+  animation: blob 14s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+@utility animate-float {
+  animation: float-y 6s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+@utility animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+@utility wave-track {
+  width: 200%;
+  animation: wave-x 18s linear infinite;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+@utility wave-track-slow {
+  width: 200%;
+  animation: wave-x 30s linear infinite reverse;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
 @utility sponsors-marquee {
   width: max-content;
   animation: wave-x 28s linear infinite;

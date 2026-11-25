@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { homeHero } from "@/lib/cms/pages/home";
 import { useSectionContent } from "@/lib/cms/use-section";
@@ -8,6 +9,22 @@ function isVideoUrl(url: string) {
   return /\.(mp4|webm)(?:$|\?)/i.test(url) || /\/api\/media\/.+\.(mp4|webm)$/i.test(url);
 }
 
+function DnaStage() {
+  return (
+    <div className="solala-plus-float__stage">
+      <div className="solala-plus-float__dna3d">
+        {Array.from({ length: DNA_PAIRS }, (_, i) => (
+          <div key={i} className="solala-plus-float__pair" style={{ ["--i" as string]: i }}>
+            <span className="solala-plus-float__node solala-plus-float__node--gold" />
+            <span className="solala-plus-float__rung" />
+            <span className="solala-plus-float__node solala-plus-float__node--teal" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function SolalaPlusFloat() {
   const c = useSectionContent(homeHero);
   const label = (c.genomeLabel || "Solalaa Genome").trim() || "Solalaa Genome";
@@ -16,6 +33,22 @@ export function SolalaPlusFloat() {
   const media = (c.genomeMedia || "").trim();
   const activeMedia = video || media;
   const showVideo = Boolean(video) || (Boolean(media) && isVideoUrl(media));
+  // Defer heavy GIF/video so it does not compete with the hero LCP image.
+  const [allowMedia, setAllowMedia] = useState(false);
+
+  useEffect(() => {
+    if (!activeMedia) return;
+    const win = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof win.requestIdleCallback === "function") {
+      const id = win.requestIdleCallback(() => setAllowMedia(true), { timeout: 2500 });
+      return () => win.cancelIdleCallback?.(id);
+    }
+    const id = window.setTimeout(() => setAllowMedia(true), 1500);
+    return () => window.clearTimeout(id);
+  }, [activeMedia]);
 
   return (
     <div className="solala-plus-float pointer-events-auto absolute z-10 hidden md:block">
@@ -32,7 +65,7 @@ export function SolalaPlusFloat() {
           <span className="solala-plus-float__halo" />
           <span className="solala-plus-float__ring" />
 
-          {activeMedia ? (
+          {activeMedia && allowMedia ? (
             <div className="solala-plus-float__media">
               {showVideo ? (
                 <video
@@ -42,29 +75,15 @@ export function SolalaPlusFloat() {
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   aria-label={label}
                 />
               ) : (
-                <img src={media} alt={label} className="h-full w-full object-cover" />
+                <img src={media} alt={label} loading="lazy" decoding="async" className="h-full w-full object-cover" />
               )}
             </div>
           ) : (
-            <div className="solala-plus-float__stage">
-              <div className="solala-plus-float__dna3d">
-                {Array.from({ length: DNA_PAIRS }, (_, i) => (
-                  <div
-                    key={i}
-                    className="solala-plus-float__pair"
-                    style={{ ["--i" as string]: i }}
-                  >
-                    <span className="solala-plus-float__node solala-plus-float__node--gold" />
-                    <span className="solala-plus-float__rung" />
-                    <span className="solala-plus-float__node solala-plus-float__node--teal" />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <DnaStage />
           )}
         </div>
 

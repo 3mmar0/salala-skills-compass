@@ -9,16 +9,18 @@ export const homeHero = section("hero", {
     f.text("badge", "الشارة أعلى العنوان"),
     f.text("title", "العنوان الرئيسي"),
     f.textarea("subtitle", "النص التعريفي"),
-    f.image("image", "صورة الخلفية"),
+    f.image("image", "صورة الخلفية", {
+      hint: "WebP أو JPG مضغوط، عرض حوالي 1600px، ويفضّل أقل من 300KB.",
+    }),
     f.text("primaryLabel", "نص الزر الأول"),
     f.url("primaryHref", "رابط الزر الأول"),
     f.text("secondaryLabel", "نص الزر الثاني"),
     f.url("secondaryHref", "رابط الزر الثاني"),
     f.image("genomeMedia", "وسائط دائرة DNA", {
-      hint: "صورة أو GIF داخل الدائرة. اتركها فارغة لاستخدام الرسوم الافتراضية.",
+      hint: "يفضّل WebP صغير. تجنّب GIF الثقيل — للحركة استخدم فيديو MP4 (أقل من 1MB).",
     }),
     f.video("genomeVideo", "فيديو دائرة DNA", {
-      hint: "اختياري — إن وُجد يُعرض بدل الصورة/GIF داخل الدائرة (MP4 أو WebM).",
+      hint: "مفضّل على GIF — MP4/WebM قصير وصامت، يُعرض بدل الصورة داخل الدائرة.",
     }),
     f.text("genomeLabel", "نص شارة Genome"),
     f.url("genomeHref", "رابط شارة Genome"),
@@ -78,7 +80,9 @@ export const homeMethodology = section("methodology", {
     f.text("eyebrow", "العنوان الصغير"),
     f.text("title", "العنوان"),
     f.textarea("subtitle", "الوصف"),
-    f.image("image", "الصورة"),
+    f.image("image", "الصورة", {
+      hint: "صورة ثابتة WebP/JPG — لا تستخدم GIF هنا (يفضّل أقل من 300KB).",
+    }),
     f.list("items", "المراحل", "مرحلة", [f.icon(), f.text("title", "العنوان"), f.textarea("description", "الوصف")]),
     f.text("ctaLabel", "نص الزر"),
     f.url("ctaHref", "رابط الزر"),

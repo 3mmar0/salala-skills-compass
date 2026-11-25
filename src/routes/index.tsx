@@ -50,11 +50,19 @@ function Hero() {
   const c = useSectionContent(homeHero);
   return (
     <section className="relative min-h-[88vh] overflow-hidden text-forest-foreground">
-      <img src={c.image} alt={c.title} width={1600} height={1008} className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
+      <img
+        src={c.image}
+        alt={c.title}
+        width={1600}
+        height={1008}
+        fetchPriority="high"
+        decoding="async"
+        className="animate-ken-burns absolute inset-0 h-full w-full object-cover"
+      />
       <div className="bg-hero-overlay absolute inset-0" />
       <div className="animate-blob absolute -left-24 top-24 h-96 w-96 bg-gold/25 blur-3xl" />
       <div className="animate-blob absolute right-0 bottom-20 h-[28rem] w-[28rem] bg-primary/40 blur-3xl [animation-delay:-5s]" />
-      <Particles n={20} />
+      <Particles n={10} />
       <Wave />
       <SolalaPlusFloat />
       <div className="container-site relative flex min-h-[88vh] flex-col justify-end pb-40">
@@ -108,7 +116,15 @@ function Methodology() {
   return (
     <section className="container-site py-24">
       <div className="grid items-center gap-12 lg:grid-cols-2">
-        <img src={c.image} alt={c.title} loading="lazy" width={1408} height={1008} className="animate-float rounded-3xl shadow-soft" />
+        <img
+          src={c.image}
+          alt={c.title}
+          loading="lazy"
+          decoding="async"
+          width={1408}
+          height={1008}
+          className="animate-float rounded-3xl shadow-soft"
+        />
         <div>
           <span className="text-sm font-semibold text-primary">{c.eyebrow}</span>
           <h2 className="mt-2 text-3xl font-bold text-forest md:text-4xl">{c.title}</h2>
