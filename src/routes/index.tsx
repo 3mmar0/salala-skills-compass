@@ -2,11 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { Wave, Particles } from "@/components/site/Layout";
 import { SolalaPlusFloat } from "@/components/site/SolalaPlusFloat";
+import { SmartImage } from "@/components/site/SmartImage";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { PageSections } from "@/components/cms/PageSections";
 import { lazySection } from "@/components/site/LazySection";
 import { meta } from "@/lib/meta";
 import { cmsIcon } from "@/lib/cms/icons";
+import { useCmsOptional } from "@/lib/cms/CmsProvider";
 import { useSectionContent } from "@/lib/cms/use-section";
 import { homeHero, homePage, homePillars } from "@/lib/cms/pages/home";
 
@@ -48,17 +50,23 @@ function Index() {
 
 function Hero() {
   const c = useSectionContent(homeHero);
+  const cms = useCmsOptional();
   return (
     <section className="relative min-h-[88vh] overflow-hidden text-forest-foreground">
-      <img
-        src={c.image}
-        alt={c.title}
-        width={1600}
-        height={1008}
-        fetchPriority="high"
-        decoding="async"
-        className="animate-ken-burns absolute inset-0 h-full w-full object-cover"
-      />
+      {cms?.loading ? (
+        <div className="absolute inset-0 animate-pulse bg-forest/80" aria-hidden />
+      ) : (
+        <SmartImage
+          src={c.image}
+          alt={c.title}
+          width={1600}
+          height={1008}
+          fill
+          priority
+          className="animate-ken-burns"
+          placeholderClassName="bg-forest/70"
+        />
+      )}
       <div className="bg-hero-overlay absolute inset-0" />
       <div className="animate-blob absolute -left-24 top-24 h-96 w-96 bg-gold/25 blur-3xl" />
       <div className="animate-blob absolute right-0 bottom-20 h-[28rem] w-[28rem] bg-primary/40 blur-3xl [animation-delay:-5s]" />

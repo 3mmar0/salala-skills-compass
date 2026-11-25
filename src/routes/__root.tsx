@@ -15,6 +15,8 @@ import appCss from "../styles.css?url";
 import { Header, Footer } from "@/components/site/Layout";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
 import { CmsProvider } from "@/lib/cms/CmsProvider";
+import { fetchCmsStore } from "@/lib/cms/client-store";
+import type { CmsStore } from "@/lib/cms/types";
 
 function NotFoundComponent() {
   return (
@@ -92,6 +94,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "canonical", href: "https://solalaa.com/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://backend.solalaa.com" },
+      { rel: "dns-prefetch", href: "https://backend.solalaa.com" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap",
@@ -100,6 +104,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/solala-logo.png", type: "image/png" },
     ],
   }),
+  loader: async (): Promise<{ cmsStore: CmsStore | null }> => {
+    try {
+      return { cmsStore: await fetchCmsStore() };
+    } catch {
+      return { cmsStore: null };
+    }
+  },
+  staleTime: 60_000,
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -136,12 +148,13 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { cmsStore } = Route.useLoaderData();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CmsProvider>
+      <CmsProvider initialStore={cmsStore}>
         {!isAdmin && <Header />}
         <main>
           <Outlet />

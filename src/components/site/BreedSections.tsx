@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ChevronDown, Dna, Sparkles } from "lucide-react";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { PageSections } from "@/components/cms/PageSections";
+import { SmartImage } from "@/components/site/SmartImage";
 import {
   CtaBand,
   FloatsBg,
@@ -87,13 +88,13 @@ function BreedPillars({ def }: { def: SectionDef<BreedPillarsContent> }) {
           <div className="animate-blob absolute -right-8 -top-8 -z-10 h-40 w-40 bg-gold/20 blur-2xl" />
           {c.image ? (
             <div className="card-fx overflow-hidden rounded-3xl shadow-soft">
-              <img
+              <SmartImage
                 src={c.image}
                 alt={c.imageBadge || c.title}
-                loading="lazy"
                 width={1080}
                 height={810}
-                className="aspect-[4/3] w-full object-cover"
+                className="aspect-[4/3] object-cover"
+                placeholderClassName="aspect-[4/3] bg-muted"
               />
             </div>
           ) : (
@@ -166,13 +167,13 @@ function BreedSpotlight({ def }: { def: SectionDef<BreedSpotlightContent> }) {
           {c.desc ? <p className="reveal mt-5 leading-8 text-muted-foreground">{c.desc}</p> : null}
           {c.image ? (
             <div className="card-fx reveal mt-8 overflow-hidden rounded-3xl shadow-soft">
-              <img
+              <SmartImage
                 src={c.image}
                 alt={c.title}
-                loading="lazy"
                 width={1080}
                 height={720}
-                className="aspect-[3/2] w-full object-cover"
+                className="aspect-[3/2] object-cover"
+                placeholderClassName="aspect-[3/2] bg-muted"
               />
             </div>
           ) : null}

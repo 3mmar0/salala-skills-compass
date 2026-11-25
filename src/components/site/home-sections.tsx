@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { SectionHead, ExpertCard, CtaBand, Stats, WavyBg, FloatsBg } from "@/components/site/Layout";
+import { SmartImage } from "@/components/site/SmartImage";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { cmsIcon } from "@/lib/cms/icons";
 import { useSectionContent } from "@/lib/cms/use-section";
@@ -24,14 +25,13 @@ export function Methodology() {
   return (
     <section className="container-site py-24">
       <div className="grid items-center gap-12 lg:grid-cols-2">
-        <img
+        <SmartImage
           src={c.image}
           alt={c.title}
-          loading="lazy"
-          decoding="async"
           width={1408}
           height={1008}
           className="animate-float rounded-3xl shadow-soft"
+          placeholderClassName="rounded-3xl bg-muted"
         />
         <div>
           <span className="text-sm font-semibold text-primary">{c.eyebrow}</span>

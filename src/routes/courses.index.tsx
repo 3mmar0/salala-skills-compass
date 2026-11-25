@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Search, ArrowLeft } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Particles, WavyBg } from "@/components/site/Layout";
+import { SmartImage } from "@/components/site/SmartImage";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CmsLink } from "@/components/cms/CmsLink";
 import { PageSections } from "@/components/cms/PageSections";
@@ -37,7 +38,16 @@ function Hero({ q, setQ }: { q: string; setQ: (v: string) => void }) {
   return (
     <>
       <section className="relative overflow-hidden text-forest-foreground">
-        <img src={c.image} alt={c.title} width={1600} height={1008} className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
+        <SmartImage
+          src={c.image}
+          alt={c.title}
+          width={1600}
+          height={1008}
+          fill
+          priority
+          className="animate-ken-burns"
+          placeholderClassName="bg-forest/70"
+        />
         <div className="absolute inset-0 bg-forest/70" />
         <Particles />
         <div className="container-site relative flex flex-col items-center py-28 text-center md:py-36">

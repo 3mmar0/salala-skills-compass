@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronDown, Menu, X, Leaf, Sparkles, Mail, Phone, Facebook, Instagram, Linkedin } from "lucide-react";
 import { useCmsOptional } from "@/lib/cms/CmsProvider";
 import { CmsLink } from "@/components/cms/CmsLink";
+import { SmartImage } from "@/components/site/SmartImage";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -261,7 +262,16 @@ export function PageHero({
 }) {
   return (
     <section className="relative overflow-hidden text-forest-foreground">
-      <img src={image} alt={title} width={1600} height={912} className="animate-ken-burns absolute inset-0 h-full w-full object-cover" />
+      <SmartImage
+        src={image}
+        alt={title}
+        width={1600}
+        height={912}
+        fill
+        priority
+        className="animate-ken-burns"
+        placeholderClassName="bg-forest/70"
+      />
       <div className="bg-hero-overlay absolute inset-0" />
       <div className="animate-blob absolute -left-24 top-10 h-80 w-80 bg-gold/25 blur-3xl" />
       <div className="animate-blob absolute -right-20 bottom-0 h-96 w-96 bg-primary/40 blur-3xl [animation-delay:-6s]" />

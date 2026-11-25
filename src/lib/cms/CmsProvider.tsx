@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { CMS_SEED } from "./seed";
-import { fetchCmsStore, persistCmsStore } from "./client-store";
+import { fetchCmsStore, getLocalCmsStore, hasLocalCmsStore, persistCmsStore } from "./client-store";
 import { isPreviewFrame, isPreviewMessage, postToParent, type PreviewSectionState } from "./preview";
 import type { CmsStore, SiteSettings } from "./types";
 
@@ -20,16 +20,30 @@ type CmsContextValue = {
 
 const CmsContext = createContext<CmsContextValue | null>(null);
 
-export function CmsProvider({ children }: { children: ReactNode }) {
-  const [store, setStore] = useState<CmsStore>(CMS_SEED);
-  const [loading, setLoading] = useState(true);
+function initialClientStore(initialStore?: CmsStore | null): CmsStore {
+  if (initialStore) return initialStore;
+  if (typeof window !== "undefined") return getLocalCmsStore();
+  return CMS_SEED;
+}
+
+export function CmsProvider({
+  children,
+  initialStore = null,
+}: {
+  children: ReactNode;
+  /** Store from route loader / SSR so the first paint uses real media URLs. */
+  initialStore?: CmsStore | null;
+}) {
+  const [store, setStore] = useState<CmsStore>(() => initialClientStore(initialStore));
+  const [loading, setLoading] = useState(() => !initialStore && !hasLocalCmsStore());
   const [saving, setSaving] = useState(false);
   const [lastSaveMode, setLastSaveMode] = useState<"server" | "local" | null>(null);
   const [previewMode, setPreviewMode] = useState(false);
   const [previewSections, setPreviewSections] = useState<Record<string, PreviewSectionState> | null>(null);
 
   const refresh = async () => {
-    setLoading(true);
+    // Keep showing cached/SSR content while refreshing — avoid seed-image flash.
+    if (!hasLocalCmsStore() && !initialStore) setLoading(true);
     const next = await fetchCmsStore();
     setStore(next);
     setLoading(false);
@@ -37,7 +51,15 @@ export function CmsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     void refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // If the loader provides a fresher store after navigation, adopt it.
+  useEffect(() => {
+    if (!initialStore) return;
+    setStore(initialStore);
+    setLoading(false);
+  }, [initialStore]);
 
   // Live preview: receive drafts from the admin editor running in the parent window.
   useEffect(() => {
@@ -59,7 +81,6 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         }
       }
     };
-    // Keep the preview on the edited page: links don't navigate inside the frame.
     const onClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       if (target?.closest("a")) event.preventDefault();

@@ -27,7 +27,21 @@ export function getLocalCmsStore(): CmsStore {
 }
 
 function setLocalCmsStore(store: CmsStore) {
-  localStorage.setItem(LS_KEY, JSON.stringify(store));
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(store));
+  } catch {
+    // Private mode / quota — ignore cache write failures.
+  }
+}
+
+export function hasLocalCmsStore() {
+  if (typeof window === "undefined") return false;
+  try {
+    return Boolean(localStorage.getItem(LS_KEY));
+  } catch {
+    return false;
+  }
 }
 
 function token() {
