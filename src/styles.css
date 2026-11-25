@@ -95,17 +95,15 @@
   h1, h2, h3, h4, h5 { font-family: var(--font-display); }
 }
 
-/* Arabian horse page — Diwani Letter for titles/display */
+/* Arabian horse page — Diwani Letter for all content */
 .page-arabian-horse {
+  --font-sans: "Diwani Letter", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-display: "Diwani Letter", "Readex Pro", "IBM Plex Sans Arabic", sans-serif;
+  font-family: var(--font-sans);
 }
-.page-arabian-horse h1,
-.page-arabian-horse h2,
-.page-arabian-horse h3,
-.page-arabian-horse h4,
-.page-arabian-horse h5,
-.page-arabian-horse .font-display {
-  font-family: var(--font-display);
+.page-arabian-horse,
+.page-arabian-horse * {
+  font-family: "Diwani Letter", "IBM Plex Sans Arabic", system-ui, sans-serif;
   font-weight: 400;
 }
 
