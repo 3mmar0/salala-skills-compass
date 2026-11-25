@@ -71,9 +71,9 @@ function Hero() {
       </div>
       <Wave className="z-[2]" />
       <SolalaPlusFloat />
-      <div className="container-site relative z-20 flex min-h-[88vh] flex-col justify-end pb-40">
+      <div className="container-site pointer-events-none relative z-20 flex min-h-[88vh] flex-col justify-end pb-40">
         {c.badge && (
-          <span className="animate-fade-up w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{c.badge}</span>
+          <span className="animate-fade-up pointer-events-auto w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{c.badge}</span>
         )}
         {title ? (
           <h1 className="animate-fade-up delay-1 mt-5 max-w-4xl text-5xl font-bold leading-tight md:text-7xl">{title}</h1>
@@ -81,7 +81,7 @@ function Hero() {
         {subtitle ? (
           <p className="animate-fade-up delay-2 mt-6 max-w-2xl text-lg leading-8 opacity-90">{subtitle}</p>
         ) : null}
-        <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">
+        <div className="animate-fade-up delay-3 pointer-events-auto mt-8 flex flex-wrap gap-3">
           {c.primaryLabel && (
             <CmsLink href={c.primaryHref} className="btn-gold">
               {c.primaryLabel} <ArrowLeft className="h-4 w-4" />

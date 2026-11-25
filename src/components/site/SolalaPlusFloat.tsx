@@ -51,10 +51,10 @@ export function SolalaPlusFloat() {
   }, [activeMedia]);
 
   return (
-    <div className="solala-plus-float pointer-events-auto absolute z-10 hidden md:block">
+    <div className="solala-plus-float pointer-events-auto absolute z-30 hidden md:block">
       <CmsLink
-        href={href}
-        className="solala-plus-float__link group flex flex-col items-center no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        href={href || "/breed-innovation"}
+        className="solala-plus-float__link group relative z-30 flex flex-col items-center no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
       >
         <div
           className="solala-plus-float__orb relative grid place-items-center"

@@ -91,28 +91,28 @@
   h1, h2, h3, h4, h5 { font-family: var(--font-display); }
 }
 
-/* Arabian horse — Gulzar needs extra line-box room for deep descenders */
+/* Arabian horse — titles: Gulzar; body: site Amiri */
 .page-arabian-horse {
-  --font-sans: "Gulzar", "Amiri", serif;
+  --font-sans: "Amiri", "Times New Roman", serif;
   --font-display: "Gulzar", "Amiri", serif;
   font-family: var(--font-sans);
-  line-height: 2.4;
+  line-height: 1.85;
   letter-spacing: 0.01em;
   overflow: visible;
 }
-.page-arabian-horse,
-.page-arabian-horse :where(p, span, a, li, label, button, input, textarea, h1, h2, h3, h4, h5, h6, figcaption, summary) {
-  font-family: "Gulzar", "Amiri", serif;
-  font-weight: 400;
+.page-arabian-horse :where(p, li, figcaption, label, input, textarea, button, a) {
+  font-family: "Amiri", "Times New Roman", serif;
   overflow: visible;
 }
 .page-arabian-horse :where(p, li, figcaption) {
-  font-size: 1.18em;
-  line-height: 2.5 !important;
-  padding-block: 0.15em;
+  font-size: 1.12em;
+  line-height: 1.95;
+  padding-block: 0.1em;
 }
-.page-arabian-horse :where(h1, h2, h3, h4, h5),
-.page-arabian-horse :where(.leading-none, .leading-tight, .leading-snug, .leading-normal, .leading-relaxed) {
+.page-arabian-horse :where(h1, h2, h3, h4, h5, h6),
+.page-arabian-horse :where(.font-display, .text-shimmer) {
+  font-family: "Gulzar", "Amiri", serif;
+  font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 2.25 !important;
   padding-block: 0.2em 0.45em;
@@ -123,7 +123,6 @@
   max-width: 100%;
   line-height: 2.35 !important;
   padding-block: 0.25em 0.5em;
-  overflow: visible;
 }
 
 @utility bg-hero-overlay { background-image: var(--gradient-hero); }

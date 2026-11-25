@@ -6,8 +6,8 @@ import type { ReactNode } from "react";
  * Internal paths use client-side navigation; external, mailto, tel and #anchor links use a plain <a>.
  */
 export function CmsLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {
-  const target = href.trim() || "/";
-  const isInternal = target.startsWith("/") && !target.startsWith("//") && !target.includes("#");
+  const target = (href || "").trim() || "/";
+  const isInternal = target.startsWith("/") && !target.startsWith("//");
   if (isInternal) {
     // Destinations are edited in the admin, so they can't be checked against the route list at build time.
     return (
