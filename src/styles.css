@@ -4,17 +4,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: "Diwani Letter";
-  src: local("Diwani Letter"), url("/fonts/DiwaniLetter.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme inline {
-  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: "Readex Pro", "IBM Plex Sans Arabic", sans-serif;
+  --font-sans: "Amiri", "Times New Roman", serif;
+  --font-display: "Amiri", "Times New Roman", serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -95,16 +87,25 @@
   h1, h2, h3, h4, h5 { font-family: var(--font-display); }
 }
 
-/* Arabian horse page — Diwani Letter for all content */
+/* Arabian horse — readable Ruqʿah (Aref Ruqaa), Amiri as fallback */
 .page-arabian-horse {
-  --font-sans: "Diwani Letter", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: "Diwani Letter", "Readex Pro", "IBM Plex Sans Arabic", sans-serif;
+  --font-sans: "Aref Ruqaa", "Amiri", serif;
+  --font-display: "Aref Ruqaa", "Amiri", serif;
   font-family: var(--font-sans);
+  line-height: 1.85;
+  letter-spacing: 0.01em;
 }
 .page-arabian-horse,
-.page-arabian-horse * {
-  font-family: "Diwani Letter", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  font-weight: 400;
+.page-arabian-horse :where(p, span, a, li, label, button, input, textarea, h1, h2, h3, h4, h5, h6, figcaption, summary) {
+  font-family: "Aref Ruqaa", "Amiri", serif;
+}
+.page-arabian-horse :where(p, li) {
+  font-size: 1.08em;
+  line-height: 1.9;
+}
+.page-arabian-horse :where(h1, h2, h3, h4, h5) {
+  font-weight: 700;
+  letter-spacing: 0.015em;
 }
 
 @utility bg-hero-overlay { background-image: var(--gradient-hero); }
@@ -222,11 +223,11 @@
 }
 
 @utility logo-text {
-  font-family: "Readex Pro", sans-serif; font-weight: 700; letter-spacing: -.01em;
+  font-family: var(--font-display); font-weight: 700; letter-spacing: -.01em;
   background: var(--gradient-logo); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 @utility logo-text-light {
-  font-family: "Readex Pro", sans-serif; font-weight: 700;
+  font-family: var(--font-display); font-weight: 700;
   background: var(--gradient-logo-light); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
@@ -234,7 +235,7 @@
 @utility animate-orbit { animation: orbit-pulse 4s ease-in-out infinite; }
 @utility img-ring { border: 3px solid var(--gold); border-radius: 999px; box-shadow: 0 10px 30px -10px oklch(0.258 0.043 167 / .5); }
 @utility logo-hero {
-  font-family: "Readex Pro", sans-serif; font-weight: 700;
+  font-family: var(--font-display); font-weight: 700;
   background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-dark)); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 6px 20px oklch(0 0 0 / .35));
 }
@@ -455,7 +456,7 @@
     inset 0 1px 0 rgba(255, 244, 184, 0.25);
 }
 .solala-plus-float__label {
-  font-family: "Readex Pro", sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 0.01em;
 }
 

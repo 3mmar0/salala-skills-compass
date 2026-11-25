@@ -13,6 +13,7 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Header, Footer } from "@/components/site/Layout";
+import { ScrollToTop } from "@/components/site/ScrollToTop";
 import { CmsProvider } from "@/lib/cms/CmsProvider";
 
 function NotFoundComponent() {
@@ -93,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Readex+Pro:wght@600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap",
       },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/solala-logo.png", type: "image/png" },
@@ -146,6 +147,7 @@ function RootComponent() {
           <Outlet />
         </main>
         {!isAdmin && <Footer />}
+        {!isAdmin && <ScrollToTop />}
       </CmsProvider>
     </QueryClientProvider>
   );

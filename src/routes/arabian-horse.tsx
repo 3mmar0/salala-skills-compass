@@ -15,11 +15,8 @@ export const Route = createFileRoute("/arabian-horse")({
       links: [
         ...(base.links ?? []),
         {
-          rel: "preload",
-          href: "/fonts/DiwaniLetter.ttf",
-          as: "font",
-          type: "font/ttf",
-          crossOrigin: "anonymous",
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap",
         },
       ],
     };
