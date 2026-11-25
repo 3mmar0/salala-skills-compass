@@ -4,6 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Diwani Letter";
+  src: local("Diwani Letter"), url("/fonts/DiwaniLetter.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-display: "Readex Pro", "IBM Plex Sans Arabic", sans-serif;
@@ -85,6 +93,20 @@
     font-family: var(--font-sans);
   }
   h1, h2, h3, h4, h5 { font-family: var(--font-display); }
+}
+
+/* Arabian horse page — Diwani Letter for titles/display */
+.page-arabian-horse {
+  --font-display: "Diwani Letter", "Readex Pro", "IBM Plex Sans Arabic", sans-serif;
+}
+.page-arabian-horse h1,
+.page-arabian-horse h2,
+.page-arabian-horse h3,
+.page-arabian-horse h4,
+.page-arabian-horse h5,
+.page-arabian-horse .font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 
 @utility bg-hero-overlay { background-image: var(--gradient-hero); }
