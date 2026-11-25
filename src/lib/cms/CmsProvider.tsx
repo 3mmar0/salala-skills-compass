@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { CMS_SEED } from "./seed";
-import { fetchCmsStore, getLocalCmsStore, hasLocalCmsStore, persistCmsStore } from "./client-store";
+import { fetchCmsStore, getLocalCmsStore, persistCmsStore } from "./client-store";
 import { isPreviewFrame, isPreviewMessage, postToParent, type PreviewSectionState } from "./preview";
 import type { CmsStore, SiteSettings } from "./types";
 
@@ -35,21 +35,24 @@ export function CmsProvider({
   initialStore?: CmsStore | null;
 }) {
   const [store, setStore] = useState<CmsStore>(() => initialClientStore(initialStore));
-  const [loading, setLoading] = useState(() => !initialStore && !hasLocalCmsStore());
+  // Show a boot loader until the first API response (SSR store counts as ready).
+  const [loading, setLoading] = useState(() => !initialStore);
   const [saving, setSaving] = useState(false);
   const [lastSaveMode, setLastSaveMode] = useState<"server" | "local" | null>(null);
   const [previewMode, setPreviewMode] = useState(false);
   const [previewSections, setPreviewSections] = useState<Record<string, PreviewSectionState> | null>(null);
 
   const refresh = async () => {
-    // Keep showing cached/SSR content while refreshing — avoid seed-image flash.
-    if (!hasLocalCmsStore() && !initialStore) setLoading(true);
     const next = await fetchCmsStore();
     setStore(next);
     setLoading(false);
   };
 
   useEffect(() => {
+    if (initialStore) {
+      setLoading(false);
+      return;
+    }
     void refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

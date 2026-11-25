@@ -46,14 +46,14 @@ export function SmartImage({
     <span
       className={cn(
         "overflow-hidden",
-        fill ? "absolute inset-0 block" : "relative block w-full",
+        fill ? "pointer-events-none absolute inset-0 -z-0 block" : "relative block w-full",
         !fill && className,
       )}
     >
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute inset-0 z-0 bg-forest/20 transition-opacity duration-500",
+          "pointer-events-none absolute inset-0 bg-forest/20 transition-opacity duration-500",
           loaded ? "opacity-0" : "animate-pulse opacity-100",
           placeholderClassName,
         )}
@@ -70,9 +70,9 @@ export function SmartImage({
         fetchPriority={priority ? "high" : "auto"}
         onLoad={() => setLoaded(true)}
         className={cn(
-          "relative z-[1] transition-opacity duration-500 ease-out",
+          "transition-opacity duration-500 ease-out",
           loaded ? "opacity-100" : "opacity-0",
-          fill ? "h-full w-full object-cover" : "h-auto w-full",
+          fill ? "h-full w-full object-cover" : "relative h-auto w-full",
           fill && className,
         )}
       />

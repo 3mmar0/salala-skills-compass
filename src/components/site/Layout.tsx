@@ -261,7 +261,7 @@ export function PageHero({
   tall?: boolean;
 }) {
   return (
-    <section className="relative overflow-hidden text-forest-foreground">
+    <section className="relative isolate overflow-hidden text-forest-foreground">
       <SmartImage
         src={image}
         alt={title}
@@ -272,15 +272,17 @@ export function PageHero({
         className="animate-ken-burns"
         placeholderClassName="bg-forest/70"
       />
-      <div className="bg-hero-overlay absolute inset-0" />
-      <div className="animate-blob absolute -left-24 top-10 h-80 w-80 bg-gold/25 blur-3xl" />
-      <div className="animate-blob absolute -right-20 bottom-0 h-96 w-96 bg-primary/40 blur-3xl [animation-delay:-6s]" />
-      <Particles />
+      <div className="bg-hero-overlay pointer-events-none absolute inset-0 z-[1]" />
+      <div className="pointer-events-none absolute -left-24 top-10 z-[1] h-80 w-80 animate-blob bg-gold/25 blur-3xl" />
+      <div className="pointer-events-none absolute -right-20 bottom-0 z-[1] h-96 w-96 animate-blob bg-primary/40 blur-3xl [animation-delay:-6s]" />
+      <div className="pointer-events-none absolute inset-0 z-[1]">
+        <Particles />
+      </div>
       <div
         className={
           tall
-            ? "container-site relative pb-44 pt-28 md:pb-56 md:pt-40"
-            : "container-site relative pb-36 pt-24 md:pb-44 md:pt-32"
+            ? "container-site relative z-20 pb-44 pt-28 md:pb-56 md:pt-40"
+            : "container-site relative z-20 pb-36 pt-24 md:pb-44 md:pt-32"
         }
       >
         <span className="animate-fade-up inline-block rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{eyebrow}</span>

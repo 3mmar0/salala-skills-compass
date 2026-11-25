@@ -16,7 +16,7 @@ export const Route = createFileRoute("/arabian-horse")({
         ...(base.links ?? []),
         {
           rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap",
+          href: "https://fonts.googleapis.com/css2?family=Gulzar&display=swap",
         },
       ],
     };

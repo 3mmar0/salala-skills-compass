@@ -8,7 +8,6 @@ import { PageSections } from "@/components/cms/PageSections";
 import { lazySection } from "@/components/site/LazySection";
 import { meta } from "@/lib/meta";
 import { cmsIcon } from "@/lib/cms/icons";
-import { useCmsOptional } from "@/lib/cms/CmsProvider";
 import { useSectionContent } from "@/lib/cms/use-section";
 import { homeHero, homePage, homePillars } from "@/lib/cms/pages/home";
 
@@ -50,35 +49,38 @@ function Index() {
 
 function Hero() {
   const c = useSectionContent(homeHero);
-  const cms = useCmsOptional();
+  const title = (c.title || "").trim() || String(homeHero.defaults.title ?? "");
+  const subtitle = (c.subtitle || "").trim() || String(homeHero.defaults.subtitle ?? "");
   return (
-    <section className="relative min-h-[88vh] overflow-hidden text-forest-foreground">
-      {cms?.loading ? (
-        <div className="absolute inset-0 animate-pulse bg-forest/80" aria-hidden />
-      ) : (
-        <SmartImage
-          src={c.image}
-          alt={c.title}
-          width={1600}
-          height={1008}
-          fill
-          priority
-          className="animate-ken-burns"
-          placeholderClassName="bg-forest/70"
-        />
-      )}
-      <div className="bg-hero-overlay absolute inset-0" />
-      <div className="animate-blob absolute -left-24 top-24 h-96 w-96 bg-gold/25 blur-3xl" />
-      <div className="animate-blob absolute right-0 bottom-20 h-[28rem] w-[28rem] bg-primary/40 blur-3xl [animation-delay:-5s]" />
-      <Particles n={10} />
-      <Wave />
+    <section className="relative isolate min-h-[88vh] overflow-hidden text-forest-foreground">
+      <SmartImage
+        src={c.image}
+        alt={title}
+        width={1600}
+        height={1008}
+        fill
+        priority
+        className="animate-ken-burns"
+        placeholderClassName="bg-forest/70"
+      />
+      <div className="bg-hero-overlay pointer-events-none absolute inset-0 z-[1]" />
+      <div className="pointer-events-none absolute -left-24 top-24 z-[1] h-96 w-96 animate-blob bg-gold/25 blur-3xl" />
+      <div className="pointer-events-none absolute right-0 bottom-20 z-[1] h-[28rem] w-[28rem] animate-blob bg-primary/40 blur-3xl [animation-delay:-5s]" />
+      <div className="pointer-events-none absolute inset-0 z-[1]">
+        <Particles n={10} />
+      </div>
+      <Wave className="z-[2]" />
       <SolalaPlusFloat />
-      <div className="container-site relative flex min-h-[88vh] flex-col justify-end pb-40">
+      <div className="container-site relative z-20 flex min-h-[88vh] flex-col justify-end pb-40">
         {c.badge && (
           <span className="animate-fade-up w-fit rounded-full bg-gold/20 px-4 py-1 text-sm font-medium text-gold backdrop-blur">{c.badge}</span>
         )}
-        <h1 className="animate-fade-up delay-1 mt-5 max-w-4xl text-5xl font-bold leading-tight md:text-7xl">{c.title}</h1>
-        <p className="animate-fade-up delay-2 mt-6 max-w-2xl text-lg leading-8 opacity-90">{c.subtitle}</p>
+        {title ? (
+          <h1 className="animate-fade-up delay-1 mt-5 max-w-4xl text-5xl font-bold leading-tight md:text-7xl">{title}</h1>
+        ) : null}
+        {subtitle ? (
+          <p className="animate-fade-up delay-2 mt-6 max-w-2xl text-lg leading-8 opacity-90">{subtitle}</p>
+        ) : null}
         <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">
           {c.primaryLabel && (
             <CmsLink href={c.primaryHref} className="btn-gold">

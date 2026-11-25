@@ -14,6 +14,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Header, Footer } from "@/components/site/Layout";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
+import { CmsBootGate } from "@/components/site/CmsBootGate";
 import { CmsProvider } from "@/lib/cms/CmsProvider";
 import { fetchCmsStore } from "@/lib/cms/client-store";
 import type { CmsStore } from "@/lib/cms/types";
@@ -156,9 +157,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <CmsProvider initialStore={cmsStore}>
         {!isAdmin && <Header />}
-        <main>
-          <Outlet />
-        </main>
+        <main>{isAdmin ? <Outlet /> : <CmsBootGate><Outlet /></CmsBootGate>}</main>
         {!isAdmin && <Footer />}
         {!isAdmin && <ScrollToTop />}
       </CmsProvider>

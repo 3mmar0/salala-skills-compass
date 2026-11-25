@@ -168,11 +168,11 @@ export function resolveContent<T extends SectionContent>(
   }
 
   if (stored && typeof stored === "object") {
-    const strict = stored["_v"] === CONTENT_VERSION;
+    const legacy = stored["_v"] !== CONTENT_VERSION;
     for (const field of def.fields) {
       const v = stored[field.name];
       if (field.type === "list") {
-        if (Array.isArray(v) && (strict || v.length > 0)) {
+        if (Array.isArray(v) && (!legacy || v.length > 0)) {
           const blank = blankItem(field);
           out[field.name] = v.map((item, i) => {
             const src = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
@@ -186,7 +186,8 @@ export function resolveContent<T extends SectionContent>(
         }
       } else if (typeof v === "string" || typeof v === "number") {
         const s = String(v);
-        if (strict || s.trim() !== "") out[field.name] = s;
+        // Never let blank/null-ish API values wipe section defaults (e.g. hero title).
+        if (s.trim() !== "") out[field.name] = s;
       }
     }
   }
