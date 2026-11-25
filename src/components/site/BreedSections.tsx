@@ -65,9 +65,10 @@ function BreedHero({ def }: { def: SectionDef<BreedHeroContent> }) {
       title={c.title}
       subtitle={c.subtitle}
       titleClassName={horse ? "horse-ruqaa-title" : undefined}
+      /* Tall poultry photo: cover crop focused on the chickens (lower-middle) */
       imageClassName={
         poultry
-          ? "object-cover object-center origin-center"
+          ? "animate-ken-burns object-cover object-[center_58%] origin-center"
           : "animate-ken-burns object-center"
       }
     >
@@ -191,7 +192,7 @@ function BreedSpotlight({ def }: { def: SectionDef<BreedSpotlightContent> }) {
           <span className="title-line mx-0!" />
           {c.desc ? <p className="reveal mt-5 leading-8 text-muted-foreground">{c.desc}</p> : null}
           {c.image ? (
-            <div className="card-fx reveal mt-8 overflow-hidden rounded-3xl bg-card shadow-soft">
+            <div className="card-fx reveal mt-8 overflow-hidden rounded-3xl shadow-soft">
               <SmartImage
                 src={c.image}
                 alt={c.title}
@@ -199,7 +200,7 @@ function BreedSpotlight({ def }: { def: SectionDef<BreedSpotlightContent> }) {
                 height={720}
                 className={
                   poultry
-                    ? "aspect-[3/2] object-contain object-center bg-card p-4"
+                    ? "aspect-[3/2] object-cover object-[center_58%]"
                     : "aspect-[3/2] object-cover object-center"
                 }
                 placeholderClassName="aspect-[3/2] bg-muted"
